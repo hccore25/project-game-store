@@ -13,12 +13,12 @@
 
 /* Customized Splide Pagination para el tema Nexus */
 .splide__pagination__page {
-    background: theme('colors.nexus.muted') !important;
-    opacity: 0.5;
+  background: theme("colors.nexus.muted") !important;
+  opacity: 0.5;
 }
 .splide__pagination__page.is-active {
-    background: theme('colors.nexus.cyan') !important;
-    transform: scale(1.4) !important;
-    box-shadow: theme('boxShadow.neon-cyan');
-    opacity: 1;
+  background: theme("colors.nexus.cyan") !important;
+  transform: scale(1.4) !important;
+  box-shadow: theme("boxShadow.neon-cyan");
+  opacity: 1;
 }

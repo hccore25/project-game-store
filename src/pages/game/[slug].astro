@@ -1,209 +1,433 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from "../../layouts/Layout.astro";
 
 export function getStaticPaths() {
-  return [
-    { params: { slug: 'aetherbound-shattered-stars' } },
-  ];
+  return [{ params: { slug: "aetherbound-shattered-stars" } }];
 }
 
 const { slug } = Astro.params;
 
 const gameData = {
-    title: "AETHERBOUND: SHATTERED STARS",
-    price: "$49.99",
-    image: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1200&auto=format&fit=crop", // same char from hero
-    description: "Embark on an epic journey across fragmented star systems. Master Aether abilities, pilot modular ships, and forge alliances to save the cosmos from absolute annihilation.",
-    tags: ["RPG", "ACTION", "SCI-FI", "OPEN WORLD", "SINGLE-PLAYER"],
-    developer: "Astra Studios",
-    releaseDate: "Nov 15, 2024",
-    platforms: ["PC", "Next-Gen Console"],
-    rating: "M for Mature",
-    systemReq: {
-        min: "100M",
-        rec: "25GB"
-    }
-}
+  title: "AETHERBOUND: SHATTERED STARS",
+  price: "$49.99",
+  image:
+    "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1200&auto=format&fit=crop", // same char from hero
+  description:
+    "Embark on an epic journey across fragmented star systems. Master Aether abilities, pilot modular ships, and forge alliances to save the cosmos from absolute annihilation.",
+  tags: ["RPG", "ACTION", "SCI-FI", "OPEN WORLD", "SINGLE-PLAYER"],
+  developer: "Astra Studios",
+  releaseDate: "Nov 15, 2024",
+  platforms: ["PC", "Next-Gen Console"],
+  rating: "M for Mature",
+  systemReq: {
+    min: "100M",
+    rec: "25GB",
+  },
+};
 ---
 
 <Layout title={gameData.title}>
-    <div class="container mx-auto px-4 lg:px-6 py-8">
-        
-        <!-- Breadcrumb / Back Navigation -->
-        <div class="mb-8">
-            <a href="/" class="text-nexus-muted hover:text-white flex items-center gap-2 text-sm font-bold tracking-widest uppercase transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                BACK TO STORE
-            </a>
-        </div>
-
-        <!-- Asymmetric Layout Container -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative items-start">
-            
-            <!-- LEFT COLUMN: Artwork (Sticky to stay visible on scroll if right side is long) -->
-            <div class="lg:col-span-5 lg:sticky lg:top-28">
-                <!-- Main Artwork Card -->
-                <div class="rounded-[2rem] overflow-hidden border border-nexus-surface relative aspect-[3/4] shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                    <img src={gameData.image} alt={gameData.title} class="w-full h-full object-cover" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-nexus-background via-nexus-background/20 to-transparent"></div>
-                    
-                    <!-- Title Over Image (Bottom) -->
-                    <div class="absolute bottom-0 left-0 right-0 p-8">
-                        <h1 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-white leading-[1.1] tracking-tight mb-2 drop-shadow-md">
-                            {gameData.title.split(': ')[0]}<br/>
-                            <span class="text-2xl md:text-3xl font-bold font-sans tracking-normal opacity-90">{gameData.title.split(': ')[1]}</span>
-                        </h1>
-                    </div>
-                </div>
-
-                <!-- Screenshots Thumbnails (Below main artwork) -->
-                <div class="grid grid-cols-4 gap-3 mt-4">
-                    <div class="aspect-video rounded-lg overflow-hidden border border-nexus-cyan shadow-[0_0_10px_rgba(6,182,212,0.5)]">
-                        <img src="https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer" />
-                    </div>
-                    <div class="aspect-video rounded-lg overflow-hidden border border-nexus-surface hover:border-nexus-cyan transition-colors">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer opacity-70 hover:opacity-100" />
-                    </div>
-                    <div class="aspect-video rounded-lg overflow-hidden border border-nexus-surface hover:border-nexus-cyan transition-colors">
-                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer opacity-70 hover:opacity-100" />
-                    </div>
-                    <div class="aspect-video rounded-lg overflow-hidden border border-nexus-surface hover:border-nexus-cyan transition-colors">
-                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer opacity-70 hover:opacity-100" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN: Details & Purchase -->
-            <div class="lg:col-span-7 flex flex-col gap-10">
-                
-                <!-- Title Header & Price Block -->
-                <div class="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-nexus-surface pb-8">
-                    <h2 class="text-4xl lg:text-5xl font-display font-black text-white leading-tight lg:max-w-md">
-                        {gameData.title}
-                    </h2>
-
-                    <!-- Purchase Card -->
-                    <div class="bg-nexus-surface/50 border border-nexus-surface p-6 rounded-2xl min-w-[280px] w-full md:w-auto">
-                        <div class="text-nexus-muted font-bold text-sm tracking-widest uppercase mb-2">BUY NOW</div>
-                        <div class="flex items-center gap-3 mb-6">
-                            <span class="text-white text-lg">Price:</span>
-                            <span class="text-nexus-green font-display font-black text-3xl drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">{gameData.price}</span>
-                        </div>
-                        
-                        <div class="flex flex-col gap-3">
-                            <button class="bg-nexus-purple hover:bg-white hover:text-nexus-purple text-white px-6 py-4 rounded-lg font-bold tracking-widest text-sm uppercase transition-all shadow-neon-purple w-full">
-                                ADD TO CART
-                            </button>
-                            <button class="bg-transparent border border-nexus-cyan text-nexus-cyan hover:bg-nexus-cyan hover:text-nexus-background px-6 py-4 rounded-lg font-bold tracking-widest text-sm uppercase transition-all shadow-[0_0_10px_rgba(6,182,212,0.2)] w-full block text-center">
-                                WISHLIST
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GAME INFO SECTION -->
-                <div class="space-y-8">
-                    <h3 class="text-xl font-display font-black text-white uppercase tracking-widest mb-6">GAME INFO</h3>
-
-                    <!-- 1. Description -->
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <h4 class="text-white font-bold tracking-widest text-sm">1. DESCRIPTION</h4>
-                            <span class="bg-nexus-cyan/20 border border-nexus-cyan text-nexus-cyan text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest shadow-[0_0_5px_rgba(6,182,212,0.3)]">LIMITED</span>
-                        </div>
-                        <p class="text-nexus-muted leading-relaxed text-[15px]">
-                            {gameData.description}
-                        </p>
-                    </div>
-
-                    <!-- 2. Genre Tags -->
-                    <div>
-                        <h4 class="text-white font-bold tracking-widest text-sm mb-4">2. GENRE TAGS</h4>
-                        <div class="flex flex-wrap gap-2">
-                            {gameData.tags.map((tag, index) => (
-                                <span class={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase border 
-                                    ${index === 0 ? 'bg-nexus-cyan/20 border-nexus-cyan text-nexus-cyan shadow-[0_0_8px_rgba(6,182,212,0.3)]' : 
-                                      index === 1 ? 'bg-nexus-purple border-nexus-purple text-white shadow-neon-purple' : 
-                                      'bg-transparent border-nexus-surface text-nexus-muted hover:border-white hover:text-white transition-colors'}`}>
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-
-                    <!-- 3. Details Grid -->
-                    <div>
-                        <h4 class="text-white font-bold tracking-widest text-sm mb-4">3. DETAILS</h4>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div class="bg-nexus-surface/30 border border-nexus-surface rounded-xl p-4">
-                                <span class="text-nexus-muted text-[10px] font-bold tracking-widest block mb-1">DEVELOPER:</span>
-                                <span class="text-white text-sm font-medium">{gameData.developer}</span>
-                            </div>
-                            <div class="bg-nexus-surface/30 border border-nexus-surface rounded-xl p-4">
-                                <span class="text-nexus-muted text-[10px] font-bold tracking-widest block mb-1">RELEASE DATE:</span>
-                                <span class="text-white text-sm font-medium">{gameData.releaseDate}</span>
-                            </div>
-                            <div class="bg-nexus-surface/30 border border-nexus-surface rounded-xl p-4">
-                                <span class="text-nexus-muted text-[10px] font-bold tracking-widest block mb-1">PLATFORMS:</span>
-                                <span class="text-white text-sm font-medium">{gameData.platforms.join(', ')}</span>
-                            </div>
-                            <div class="bg-nexus-surface/30 border border-nexus-surface rounded-xl p-4">
-                                <span class="text-nexus-muted text-[10px] font-bold tracking-widest block mb-1">RATING:</span>
-                                <span class="text-white text-sm font-medium">{gameData.rating}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Extra details (System Req, Achievements, Reviews) mirroring image 3 bottom -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-nexus-surface">
-                        <!-- System Req -->
-                        <div class="col-span-1 md:col-span-2">
-                            <div class="flex justify-between items-center mb-4">
-                                <h4 class="text-white font-bold tracking-widest text-sm uppercase">SYSTEM REQUIREMENTS (PC)</h4>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-nexus-muted"><path d="m6 9 6 6 6-6"/></svg>
-                            </div>
-                            <div class="flex gap-8">
-                                <div>
-                                    <span class="text-nexus-muted text-[10px] font-bold tracking-widest block mb-1">MINIMUM</span>
-                                    <span class="text-white text-lg font-bold block mb-1">{gameData.systemReq.min}</span>
-                                    <span class="text-nexus-muted text-xs">Required Space</span>
-                                </div>
-                                <div class="border-l border-nexus-surface pl-8">
-                                    <span class="text-nexus-muted text-[10px] font-bold tracking-widest block mb-1">RECOMMENDED</span>
-                                    <span class="text-white text-lg font-bold block mb-1">{gameData.systemReq.rec}</span>
-                                    <span class="text-nexus-muted text-xs">Required Space</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Achievements & Reviews -->
-                        <div class="flex gap-4">
-                            <div class="flex-1 flex flex-col justify-between">
-                                <h4 class="text-white font-bold tracking-widest text-sm uppercase mb-4">ACHIEVEMENTS</h4>
-                                <div class="flex-grow border border-nexus-cyan/40 bg-nexus-cyan/5 rounded-xl p-4 flex flex-col items-center justify-center gap-2 hover:shadow-neon-cyan transition-shadow cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-nexus-cyan drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                                    <span class="text-nexus-cyan text-xs font-bold">Glow cian</span>
-                                </div>
-                            </div>
-                            <div class="flex-1 flex flex-col justify-between">
-                                <h4 class="text-white font-bold tracking-widest text-sm uppercase mb-4 text-center">REVIEWS</h4>
-                                <div class="flex-grow border border-nexus-surface bg-nexus-surface/20 rounded-xl p-4 flex items-center justify-center relative overflow-hidden group hover:border-nexus-cyan transition-colors cursor-pointer">
-                                    <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-nexus-cyan/20 to-transparent"></div>
-                                    <div class="flex gap-1 relative z-10 text-nexus-cyan">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="opacity-50"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
+  <div class="container mx-auto px-4 py-8 lg:px-6">
+    <!-- Breadcrumb / Back Navigation -->
+    <div class="mb-8">
+      <a
+        href="/"
+        class="text-nexus-muted flex items-center gap-2 text-sm font-bold tracking-widest uppercase transition-colors hover:text-white"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-left"
+          ><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg
+        >
+        BACK TO STORE
+      </a>
     </div>
+
+    <!-- Asymmetric Layout Container -->
+    <div
+      class="relative grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12"
+    >
+      <!-- LEFT COLUMN: Artwork (Sticky to stay visible on scroll if right side is long) -->
+      <div class="lg:sticky lg:top-28 lg:col-span-5">
+        <!-- Main Artwork Card -->
+        <div
+          class="border-nexus-surface relative aspect-[3/4] overflow-hidden rounded-[2rem] border shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+        >
+          <img
+            src={gameData.image}
+            alt={gameData.title}
+            class="h-full w-full object-cover"
+          />
+          <div
+            class="from-nexus-background via-nexus-background/20 absolute inset-0 bg-gradient-to-t to-transparent"
+          >
+          </div>
+
+          <!-- Title Over Image (Bottom) -->
+          <div class="absolute right-0 bottom-0 left-0 p-8">
+            <h1
+              class="font-display mb-2 text-3xl leading-[1.1] font-black tracking-tight text-white drop-shadow-md md:text-4xl lg:text-5xl"
+            >
+              {gameData.title.split(": ")[0]}<br />
+              <span
+                class="font-sans text-2xl font-bold tracking-normal opacity-90 md:text-3xl"
+                >{gameData.title.split(": ")[1]}</span
+              >
+            </h1>
+          </div>
+        </div>
+
+        <!-- Screenshots Thumbnails (Below main artwork) -->
+        <div class="mt-4 grid grid-cols-4 gap-3">
+          <div
+            class="border-nexus-cyan aspect-video overflow-hidden rounded-lg border shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop"
+              class="h-full w-full cursor-pointer object-cover transition-transform hover:scale-110"
+            />
+          </div>
+          <div
+            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop"
+              class="h-full w-full cursor-pointer object-cover opacity-70 transition-transform hover:scale-110 hover:opacity-100"
+            />
+          </div>
+          <div
+            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop"
+              class="h-full w-full cursor-pointer object-cover opacity-70 transition-transform hover:scale-110 hover:opacity-100"
+            />
+          </div>
+          <div
+            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop"
+              class="h-full w-full cursor-pointer object-cover opacity-70 transition-transform hover:scale-110 hover:opacity-100"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Details & Purchase -->
+      <div class="flex flex-col gap-10 lg:col-span-7">
+        <!-- Title Header & Price Block -->
+        <div
+          class="border-nexus-surface flex flex-col items-start justify-between gap-6 border-b pb-8 md:flex-row"
+        >
+          <h2
+            class="font-display text-4xl leading-tight font-black text-white lg:max-w-md lg:text-5xl"
+          >
+            {gameData.title}
+          </h2>
+
+          <!-- Purchase Card -->
+          <div
+            class="bg-nexus-surface/50 border-nexus-surface w-full min-w-[280px] rounded-2xl border p-6 md:w-auto"
+          >
+            <div
+              class="text-nexus-muted mb-2 text-sm font-bold tracking-widest uppercase"
+            >
+              BUY NOW
+            </div>
+            <div class="mb-6 flex items-center gap-3">
+              <span class="text-lg text-white">Price:</span>
+              <span
+                class="text-nexus-green font-display text-3xl font-black drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]"
+                >{gameData.price}</span
+              >
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <button
+                class="bg-nexus-purple hover:text-nexus-purple shadow-neon-purple w-full rounded-lg px-6 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all hover:bg-white"
+              >
+                ADD TO CART
+              </button>
+              <button
+                class="border-nexus-cyan text-nexus-cyan hover:bg-nexus-cyan hover:text-nexus-background block w-full rounded-lg border bg-transparent px-6 py-4 text-center text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all"
+              >
+                WISHLIST
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAME INFO SECTION -->
+        <div class="space-y-8">
+          <h3
+            class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
+          >
+            GAME INFO
+          </h3>
+
+          <!-- 1. Description -->
+          <div>
+            <div class="mb-4 flex items-center justify-between">
+              <h4 class="text-sm font-bold tracking-widest text-white">
+                1. DESCRIPTION
+              </h4>
+              <span
+                class="bg-nexus-cyan/20 border-nexus-cyan text-nexus-cyan rounded border px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase shadow-[0_0_5px_rgba(6,182,212,0.3)]"
+                >LIMITED</span
+              >
+            </div>
+            <p class="text-nexus-muted text-[15px] leading-relaxed">
+              {gameData.description}
+            </p>
+          </div>
+
+          <!-- 2. Genre Tags -->
+          <div>
+            <h4 class="mb-4 text-sm font-bold tracking-widest text-white">
+              2. GENRE TAGS
+            </h4>
+            <div class="flex flex-wrap gap-2">
+              {
+                gameData.tags.map((tag, index) => (
+                  <span
+                    class={`rounded-full border px-4 py-1.5 text-xs font-bold tracking-wider uppercase ${
+                      index === 0
+                        ? "bg-nexus-cyan/20 border-nexus-cyan text-nexus-cyan shadow-[0_0_8px_rgba(6,182,212,0.3)]"
+                        : index === 1
+                          ? "bg-nexus-purple border-nexus-purple shadow-neon-purple text-white"
+                          : "border-nexus-surface text-nexus-muted bg-transparent transition-colors hover:border-white hover:text-white"
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- 3. Details Grid -->
+          <div>
+            <h4 class="mb-4 text-sm font-bold tracking-widest text-white">
+              3. DETAILS
+            </h4>
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div
+                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
+              >
+                <span
+                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
+                  >DEVELOPER:</span
+                >
+                <span class="text-sm font-medium text-white"
+                  >{gameData.developer}</span
+                >
+              </div>
+              <div
+                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
+              >
+                <span
+                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
+                  >RELEASE DATE:</span
+                >
+                <span class="text-sm font-medium text-white"
+                  >{gameData.releaseDate}</span
+                >
+              </div>
+              <div
+                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
+              >
+                <span
+                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
+                  >PLATFORMS:</span
+                >
+                <span class="text-sm font-medium text-white"
+                  >{gameData.platforms.join(", ")}</span
+                >
+              </div>
+              <div
+                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
+              >
+                <span
+                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
+                  >RATING:</span
+                >
+                <span class="text-sm font-medium text-white"
+                  >{gameData.rating}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra details (System Req, Achievements, Reviews) mirroring image 3 bottom -->
+          <div
+            class="border-nexus-surface grid grid-cols-1 gap-6 border-t pt-4 md:grid-cols-3"
+          >
+            <!-- System Req -->
+            <div class="col-span-1 md:col-span-2">
+              <div class="mb-4 flex items-center justify-between">
+                <h4
+                  class="text-sm font-bold tracking-widest text-white uppercase"
+                >
+                  SYSTEM REQUIREMENTS (PC)
+                </h4>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-nexus-muted"><path d="m6 9 6 6 6-6"></path></svg
+                >
+              </div>
+              <div class="flex gap-8">
+                <div>
+                  <span
+                    class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
+                    >MINIMUM</span
+                  >
+                  <span class="mb-1 block text-lg font-bold text-white"
+                    >{gameData.systemReq.min}</span
+                  >
+                  <span class="text-nexus-muted text-xs">Required Space</span>
+                </div>
+                <div class="border-nexus-surface border-l pl-8">
+                  <span
+                    class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
+                    >RECOMMENDED</span
+                  >
+                  <span class="mb-1 block text-lg font-bold text-white"
+                    >{gameData.systemReq.rec}</span
+                  >
+                  <span class="text-nexus-muted text-xs">Required Space</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievements & Reviews -->
+            <div class="flex gap-4">
+              <div class="flex flex-1 flex-col justify-between">
+                <h4
+                  class="mb-4 text-sm font-bold tracking-widest text-white uppercase"
+                >
+                  ACHIEVEMENTS
+                </h4>
+                <div
+                  class="border-nexus-cyan/40 bg-nexus-cyan/5 hover:shadow-neon-cyan flex flex-grow cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border p-4 transition-shadow"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-nexus-cyan drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"
+                    ><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path
+                      d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path
+                      d="M4 22h16"></path><path
+                      d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"
+                    ></path><path
+                      d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"
+                    ></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg
+                  >
+                  <span class="text-nexus-cyan text-xs font-bold"
+                    >Glow cian</span
+                  >
+                </div>
+              </div>
+              <div class="flex flex-1 flex-col justify-between">
+                <h4
+                  class="mb-4 text-center text-sm font-bold tracking-widest text-white uppercase"
+                >
+                  REVIEWS
+                </h4>
+                <div
+                  class="border-nexus-surface bg-nexus-surface/20 group hover:border-nexus-cyan relative flex flex-grow cursor-pointer items-center justify-center overflow-hidden rounded-xl border p-4 transition-colors"
+                >
+                  <div
+                    class="from-nexus-cyan/20 absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t to-transparent"
+                  >
+                  </div>
+                  <div class="text-nexus-cyan relative z-10 flex gap-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      stroke="none"
+                      ><polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon></svg
+                    >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      stroke="none"
+                      ><polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon></svg
+                    >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      stroke="none"
+                      ><polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon></svg
+                    >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      stroke="none"
+                      ><polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon></svg
+                    >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      stroke="none"
+                      class="opacity-50"
+                      ><polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon></svg
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>

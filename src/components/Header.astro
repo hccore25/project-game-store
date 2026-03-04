@@ -1,117 +1,342 @@
 ---
+
 ---
-<header class="bg-[#0B0E14] border-b border-nexus-surface sticky top-0 z-50">
-    <div class="container mx-auto px-4 lg:px-6 h-20 flex justify-between items-center">
-        <!-- Logo -->
-        <a href="/" class="flex flex-col items-start leading-none gap-0.5">
-            <span class="text-2xl font-display font-black text-white tracking-widest uppercase">NEXUS</span>
-            <span class="text-[0.6rem] font-bold text-nexus-purple tracking-[0.4em] uppercase">GAMES</span>
-        </a>
-        
-        <!-- Desktop Nav -->
-        <nav class="hidden lg:flex gap-8 text-nexus-muted text-xs tracking-widest font-semibold">
-            <a href="/" class="hover:text-white transition-colors uppercase">EXPLORE</a>
-            <a href="#store" class="hover:text-white transition-colors uppercase">STORE</a>
-            <a href="#genres" class="hover:text-white transition-colors uppercase">GENRES</a>
-            <a href="#community" class="hover:text-white transition-colors uppercase">COMMUNITY</a>
-            <a href="#deals" class="hover:text-white transition-colors uppercase">DEALS</a>
-        </nav>
 
-        <!-- Right Icons -->
-        <div class="flex gap-5 items-center">
-            <!-- Search -->
-            <button class="text-nexus-muted hover:text-white transition-colors" aria-label="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </button>
-            
-            <!-- User Profile (Desktop) -->
-            <button class="text-nexus-muted hover:text-white transition-colors hidden sm:block" aria-label="User Account">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-circle-2"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
-            </button>
+<header class="border-nexus-surface sticky top-0 z-50 border-b bg-[#0B0E14]">
+  <div
+    class="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6"
+  >
+    <!-- Logo -->
+    <a href="/" class="flex flex-col items-start gap-0.5 leading-none">
+      <span
+        class="font-display text-2xl font-black tracking-widest text-white uppercase"
+        >NEXUS</span
+      >
+      <span
+        class="text-nexus-purple text-[0.6rem] font-bold tracking-[0.4em] uppercase"
+        >GAMES</span
+      >
+    </a>
 
-            <!-- Cart -->
-            <button class="text-nexus-cyan hover:text-white transition-colors relative" aria-label="Cart">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-                <span class="absolute -top-2 -right-2 bg-nexus-cyan text-nexus-background text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
-            </button>
+    <!-- Desktop Nav -->
+    <nav
+      class="text-nexus-muted hidden gap-8 text-xs font-semibold tracking-widest lg:flex"
+    >
+      <a href="/" class="uppercase transition-colors hover:text-white"
+        >EXPLORE</a
+      >
+      <a href="#store" class="uppercase transition-colors hover:text-white"
+        >STORE</a
+      >
+      <a href="#genres" class="uppercase transition-colors hover:text-white"
+        >GENRES</a
+      >
+      <a href="#community" class="uppercase transition-colors hover:text-white"
+        >COMMUNITY</a
+      >
+      <a href="#deals" class="uppercase transition-colors hover:text-white"
+        >DEALS</a
+      >
+    </nav>
 
-            <!-- Mobile Menu Toggle -->
-            <button class="lg:hidden text-nexus-muted hover:text-white transition-colors" aria-label="Open Mobile Menu" id="mobile-menu-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-            </button>
-        </div>
+    <!-- Right Icons -->
+    <div class="flex items-center gap-5">
+      <!-- Search -->
+      <button
+        class="text-nexus-muted transition-colors hover:text-white"
+        aria-label="Search"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-search"
+          ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"
+          ></path></svg
+        >
+      </button>
+
+      <!-- User Profile (Desktop) -->
+      <button
+        class="text-nexus-muted hidden transition-colors hover:text-white sm:block"
+        aria-label="User Account"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-user-circle-2"
+          ><path d="M18 20a6 6 0 0 0-12 0"></path><circle cx="12" cy="10" r="4"
+          ></circle><circle cx="12" cy="12" r="10"></circle></svg
+        >
+      </button>
+
+      <!-- Cart -->
+      <button
+        class="text-nexus-cyan relative transition-colors hover:text-white"
+        aria-label="Cart"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-shopping-cart"
+          ><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"
+          ></circle><path
+            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+          ></path></svg
+        >
+        <span
+          class="bg-nexus-cyan text-nexus-background absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+          >2</span
+        >
+      </button>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        class="text-nexus-muted transition-colors hover:text-white lg:hidden"
+        aria-label="Open Mobile Menu"
+        id="mobile-menu-btn"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-menu"
+          ><line x1="4" x2="20" y1="12" y2="12"></line><line
+            x1="4"
+            x2="20"
+            y1="6"
+            y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg
+        >
+      </button>
     </div>
+  </div>
 </header>
 
 <!-- Mobile Menu (Hidden by default) -->
-<div id="mobile-menu" class="fixed inset-0 z-[60] bg-[#0B0E14] flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
-    <div class="px-6 py-6 border-b border-nexus-surface flex justify-between items-center bg-[#0B0E14]">
-        <div class="flex flex-col items-start leading-none gap-0.5">
-            <span class="text-xl font-display font-black text-white tracking-widest uppercase">NEXUS</span>
-            <span class="text-[0.5rem] font-bold text-nexus-purple tracking-[0.4em] uppercase">GAMES</span>
-        </div>
-        <button id="close-mobile-menu" class="text-nexus-purple hover:text-white transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[60] flex translate-x-full transform flex-col bg-[#0B0E14] transition-transform duration-300 ease-in-out"
+>
+  <div
+    class="border-nexus-surface flex items-center justify-between border-b bg-[#0B0E14] px-6 py-6"
+  >
+    <div class="flex flex-col items-start gap-0.5 leading-none">
+      <span
+        class="font-display text-xl font-black tracking-widest text-white uppercase"
+        >NEXUS</span
+      >
+      <span
+        class="text-nexus-purple text-[0.5rem] font-bold tracking-[0.4em] uppercase"
+        >GAMES</span
+      >
     </div>
-    
-    <div class="flex-grow flex flex-col justify-between p-6 overflow-y-auto">
-        <!-- Vertical Nav Links -->
-        <nav class="flex flex-col space-y-8 mt-4 border-l-[3px] border-nexus-purple pl-6">
-            <a href="/" class="text-3xl font-display font-bold text-white uppercase tracking-wider hover:text-nexus-cyan transition-colors">EXPLORE</a>
-            <a href="#store" class="text-3xl font-display font-bold text-nexus-cyan uppercase tracking-wider shadow-none hover:shadow-neon-cyan flex items-center justify-between">STORE <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg></a>
-            <a href="#genres" class="text-3xl font-display font-bold text-nexus-muted uppercase tracking-wider hover:text-white transition-colors">GENRES</a>
-            <a href="#community" class="text-3xl font-display font-bold text-nexus-muted uppercase tracking-wider hover:text-white transition-colors">COMMUNITY</a>
-            <a href="#deals" class="text-3xl font-display font-bold text-nexus-muted uppercase tracking-wider hover:text-white transition-colors">DEALS</a>
-        </nav>
+    <button
+      id="close-mobile-menu"
+      class="text-nexus-purple transition-colors hover:text-white"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-x"
+        ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
+      >
+    </button>
+  </div>
 
-        <!-- User Section Mobile -->
-        <div class="mt-12 border-l-[3px] border-nexus-cyan pl-6 mb-8">
-            <h4 class="text-nexus-cyan font-bold text-sm tracking-widest uppercase mb-4">YOUR ACCOUNT</h4>
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center gap-3">
-                    <img src="https://ui-avatars.com/api/?name=Aether+Striker&background=7C3AED&color=fff" alt="AETHER_STRIKER" class="w-12 h-12 rounded-full border-2 border-nexus-purple" />
-                    <div class="flex flex-col">
-                        <span class="text-white font-bold leading-tight uppercase">AETHER_STRIKER</span>
-                        <span class="text-nexus-muted text-sm flex items-center gap-2">Level 42 <div class="w-2 h-2 rounded-full bg-nexus-cyan drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div> ONLINE</span>
-                    </div>
-                </div>
-            </div>
+  <div class="flex flex-grow flex-col justify-between overflow-y-auto p-6">
+    <!-- Vertical Nav Links -->
+    <nav
+      class="border-nexus-purple mt-4 flex flex-col space-y-8 border-l-[3px] pl-6"
+    >
+      <a
+        href="/"
+        class="font-display hover:text-nexus-cyan text-3xl font-bold tracking-wider text-white uppercase transition-colors"
+        >EXPLORE</a
+      >
+      <a
+        href="#store"
+        class="font-display text-nexus-cyan hover:shadow-neon-cyan flex items-center justify-between text-3xl font-bold tracking-wider uppercase shadow-none"
+        >STORE <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chevron-right"
+          ><path d="m9 18 6-6-6-6"></path></svg
+        ></a
+      >
+      <a
+        href="#genres"
+        class="font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
+        >GENRES</a
+      >
+      <a
+        href="#community"
+        class="font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
+        >COMMUNITY</a
+      >
+      <a
+        href="#deals"
+        class="font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
+        >DEALS</a
+      >
+    </nav>
 
-            <!-- Mobile Account Links -->
-            <div class="grid grid-cols-3 gap-2 text-center text-xs text-nexus-muted font-bold tracking-wider">
-                <a href="#" class="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell text-nexus-cyan"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                    NOTIFICATIONS
-                </a>
-                <a href="#" class="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings text-nexus-purple"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                    SETTINGS
-                </a>
-                <a href="#" class="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out text-red-500"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                    LOGOUT
-                </a>
-            </div>
+    <!-- User Section Mobile -->
+    <div class="border-nexus-cyan mt-12 mb-8 border-l-[3px] pl-6">
+      <h4
+        class="text-nexus-cyan mb-4 text-sm font-bold tracking-widest uppercase"
+      >
+        YOUR ACCOUNT
+      </h4>
+      <div class="mb-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img
+            src="https://ui-avatars.com/api/?name=Aether+Striker&background=7C3AED&color=fff"
+            alt="AETHER_STRIKER"
+            class="border-nexus-purple h-12 w-12 rounded-full border-2"
+          />
+          <div class="flex flex-col">
+            <span class="leading-tight font-bold text-white uppercase"
+              >AETHER_STRIKER</span
+            >
+            <span class="text-nexus-muted flex items-center gap-2 text-sm"
+              >Level 42 <div
+                class="bg-nexus-cyan h-2 w-2 rounded-full drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"
+              >
+              </div> ONLINE</span
+            >
+          </div>
         </div>
+      </div>
+
+      <!-- Mobile Account Links -->
+      <div
+        class="text-nexus-muted grid grid-cols-3 gap-2 text-center text-xs font-bold tracking-wider"
+      >
+        <a
+          href="#"
+          class="flex flex-col items-center gap-2 transition-colors hover:text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-bell text-nexus-cyan"
+            ><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path
+              d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg
+          >
+          NOTIFICATIONS
+        </a>
+        <a
+          href="#"
+          class="flex flex-col items-center gap-2 transition-colors hover:text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-settings text-nexus-purple"
+            ><path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+            ></path><circle cx="12" cy="12" r="3"></circle></svg
+          >
+          SETTINGS
+        </a>
+        <a
+          href="#"
+          class="flex flex-col items-center gap-2 transition-colors hover:text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-log-out text-red-500"
+            ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline
+              points="16 17 21 12 16 7"></polyline><line
+              x1="21"
+              x2="9"
+              y1="12"
+              y2="12"></line></svg
+          >
+          LOGOUT
+        </a>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-    // Script para menejar el menú móvil
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const closeMobileBtn = document.getElementById('close-mobile-menu');
-    const mobileMenu = document.getElementById('mobile-menu');
+  // Script para menejar el menú móvil
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const closeMobileBtn = document.getElementById("close-mobile-menu");
+  const mobileMenu = document.getElementById("mobile-menu");
 
-    if (mobileMenuBtn && closeMobileBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('translate-x-full');
-            document.body.style.overflow = 'hidden'; // Prevenir scroll
-        });
+  if (mobileMenuBtn && closeMobileBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      mobileMenu.classList.remove("translate-x-full");
+      document.body.style.overflow = "hidden"; // Prevenir scroll
+    });
 
-        closeMobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-            document.body.style.overflow = ''; // Restaurar scroll
-        });
-    }
+    closeMobileBtn.addEventListener("click", () => {
+      mobileMenu.classList.add("translate-x-full");
+      document.body.style.overflow = ""; // Restaurar scroll
+    });
+  }
 </script>

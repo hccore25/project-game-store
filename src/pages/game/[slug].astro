@@ -62,9 +62,10 @@ const gameData = {
           class="border-nexus-surface relative aspect-[3/4] overflow-hidden rounded-[2rem] border shadow-[0_0_30px_rgba(0,0,0,0.5)]"
         >
           <img
+            id="main-artwork"
             src={gameData.image}
             alt={gameData.title}
-            class="h-full w-full object-cover"
+            class="h-full w-full object-cover transition-opacity duration-300"
           />
           <div
             class="from-nexus-background via-nexus-background/20 absolute inset-0 bg-gradient-to-t to-transparent"
@@ -88,35 +89,35 @@ const gameData = {
         <!-- Screenshots Thumbnails (Below main artwork) -->
         <div class="mt-4 grid grid-cols-4 gap-3">
           <div
-            class="border-nexus-cyan aspect-video overflow-hidden rounded-lg border shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+            class="border-nexus-cyan aspect-video overflow-hidden rounded-lg border shadow-[0_0_10px_rgba(6,182,212,0.5)] thumbnail-container"
           >
             <img
-              src="https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover transition-transform hover:scale-110"
+              src={gameData.image}
+              class="h-full w-full cursor-pointer object-cover transition-transform duration-500 hover:scale-110 gallery-thumb"
             />
           </div>
           <div
-            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors"
+            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors thumbnail-container"
           >
             <img
               src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover opacity-70 transition-transform hover:scale-110 hover:opacity-100"
+              class="h-full w-full cursor-pointer object-cover opacity-70 transition-all duration-500 hover:scale-110 hover:opacity-100 gallery-thumb"
             />
           </div>
           <div
-            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors"
+            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors thumbnail-container"
           >
             <img
               src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover opacity-70 transition-transform hover:scale-110 hover:opacity-100"
+              class="h-full w-full cursor-pointer object-cover opacity-70 transition-all duration-500 hover:scale-110 hover:opacity-100 gallery-thumb"
             />
           </div>
           <div
-            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors"
+            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors thumbnail-container"
           >
             <img
               src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover opacity-70 transition-transform hover:scale-110 hover:opacity-100"
+              class="h-full w-full cursor-pointer object-cover opacity-70 transition-all duration-500 hover:scale-110 hover:opacity-100 gallery-thumb"
             />
           </div>
         </div>
@@ -153,14 +154,16 @@ const gameData = {
 
             <div class="flex flex-col gap-3">
               <button
-                class="bg-nexus-purple hover:text-nexus-purple shadow-neon-purple w-full rounded-lg px-6 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all hover:bg-white"
+                id="btn-add-cart"
+                class="bg-nexus-purple hover:text-nexus-purple shadow-neon-purple w-full rounded-lg px-6 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all duration-300 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                ADD TO CART
+                <span>ADD TO CART</span>
               </button>
               <button
-                class="border-nexus-cyan text-nexus-cyan hover:bg-nexus-cyan hover:text-nexus-background block w-full rounded-lg border bg-transparent px-6 py-4 text-center text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all"
+                id="btn-wishlist"
+                class="border-nexus-cyan text-nexus-cyan hover:bg-nexus-cyan hover:text-nexus-background block w-full rounded-lg border bg-transparent px-6 py-4 text-center text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                WISHLIST
+                <span>WISHLIST</span>
               </button>
             </div>
           </div>
@@ -430,4 +433,130 @@ const gameData = {
       </div>
     </div>
   </div>
+
+  <!-- Toast Notification Container (Hidden by default) -->
+  <div
+    id="toast-notification"
+    class="bg-nexus-surface border-nexus-purple shadow-neon-purple fixed bottom-8 right-8 z-50 flex translate-y-20 items-center gap-3 rounded-lg border p-4 opacity-0 transition-all duration-500"
+  >
+    <div class="bg-nexus-purple/20 text-nexus-purple rounded-full p-2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <div>
+      <h4 class="text-sm font-bold text-white" id="toast-title">Success</h4>
+      <p class="text-nexus-muted text-xs" id="toast-message">Item added to cart.</p>
+    </div>
+  </div>
 </Layout>
+
+<script>
+  // Script para manejar la Galería Dinámica y el Toast Notification
+  document.addEventListener("DOMContentLoaded", () => {
+    // --- 1. Lógica de Galería de Imágenes ---
+    const mainArtwork = document.getElementById("main-artwork") as HTMLImageElement;
+    const thumbnails = document.querySelectorAll(".gallery-thumb");
+    const thumbnailContainers = document.querySelectorAll(".thumbnail-container");
+
+    if (mainArtwork && thumbnails.length > 0) {
+      thumbnails.forEach((thumb, index) => {
+        thumb.addEventListener("click", () => {
+          mainArtwork.style.opacity = "0";
+          
+          setTimeout(() => {
+            const thumbImg = thumb as HTMLImageElement;
+            mainArtwork.src = thumbImg.src.replace("&w=400", "&w=1200"); 
+            mainArtwork.style.opacity = "1";
+          }, 150);
+
+          thumbnailContainers.forEach((container, i) => {
+            const img = container.querySelector("img");
+            if (i === index) {
+              container.classList.add("border-nexus-cyan", "shadow-[0_0_10px_rgba(6,182,212,0.5)]");
+              container.classList.remove("border-nexus-surface");
+              if (img) img.classList.remove("opacity-70");
+            } else {
+              container.classList.remove("border-nexus-cyan", "shadow-[0_0_10px_rgba(6,182,212,0.5)]");
+              container.classList.add("border-nexus-surface");
+              if (img) img.classList.add("opacity-70");
+            }
+          });
+        });
+      });
+    }
+
+    // --- 2. Lógica de Toast Notification ---
+    const btnCart = document.getElementById("btn-add-cart") as HTMLButtonElement;
+    const btnWishlist = document.getElementById("btn-wishlist") as HTMLButtonElement;
+    const toast = document.getElementById("toast-notification");
+    const toastTitle = document.getElementById("toast-title");
+    const toastMessage = document.getElementById("toast-message");
+    
+    // Función para mostrar el Toast
+    const showToast = (title: string, message: string, colorClass: string) => {
+      if (!toast || !toastTitle || !toastMessage) return;
+      
+      toastTitle.innerText = title;
+      toastMessage.innerText = message;
+      
+      // Actualizar clases de color según la acción (purple = cart, cyan = wishlist)
+      toast.className = `fixed bottom-8 right-8 z-50 flex items-center gap-3 rounded-lg border p-4 transition-all duration-500 bg-nexus-surface transform translate-y-0 opacity-100 border-${colorClass} shadow-neon-${colorClass}`;
+      
+      const iconContainer = toast.querySelector('div');
+      if (iconContainer) {
+        iconContainer.className = `rounded-full p-2 bg-${colorClass}/20 text-${colorClass}`;
+      }
+
+      // Ocultar después de 3 segundos
+      setTimeout(() => {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 3000);
+    };
+
+    // Evento para Añadir al Carrito
+    if (btnCart) {
+      btnCart.addEventListener("click", () => {
+        const span = btnCart.querySelector("span");
+        const originalText = span ? span.innerText : "ADD TO CART";
+        
+        btnCart.disabled = true;
+        if (span) span.innerText = "ADDING...";
+
+        setTimeout(() => {
+          showToast("Aetherbound Added", "Check your cart to checkout.", "nexus-purple");
+          btnCart.disabled = false;
+          if (span) span.innerText = originalText;
+        }, 800); // Simulamos una pequeña carga
+      });
+    }
+
+    // Evento para Wishlist
+    if (btnWishlist) {
+      btnWishlist.addEventListener("click", () => {
+        const span = btnWishlist.querySelector("span");
+        const originalText = span ? span.innerText : "WISHLIST";
+        
+        btnWishlist.disabled = true;
+        if (span) span.innerText = "SAVING...";
+
+        setTimeout(() => {
+          showToast("Saved to Wishlist", "We'll notify you on sales.", "nexus-cyan");
+          btnWishlist.disabled = false;
+          if (span) span.innerText = "SAVED ✓";
+        }, 600);
+      });
+    }
+  });
+</script>

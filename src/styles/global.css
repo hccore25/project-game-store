@@ -12,13 +12,30 @@
 }
 
 /* Customized Splide Pagination para el tema Nexus */
+.splide__pagination {
+  bottom: -2rem !important;
+}
+
 .splide__pagination__page {
   background: theme("colors.nexus.muted") !important;
-  opacity: 0.5;
+  opacity: 0.3;
+  width: 40px !important;
+  height: 4px !important;
+  border-radius: 4px !important;
+  margin: 0 4px !important;
+  transition: all 0.3s ease !important;
+  transform: none !important;
 }
+
 .splide__pagination__page.is-active {
-  background: theme("colors.nexus.cyan") !important;
-  transform: scale(1.4) !important;
-  box-shadow: theme("boxShadow.neon-cyan");
-  opacity: 1;
+  background: theme("colors.nexus.purple") !important;
+  width: 60px !important;
+  opacity: 0.8 !important;
+  box-shadow: 0 0 8px theme("colors.nexus.purple") !important;
 }
+
+.splide__pagination__page:hover {
+  opacity: 0.6;
+}
+
+

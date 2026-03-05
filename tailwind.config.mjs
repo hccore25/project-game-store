@@ -3,6 +3,17 @@ export default {
   // Le dice a Tailwind dónde buscar las clases que uses
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    // Configuración global del contenedor
+    container: {
+      center: true, // Esto hace que el container siempre tenga mx-auto automáticamente
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1280px", // Forzamos que en pantallas gigantes el max-width siga siendo 1280px
+      },
+    },
     extend: {
       colors: {
         // Agrupamos nuestros colores personalizados bajo el prefijo "nexus"
@@ -17,9 +28,9 @@ export default {
         },
       },
       fontFamily: {
-        // Inter para lectura fluida, Space Grotesk para el toque tech/gaming
-        sans: ["Inter", "sans-serif"],
-        display: ['"Space Grotesk"', "sans-serif"],
+        // Montserrat para lectura fluida, Nunito para el toque tech/gaming
+        sans: ["Montserrat", "sans-serif"],
+        display: ["Nunito", "sans-serif"],
       },
       boxShadow: {
         // Sombras personalizadas para los efectos de resplandor neón

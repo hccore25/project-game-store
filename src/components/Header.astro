@@ -263,12 +263,15 @@ const navLinks = [
       mobileMenu.classList.remove("translate-x-full");
       mobileMenuBtn.setAttribute("aria-expanded", "true");
       document.body.style.overflow = "hidden";
+      closeMobileBtn.focus();
     };
 
     const closeMenu = () => {
+      if (mobileMenuBtn.getAttribute("aria-expanded") !== "true") return;
       mobileMenu.classList.add("translate-x-full");
       mobileMenuBtn.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
+      mobileMenuBtn.focus();
     };
 
     mobileMenuBtn.addEventListener("click", openMenu);

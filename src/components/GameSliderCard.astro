@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { formatPrice } from "../utils/format";
 import Icon from "./Icon.astro";
@@ -23,9 +24,11 @@ const href = `/game/${game.id}`;
   <div
     class="relative z-0 h-64 w-full shrink-0 overflow-hidden rounded-t-xl md:h-[400px] md:w-1/2 md:rounded-l-xl md:rounded-tr-none lg:w-[60%]"
   >
-    <img
+    <Image
       src={image}
       alt={title}
+      width={960}
+      height={640}
       loading="lazy"
       class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
     />

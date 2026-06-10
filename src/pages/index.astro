@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
@@ -56,9 +57,13 @@ const catalog = [...allGames].sort((a, b) =>
 
       <!-- Hero Image (Right) -->
       <div class="absolute inset-0 h-full md:relative md:inset-auto md:w-3/5">
-        <img
+        <Image
           src={featuredGame.data.image}
           alt={featuredGame.data.title}
+          width={1200}
+          height={800}
+          loading="eager"
+          fetchpriority="high"
           class="h-full w-full object-cover object-right-top"
         />
         <div
@@ -168,6 +173,11 @@ const catalog = [...allGames].sort((a, b) =>
   const sliderEl = document.getElementById("new-games-slider");
 
   if (sliderEl) {
+    // Sin autoplay si el usuario prefiere movimiento reducido
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     new Splide(sliderEl, {
       type: "loop",
       perPage: 1,
@@ -175,7 +185,7 @@ const catalog = [...allGames].sort((a, b) =>
       gap: "24px",
       pagination: true,
       arrows: true,
-      autoplay: true,
+      autoplay: !reducedMotion,
       interval: 4000,
       pauseOnHover: true,
     }).mount();

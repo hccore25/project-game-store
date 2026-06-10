@@ -11,9 +11,9 @@
   "releaseDate": "Feb 28, 2025",
   "rating": "E10+ for Everyone 10+",
   "systemReq": { "min": "4 GB", "rec": "8 GB" },
-  "image": "https://images.unsplash.com/photo-1610056494052-6a4f814e4125?q=80&w=800&auto=format&fit=crop",
+  "image": "https://images.unsplash.com/photo-1592155931584-901ac15763e3?q=80&w=800&auto=format&fit=crop",
   "gallery": [
-    "https://images.unsplash.com/photo-1610056494052-6a4f814e4125?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1622285802778-cf560de649a3?q=80&w=400&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1592155931584-901ac15763e3?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=400&auto=format&fit=crop"
   ]
 }

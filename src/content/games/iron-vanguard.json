@@ -11,9 +11,9 @@
   "releaseDate": "Sep 13, 2024",
   "rating": "T for Teen",
   "systemReq": { "min": "50 GB", "rec": "70 GB" },
-  "image": "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=800&auto=format&fit=crop",
+  "image": "https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=800&auto=format&fit=crop",
   "gallery": [
-    "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=400&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=400&auto=format&fit=crop"
   ]
 }

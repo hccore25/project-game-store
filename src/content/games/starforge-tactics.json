@@ -9,9 +9,9 @@
   "releaseDate": "Apr 12, 2024",
   "rating": "E10+ for Everyone 10+",
   "systemReq": { "min": "18 GB", "rec": "25 GB" },
-  "image": "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=800&auto=format&fit=crop",
+  "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
   "gallery": [
-    "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=400&auto=format&fit=crop"
   ]
 }

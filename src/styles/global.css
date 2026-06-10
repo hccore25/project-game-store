@@ -16,9 +16,9 @@
   --color-nexus-text: #ece5f0; /* Lavender Mist — titulares y texto principal */
   --color-nexus-muted: #94a8a5; /* Derivado — texto secundario */
 
-  /* Tipografía */
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  /* Tipografía (self-hosted vía Fontsource) */
+  --font-sans: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Nunito Variable", ui-sans-serif, system-ui, sans-serif;
 
   /* Glow neón */
   --shadow-neon-lime:
@@ -48,6 +48,28 @@
   h5,
   h6 {
     font-family: var(--font-display);
+  }
+
+  /* Anillo de foco visible para navegación por teclado */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-nexus-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Respeta la preferencia de movimiento reducido del usuario */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 

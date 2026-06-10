@@ -1,0 +1,16 @@
+packages:
+  - "."
+
+# Lifecycle scripts are blocked by default; only these trusted packages
+# are allowed to run their install scripts.
+allowBuilds:
+  esbuild: true
+  sharp: true
+
+# Supply-chain hardening: never install package versions published less than
+# 3 days ago (worm campaigns are usually caught and unpublished within hours).
+minimumReleaseAge: 4320
+
+# Force patched versions of vulnerable transitive dependencies (GHSA-48c2-rrv3-qjmp)
+overrides:
+  "yaml@>=2.0.0 <2.8.3": ">=2.8.3"

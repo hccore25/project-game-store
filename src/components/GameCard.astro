@@ -1,15 +1,16 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { formatPrice } from "../utils/format";
 import GameTag from "./GameTag.astro";
 import PlatformIcons from "./PlatformIcons.astro";
+import PriceDisplay from "./PriceDisplay.astro";
 
 interface Props {
   game: CollectionEntry<"games">;
 }
 
 const { game } = Astro.props;
-const { title, edition, image, price, tag, platforms } = game.data;
+const { title, edition, image, price, discountPercent, tag, platforms } =
+  game.data;
 ---
 
 <a
@@ -33,6 +34,14 @@ const { title, edition, image, price, tag, platforms } = game.data;
       )
     }
 
+    {
+      discountPercent && (
+        <span class="bg-nexus-primary text-nexus-background shadow-neon-lime absolute top-0 left-4 rounded-b-md px-3 py-1 text-[10px] font-bold tracking-widest">
+          -{discountPercent}%
+        </span>
+      )
+    }
+
     <div
       class="from-nexus-background absolute inset-0 bg-gradient-to-t via-transparent to-transparent"
     >
@@ -51,9 +60,7 @@ const { title, edition, image, price, tag, platforms } = game.data;
     <p class="text-nexus-muted mb-auto text-xs font-medium">{edition}</p>
 
     <div class="mt-4 flex items-center justify-between">
-      <span class="text-nexus-primary text-lg font-bold">
-        {formatPrice(price)}
-      </span>
+      <PriceDisplay price={price} discountPercent={discountPercent} />
       <PlatformIcons platforms={platforms} />
     </div>
   </div>

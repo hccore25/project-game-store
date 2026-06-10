@@ -3,6 +3,7 @@
   "edition": "Turbo Pack",
   "description": "Outrun the grid in anti-gravity street races across a rain-soaked megacity. Synthwave soundtrack, ghost rivals and a drift system that rewards absolute style.",
   "price": 29.99,
+  "discountPercent": 30,
   "tag": "new",
   "isNew": false,
   "genres": ["indie", "action-adv"],

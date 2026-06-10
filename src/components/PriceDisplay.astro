@@ -1,0 +1,30 @@
+---
+import { formatPrice, finalPrice } from "../utils/format";
+
+/**
+ * Precio con soporte de descuento: muestra el original tachado
+ * junto al precio final cuando aplica.
+ */
+interface Props {
+  price: number;
+  discountPercent?: number;
+  size?: "sm" | "lg";
+}
+
+const { price, discountPercent, size = "sm" } = Astro.props;
+const discounted = finalPrice(price, discountPercent);
+
+const finalClass =
+  size === "lg"
+    ? "text-nexus-primary font-display text-3xl font-black drop-shadow-[0_0_8px_rgba(159,204,46,0.5)]"
+    : "text-nexus-primary text-lg font-bold";
+const originalClass =
+  size === "lg"
+    ? "text-nexus-muted text-base line-through"
+    : "text-nexus-muted text-xs line-through";
+---
+
+<span class="flex items-baseline gap-2">
+  {discountPercent && <span class={originalClass}>{formatPrice(price)}</span>}
+  <span class={finalClass}>{formatPrice(discounted)}</span>
+</span>

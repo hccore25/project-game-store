@@ -11,16 +11,21 @@ const allGames = await getCollection("games");
 
 const featuredGame = allGames.find((game) => game.data.featured) ?? allGames[0];
 const newGames = allGames.filter((game) => game.data.isNew);
+const deals = allGames
+  .filter((game) => game.data.discountPercent)
+  .sort(
+    (a, b) => (b.data.discountPercent ?? 0) - (a.data.discountPercent ?? 0),
+  );
 const catalog = [...allGames].sort((a, b) =>
   a.data.title.localeCompare(b.data.title),
 );
 ---
 
 <Layout title="Explore Limitless Worlds">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto space-y-16 px-4 py-8 lg:px-6">
     <!-- Hero Section -->
     <section
-      class="bg-nexus-surface border-nexus-surface/80 relative mb-16 flex h-[500px] flex-col items-stretch overflow-hidden rounded-[2rem] border shadow-lg md:flex-row"
+      class="bg-nexus-surface border-nexus-surface/80 relative flex h-[500px] flex-col items-stretch overflow-hidden rounded-[2rem] border shadow-lg md:flex-row"
     >
       <!-- Hero Content (Left) -->
       <div
@@ -71,7 +76,7 @@ const catalog = [...allGames].sort((a, b) =>
     </section>
 
     <!-- EXPLORE BY GENRE -->
-    <section class="mb-16" id="genres">
+    <section id="genres">
       <h2
         class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
       >
@@ -82,43 +87,69 @@ const catalog = [...allGames].sort((a, b) =>
       </div>
     </section>
 
-    <!-- NEW GAMES SLIDER -->
-    <section
-      class="splide group/slider relative w-full"
-      id="new-games-slider"
-      aria-label="Nuevos lanzamientos"
-    >
-      <!-- Custom Arrows -->
-      <div
-        class="splide__arrows pointer-events-none absolute inset-y-0 right-0 left-0 z-10 md:-mx-6"
+    <!-- NEW RELEASES SLIDER -->
+    <section>
+      <h2
+        class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
       >
-        <button
-          class="splide__arrow splide__arrow--prev bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-left-8 md:h-16 md:w-16 md:border-4"
+        NEW RELEASES
+      </h2>
+      <div
+        class="splide group/slider relative w-full"
+        id="new-games-slider"
+        aria-label="New releases"
+      >
+        <!-- Custom Arrows -->
+        <div
+          class="splide__arrows pointer-events-none absolute inset-y-0 right-0 left-0 z-10 md:-mx-6"
         >
-          <Icon name="chevron-left" size={24} strokeWidth={3} />
-        </button>
-        <button
-          class="splide__arrow splide__arrow--next bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-right-8 md:h-16 md:w-16 md:border-4"
-        >
-          <Icon name="chevron-right" size={24} strokeWidth={3} />
-        </button>
-      </div>
+          <button
+            class="splide__arrow splide__arrow--prev bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-left-8 md:h-16 md:w-16 md:border-4"
+          >
+            <Icon name="chevron-left" size={24} strokeWidth={3} />
+          </button>
+          <button
+            class="splide__arrow splide__arrow--next bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-right-8 md:h-16 md:w-16 md:border-4"
+          >
+            <Icon name="chevron-right" size={24} strokeWidth={3} />
+          </button>
+        </div>
 
-      <div class="splide__track w-full pb-10">
-        <ul class="splide__list">
-          {
-            newGames.map((game) => (
-              <li class="splide__slide">
-                <GameSliderCard game={game} />
-              </li>
-            ))
-          }
-        </ul>
+        <div class="splide__track w-full pb-10">
+          <ul class="splide__list">
+            {
+              newGames.map((game) => (
+                <li class="splide__slide">
+                  <GameSliderCard game={game} />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- GAMES GRID -->
+    <!-- HOT DEALS -->
+    <section id="deals">
+      <h2
+        class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
+      >
+        HOT DEALS
+      </h2>
+      <div
+        class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6"
+      >
+        {deals.map((game) => <GameCard game={game} />)}
+      </div>
+    </section>
+
+    <!-- ALL GAMES -->
     <section id="store">
+      <h2
+        class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
+      >
+        ALL GAMES
+      </h2>
       <div
         class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6"
       >

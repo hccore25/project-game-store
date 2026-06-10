@@ -1,0 +1,119 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<Layout title="Wishlist" description="Games you saved for later.">
+  <div class="container mx-auto px-4 py-8 lg:px-6">
+    <h1
+      class="font-display mb-8 text-3xl font-black tracking-widest text-white uppercase"
+    >
+      WISHLIST
+    </h1>
+
+    <!-- Empty state -->
+    <div
+      id="wishlist-empty"
+      class="border-nexus-surface hidden flex-col items-center gap-6 rounded-2xl border border-dashed p-16 text-center"
+    >
+      <Icon name="heart" size={48} class="text-nexus-muted" />
+      <div>
+        <p class="font-display mb-2 text-xl font-bold text-white">
+          Your wishlist is empty
+        </p>
+        <p class="text-nexus-muted text-sm">
+          Save games you love and we'll keep an eye on deals for you.
+        </p>
+      </div>
+      <a
+        href="/#store"
+        class="bg-nexus-primary text-nexus-background shadow-neon-lime rounded-lg px-8 py-3.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+      >
+        BROWSE GAMES
+      </a>
+    </div>
+
+    <ul id="wishlist-items" class="hidden max-w-3xl space-y-4"></ul>
+  </div>
+
+  <!-- Plantilla de ítem de la wishlist -->
+  <template id="wishlist-item-template">
+    <li
+      class="border-nexus-surface bg-nexus-surface/20 flex items-center gap-4 rounded-xl border p-4"
+    >
+      <img
+        class="item-image h-20 w-16 shrink-0 rounded-lg object-cover"
+        alt=""
+      />
+      <div class="min-w-0 flex-1">
+        <a
+          class="item-link font-display hover:text-nexus-primary block truncate font-bold text-white transition-colors"
+        ></a>
+        <span class="item-price text-nexus-primary text-sm font-bold"></span>
+      </div>
+      <button
+        class="item-add bg-nexus-primary text-nexus-background hover:shadow-neon-lime flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold tracking-widest uppercase transition-all duration-300"
+      >
+        <Icon name="cart" size={14} />
+        ADD TO CART
+      </button>
+      <button
+        class="item-remove text-nexus-muted transition-colors hover:text-red-400"
+        aria-label="Remove from wishlist"
+      >
+        <Icon name="trash" size={18} />
+      </button>
+    </li>
+  </template>
+
+  <script>
+    import { getWishlist, removeFromWishlist, addToCart } from "../utils/store";
+    import { formatPrice } from "../utils/format";
+
+    const emptyState = document.getElementById("wishlist-empty");
+    const list = document.getElementById("wishlist-items");
+    const template = document.getElementById(
+      "wishlist-item-template",
+    ) as HTMLTemplateElement | null;
+
+    function render() {
+      if (!emptyState || !list || !template) return;
+
+      const wishlist = getWishlist();
+      const isEmpty = wishlist.length === 0;
+      emptyState.classList.toggle("hidden", !isEmpty);
+      emptyState.classList.toggle("flex", isEmpty);
+      list.classList.toggle("hidden", isEmpty);
+
+      list.innerHTML = "";
+      for (const item of wishlist) {
+        const node = template.content.cloneNode(true) as DocumentFragment;
+        const li = node.querySelector("li")!;
+
+        const image = li.querySelector(".item-image") as HTMLImageElement;
+        image.src = item.image;
+        image.alt = item.title;
+
+        const link = li.querySelector(".item-link") as HTMLAnchorElement;
+        link.href = `/game/${item.slug}`;
+        link.textContent = item.title;
+
+        li.querySelector(".item-price")!.textContent = formatPrice(item.price);
+
+        li.querySelector(".item-add")?.addEventListener("click", () => {
+          addToCart(item);
+          removeFromWishlist(item.slug);
+          render();
+        });
+        li.querySelector(".item-remove")?.addEventListener("click", () => {
+          removeFromWishlist(item.slug);
+          render();
+        });
+
+        list.append(li);
+      }
+    }
+
+    render();
+  </script>
+</Layout>

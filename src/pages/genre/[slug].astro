@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import GameCard from "../../components/GameCard.astro";
+import { genres } from "../../data/genres";
+import type { Genre } from "../../data/genres";
+
+export function getStaticPaths() {
+  return genres.map((genre) => ({
+    params: { slug: genre.slug },
+    props: { genre },
+  }));
+}
+
+interface Props {
+  genre: Genre;
+}
+
+const { genre } = Astro.props;
+const games = (await getCollection("games"))
+  .filter((game) => game.data.genres.includes(genre.slug))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Layout
+  title={`${genre.name} Games`}
+  description={`Browse all ${genre.name} games available on NEXUSSTORE.`}
+>
+  <div class="container mx-auto space-y-8 px-4 py-8 lg:px-6">
+    <a
+      href="/"
+      class="text-nexus-muted flex items-center gap-2 text-sm font-bold tracking-widest uppercase transition-colors hover:text-white"
+    >
+      <Icon name="arrow-left" size={16} />
+      BACK TO STORE
+    </a>
+
+    <div class="flex items-center gap-4">
+      <div class="text-nexus-accent">
+        <Icon
+          name={genre.icon}
+          size={40}
+          class="drop-shadow-[0_0_8px_rgba(246,190,154,0.6)]"
+        />
+      </div>
+      <div>
+        <h1
+          class="font-display text-3xl font-black tracking-widest text-white uppercase"
+        >
+          {genre.name}
+        </h1>
+        <p class="text-nexus-muted text-sm">
+          {games.length}
+          {games.length === 1 ? "game" : "games"} available
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
+      {games.map((game) => <GameCard game={game} />)}
+    </div>
+  </div>
+</Layout>

@@ -8,6 +8,7 @@ const games = defineCollection({
     edition: z.string(),
     description: z.string(),
     price: z.number().positive(),
+    discountPercent: z.number().min(1).max(90).optional(),
     tag: z.enum(["new", "bestseller"]).optional(),
     isNew: z.boolean().default(false),
     featured: z.boolean().default(false),

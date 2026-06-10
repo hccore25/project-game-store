@@ -5,8 +5,8 @@ const navLinks = [
   { href: "/", label: "EXPLORE" },
   { href: "/#store", label: "STORE" },
   { href: "/#genres", label: "GENRES" },
-  { href: "/#community", label: "COMMUNITY" },
   { href: "/#deals", label: "DEALS" },
+  { href: "/wishlist", label: "WISHLIST" },
 ];
 ---
 
@@ -47,34 +47,43 @@ const navLinks = [
     <!-- Right Icons -->
     <div class="flex items-center gap-5">
       <button
+        id="search-toggle"
         class="text-nexus-muted transition-colors hover:text-white"
-        aria-label="Buscar"
+        aria-label="Search games"
+        aria-expanded="false"
+        aria-controls="search-panel"
       >
         <Icon name="search" size={20} />
       </button>
 
-      <button
-        class="text-nexus-muted hidden transition-colors hover:text-white sm:block"
-        aria-label="Cuenta de usuario"
+      <a
+        href="/wishlist"
+        class="text-nexus-muted relative hidden transition-colors hover:text-white sm:block"
+        aria-label="Wishlist"
       >
-        <Icon name="user-circle" size={20} />
-      </button>
+        <Icon name="heart" size={20} />
+        <span
+          id="wishlist-count"
+          class="bg-nexus-accent text-nexus-background absolute -top-2 -right-2 hidden h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+        ></span>
+      </a>
 
-      <button
+      <a
+        href="/cart"
         class="text-nexus-accent relative transition-colors hover:text-white"
-        aria-label="Carrito"
+        aria-label="Cart"
       >
         <Icon name="cart" size={20} />
         <span
-          class="bg-nexus-primary text-nexus-background absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
-          >2</span
-        >
-      </button>
+          id="cart-count"
+          class="bg-nexus-primary text-nexus-background absolute -top-2 -right-2 hidden h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+        ></span>
+      </a>
 
       <!-- Mobile Menu Toggle -->
       <button
         class="text-nexus-muted transition-colors hover:text-white lg:hidden"
-        aria-label="Abrir menú"
+        aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
         id="mobile-menu-btn"
@@ -83,9 +92,36 @@ const navLinks = [
       </button>
     </div>
   </div>
+
+  <!-- Search Panel -->
+  <div
+    id="search-panel"
+    class="border-nexus-surface bg-nexus-background/95 shadow-glass absolute top-full right-0 left-0 hidden border-b backdrop-blur-sm"
+  >
+    <div class="container mx-auto px-4 py-6 lg:px-6">
+      <div class="relative">
+        <Icon
+          name="search"
+          size={18}
+          class="text-nexus-muted absolute top-1/2 left-4 -translate-y-1/2"
+        />
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search games..."
+          autocomplete="off"
+          class="border-nexus-surface bg-nexus-surface/30 text-nexus-text placeholder:text-nexus-muted/60 focus:border-nexus-primary w-full rounded-lg border py-3 pr-4 pl-12 text-sm focus:outline-none"
+        />
+      </div>
+      <ul id="search-results" class="mt-4 space-y-2"></ul>
+      <p id="search-empty" class="text-nexus-muted hidden py-4 text-sm">
+        No games found.
+      </p>
+    </div>
+  </div>
 </header>
 
-<!-- Mobile Menu (oculto por defecto) -->
+<!-- Mobile Menu (hidden by default) -->
 <div
   id="mobile-menu"
   class="bg-nexus-background fixed inset-0 z-[60] flex translate-x-full transform flex-col transition-transform duration-300 ease-in-out"
@@ -106,7 +142,7 @@ const navLinks = [
     <button
       id="close-mobile-menu"
       class="text-nexus-primary transition-colors hover:text-white"
-      aria-label="Cerrar menú"
+      aria-label="Close menu"
     >
       <Icon name="close" size={28} />
     </button>
@@ -191,7 +227,33 @@ const navLinks = [
 </div>
 
 <script>
-  // Manejo del menú móvil
+  import {
+    cartCount,
+    wishlistCount,
+    CART_EVENT,
+    WISHLIST_EVENT,
+  } from "../utils/store";
+
+  // --- Badges de carrito y wishlist ---
+  const updateBadge = (id: string, count: number) => {
+    const badge = document.getElementById(id);
+    if (!badge) return;
+    badge.textContent = String(count);
+    badge.classList.toggle("hidden", count === 0);
+    badge.classList.toggle("flex", count > 0);
+  };
+
+  const updateBadges = () => {
+    updateBadge("cart-count", cartCount());
+    updateBadge("wishlist-count", wishlistCount());
+  };
+
+  updateBadges();
+  window.addEventListener(CART_EVENT, updateBadges);
+  window.addEventListener(WISHLIST_EVENT, updateBadges);
+  window.addEventListener("storage", updateBadges);
+
+  // --- Menú móvil ---
   const mobileMenuBtn = document.getElementById("mobile-menu-btn");
   const closeMobileBtn = document.getElementById("close-mobile-menu");
   const mobileMenu = document.getElementById("mobile-menu");
@@ -200,13 +262,13 @@ const navLinks = [
     const openMenu = () => {
       mobileMenu.classList.remove("translate-x-full");
       mobileMenuBtn.setAttribute("aria-expanded", "true");
-      document.body.style.overflow = "hidden"; // Prevenir scroll
+      document.body.style.overflow = "hidden";
     };
 
     const closeMenu = () => {
       mobileMenu.classList.add("translate-x-full");
       mobileMenuBtn.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = ""; // Restaurar scroll
+      document.body.style.overflow = "";
     };
 
     mobileMenuBtn.addEventListener("click", openMenu);
@@ -216,9 +278,115 @@ const navLinks = [
       if (event.key === "Escape") closeMenu();
     });
 
-    // Cerrar al navegar a un enlace del menú
     mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", closeMenu);
+    });
+  }
+
+  // --- Búsqueda ---
+  interface SearchEntry {
+    slug: string;
+    title: string;
+    edition: string;
+    image: string;
+    price: number;
+    discountPercent: number | null;
+    finalPrice: number;
+    genres: string[];
+  }
+
+  const searchToggle = document.getElementById("search-toggle");
+  const searchPanel = document.getElementById("search-panel");
+  const searchInput = document.getElementById(
+    "search-input",
+  ) as HTMLInputElement | null;
+  const searchResults = document.getElementById("search-results");
+  const searchEmpty = document.getElementById("search-empty");
+
+  let searchIndex: SearchEntry[] | null = null;
+
+  const usd = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  const loadIndex = async () => {
+    if (searchIndex) return searchIndex;
+    const response = await fetch("/games.json");
+    searchIndex = (await response.json()) as SearchEntry[];
+    return searchIndex;
+  };
+
+  const renderResults = (entries: SearchEntry[], query: string) => {
+    if (!searchResults || !searchEmpty) return;
+    searchResults.innerHTML = "";
+    searchEmpty.classList.toggle("hidden", entries.length > 0 || !query);
+
+    for (const entry of entries.slice(0, 6)) {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `/game/${entry.slug}`;
+      link.className =
+        "border-nexus-surface hover:border-nexus-primary bg-nexus-surface/20 flex items-center gap-4 rounded-lg border p-3 transition-colors";
+
+      const img = document.createElement("img");
+      img.src = entry.image;
+      img.alt = "";
+      img.className = "h-12 w-10 rounded object-cover";
+
+      const info = document.createElement("div");
+      info.className = "min-w-0 flex-1";
+
+      const title = document.createElement("p");
+      title.textContent = entry.title;
+      title.className = "font-display truncate text-sm font-bold text-white";
+
+      const edition = document.createElement("p");
+      edition.textContent = entry.edition;
+      edition.className = "text-nexus-muted truncate text-xs";
+
+      const price = document.createElement("span");
+      price.textContent = usd.format(entry.finalPrice);
+      price.className = "text-nexus-primary text-sm font-bold";
+
+      info.append(title, edition);
+      link.append(img, info, price);
+      li.append(link);
+      searchResults.append(li);
+    }
+  };
+
+  if (searchToggle && searchPanel && searchInput) {
+    const closeSearch = () => {
+      searchPanel.classList.add("hidden");
+      searchToggle.setAttribute("aria-expanded", "false");
+    };
+
+    searchToggle.addEventListener("click", async () => {
+      const isOpen = !searchPanel.classList.toggle("hidden");
+      searchToggle.setAttribute("aria-expanded", String(isOpen));
+      if (isOpen) {
+        searchInput.focus();
+        await loadIndex();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSearch();
+    });
+
+    searchInput.addEventListener("input", async () => {
+      const query = searchInput.value.trim().toLowerCase();
+      const index = await loadIndex();
+      const matches = query
+        ? index.filter(
+            (entry) =>
+              entry.title.toLowerCase().includes(query) ||
+              entry.edition.toLowerCase().includes(query) ||
+              entry.genres.some((genre) => genre.includes(query)),
+          )
+        : [];
+      renderResults(matches, query);
     });
   }
 </script>

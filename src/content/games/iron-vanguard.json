@@ -3,6 +3,7 @@
   "edition": "Field Ops Edition",
   "description": "Pilot customizable mechs in squad-based assaults on fortified colonies. Heavy metal, heavier consequences: armor you lose stays lost between missions.",
   "price": 49.99,
+  "discountPercent": 15,
   "tag": "bestseller",
   "genres": ["action-adv", "strategy"],
   "platforms": ["PC", "PS"],

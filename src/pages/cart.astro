@@ -1,0 +1,205 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<Layout title="Your Cart" description="Review the games in your cart.">
+  <div class="container mx-auto px-4 py-8 lg:px-6">
+    <h1
+      class="font-display mb-8 text-3xl font-black tracking-widest text-white uppercase"
+    >
+      YOUR CART
+    </h1>
+
+    <!-- Empty state -->
+    <div
+      id="cart-empty"
+      class="border-nexus-surface hidden flex-col items-center gap-6 rounded-2xl border border-dashed p-16 text-center"
+    >
+      <Icon name="cart" size={48} class="text-nexus-muted" />
+      <div>
+        <p class="font-display mb-2 text-xl font-bold text-white">
+          Your cart is empty
+        </p>
+        <p class="text-nexus-muted text-sm">
+          Browse the store and grab something legendary.
+        </p>
+      </div>
+      <a
+        href="/#store"
+        class="bg-nexus-primary text-nexus-background shadow-neon-lime rounded-lg px-8 py-3.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+      >
+        BROWSE GAMES
+      </a>
+    </div>
+
+    <!-- Cart content -->
+    <div id="cart-content" class="hidden grid-cols-1 gap-8 lg:grid-cols-3">
+      <ul id="cart-items" class="space-y-4 lg:col-span-2"></ul>
+
+      <aside
+        class="bg-nexus-surface/30 border-nexus-surface h-fit rounded-2xl border p-6"
+      >
+        <h2
+          class="text-nexus-muted mb-6 text-sm font-bold tracking-widest uppercase"
+        >
+          ORDER SUMMARY
+        </h2>
+        <dl class="space-y-3 text-sm">
+          <div class="flex justify-between">
+            <dt class="text-nexus-muted">Items</dt>
+            <dd id="summary-count" class="font-bold text-white"></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-nexus-muted">Subtotal</dt>
+            <dd id="summary-subtotal" class="font-bold text-white"></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-nexus-muted">Taxes</dt>
+            <dd class="text-nexus-muted">Included</dd>
+          </div>
+          <div
+            class="border-nexus-surface flex justify-between border-t pt-3 text-base"
+          >
+            <dt class="font-bold text-white">Total</dt>
+            <dd
+              id="summary-total"
+              class="text-nexus-primary font-display font-black"
+            >
+            </dd>
+          </div>
+        </dl>
+
+        <div class="mt-6 flex flex-col gap-3">
+          <a
+            href="/checkout"
+            class="bg-nexus-primary text-nexus-background shadow-neon-lime block w-full rounded-lg px-6 py-4 text-center text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+          >
+            CHECKOUT
+          </a>
+          <a
+            href="/#store"
+            class="border-nexus-surface text-nexus-muted block w-full rounded-lg border px-6 py-4 text-center text-sm font-bold tracking-widest uppercase transition-colors hover:border-white hover:text-white"
+          >
+            CONTINUE SHOPPING
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Plantilla de ítem del carrito (clonada por el script) -->
+  <template id="cart-item-template">
+    <li
+      class="border-nexus-surface bg-nexus-surface/20 flex items-center gap-4 rounded-xl border p-4"
+    >
+      <img
+        class="item-image h-20 w-16 shrink-0 rounded-lg object-cover"
+        alt=""
+      />
+      <div class="min-w-0 flex-1">
+        <a
+          class="item-link font-display hover:text-nexus-primary block truncate font-bold text-white transition-colors"
+        ></a>
+        <span class="item-price text-nexus-muted text-sm"></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button
+          class="qty-minus border-nexus-surface text-nexus-muted flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:border-white hover:text-white"
+          aria-label="Decrease quantity"
+        >
+          <Icon name="minus" size={14} />
+        </button>
+        <span class="item-qty w-6 text-center text-sm font-bold text-white"
+        ></span>
+        <button
+          class="qty-plus border-nexus-surface text-nexus-muted flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:border-white hover:text-white"
+          aria-label="Increase quantity"
+        >
+          <Icon name="plus" size={14} />
+        </button>
+      </div>
+      <span class="item-line-total text-nexus-primary w-20 text-right font-bold"
+      ></span>
+      <button
+        class="item-remove text-nexus-muted transition-colors hover:text-red-400"
+        aria-label="Remove from cart"
+      >
+        <Icon name="trash" size={18} />
+      </button>
+    </li>
+  </template>
+
+  <script>
+    import {
+      getCart,
+      setCartQty,
+      removeFromCart,
+      cartTotal,
+    } from "../utils/store";
+    import { formatPrice } from "../utils/format";
+
+    const emptyState = document.getElementById("cart-empty");
+    const content = document.getElementById("cart-content");
+    const list = document.getElementById("cart-items");
+    const template = document.getElementById(
+      "cart-item-template",
+    ) as HTMLTemplateElement | null;
+
+    const fill = (root: Element, selector: string, text: string) => {
+      const el = root.querySelector(selector);
+      if (el) el.textContent = text;
+    };
+
+    function render() {
+      if (!emptyState || !content || !list || !template) return;
+
+      const cart = getCart();
+      const isEmpty = cart.length === 0;
+      emptyState.classList.toggle("hidden", !isEmpty);
+      emptyState.classList.toggle("flex", isEmpty);
+      content.classList.toggle("hidden", isEmpty);
+      content.classList.toggle("grid", !isEmpty);
+
+      list.innerHTML = "";
+      for (const item of cart) {
+        const node = template.content.cloneNode(true) as DocumentFragment;
+        const li = node.querySelector("li")!;
+
+        const image = li.querySelector(".item-image") as HTMLImageElement;
+        image.src = item.image;
+        image.alt = item.title;
+
+        const link = li.querySelector(".item-link") as HTMLAnchorElement;
+        link.href = `/game/${item.slug}`;
+        link.textContent = item.title;
+
+        fill(li, ".item-price", formatPrice(item.price));
+        fill(li, ".item-qty", String(item.qty));
+        fill(li, ".item-line-total", formatPrice(item.price * item.qty));
+
+        li.querySelector(".qty-minus")?.addEventListener("click", () => {
+          setCartQty(item.slug, item.qty - 1);
+          render();
+        });
+        li.querySelector(".qty-plus")?.addEventListener("click", () => {
+          setCartQty(item.slug, item.qty + 1);
+          render();
+        });
+        li.querySelector(".item-remove")?.addEventListener("click", () => {
+          removeFromCart(item.slug);
+          render();
+        });
+
+        list.append(li);
+      }
+
+      const count = cart.reduce((n, i) => n + i.qty, 0);
+      fill(document.body, "#summary-count", String(count));
+      fill(document.body, "#summary-subtotal", formatPrice(cartTotal()));
+      fill(document.body, "#summary-total", formatPrice(cartTotal()));
+    }
+
+    render();
+  </script>
+</Layout>

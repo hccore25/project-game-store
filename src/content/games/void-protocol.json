@@ -3,6 +3,7 @@
   "edition": "Standard Edition",
   "description": "A tactical extraction shooter set aboard derelict orbital stations. Every run is procedural, every shot is loud, and the void is always listening.",
   "price": 39.99,
+  "discountPercent": 25,
   "tag": "bestseller",
   "isNew": false,
   "genres": ["action-adv"],

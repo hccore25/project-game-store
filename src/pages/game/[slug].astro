@@ -4,7 +4,8 @@ import type { CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/Icon.astro";
 import Toast from "../../components/Toast.astro";
-import { formatPrice } from "../../utils/format";
+import PriceDisplay from "../../components/PriceDisplay.astro";
+import { finalPrice } from "../../utils/format";
 
 export async function getStaticPaths() {
   const games = await getCollection("games");
@@ -23,6 +24,7 @@ const {
   title,
   description,
   price,
+  discountPercent,
   image,
   gallery,
   genres,
@@ -35,6 +37,7 @@ const {
 
 const [titleMain, titleSub] = title.split(": ");
 const galleryImages = gallery.length > 0 ? gallery : [image];
+const unitPrice = finalPrice(price, discountPercent);
 ---
 
 <Layout title={title} description={description}>
@@ -103,11 +106,11 @@ const galleryImages = gallery.length > 0 ? gallery : [image];
                     : "border-nexus-surface hover:border-nexus-accent"
                 }`}
                 data-src={src.replace("&w=400", "&w=1200")}
-                aria-label={`Ver imagen ${index + 1} de ${title}`}
+                aria-label={`View image ${index + 1} of ${title}`}
               >
                 <img
                   src={src}
-                  alt={`${title} - captura ${index + 1}`}
+                  alt={`${title} - screenshot ${index + 1}`}
                   loading="lazy"
                   class={`h-full w-full object-cover transition-all duration-500 hover:scale-110 ${
                     index === 0 ? "" : "opacity-70 hover:opacity-100"
@@ -142,21 +145,37 @@ const galleryImages = gallery.length > 0 ? gallery : [image];
             </div>
             <div class="mb-6 flex items-center gap-3">
               <span class="text-lg text-white">Price:</span>
-              <span
-                class="text-nexus-primary font-display text-3xl font-black drop-shadow-[0_0_8px_rgba(159,204,46,0.5)]"
-                >{formatPrice(price)}</span
-              >
+              <PriceDisplay
+                price={price}
+                discountPercent={discountPercent}
+                size="lg"
+              />
+              {
+                discountPercent && (
+                  <span class="bg-nexus-primary/20 border-nexus-primary text-nexus-primary rounded border px-2 py-0.5 text-xs font-bold">
+                    -{discountPercent}%
+                  </span>
+                )
+              }
             </div>
 
             <div class="flex flex-col gap-3">
               <button
                 id="btn-add-cart"
+                data-slug={game.id}
+                data-title={title}
+                data-price={String(unitPrice)}
+                data-image={image}
                 class="bg-nexus-primary text-nexus-background shadow-neon-lime w-full rounded-lg px-6 py-4 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <span>ADD TO CART</span>
               </button>
               <button
                 id="btn-wishlist"
+                data-slug={game.id}
+                data-title={title}
+                data-price={String(unitPrice)}
+                data-image={image}
                 class="border-nexus-accent text-nexus-accent hover:bg-nexus-accent hover:text-nexus-background block w-full rounded-lg border bg-transparent px-6 py-4 text-center text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(246,190,154,0.2)] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <span>WISHLIST</span>
@@ -340,7 +359,9 @@ const galleryImages = gallery.length > 0 ? gallery : [image];
 </Layout>
 
 <script>
-  // Galería dinámica y notificaciones toast
+  import { addToCart, toggleWishlist, isInWishlist } from "../../utils/store";
+
+  // Galería dinámica, notificaciones toast y acciones de compra
   // --- 1. Galería de imágenes ---
   const mainArtwork = document.getElementById(
     "main-artwork",
@@ -377,6 +398,7 @@ const galleryImages = gallery.length > 0 ? gallery : [image];
   }
 
   // --- 2. Toast Notification ---
+  // (las funciones del store se importan arriba)
   type ToastVariant = "primary" | "accent";
 
   const toast = document.getElementById("toast-notification");
@@ -398,13 +420,20 @@ const galleryImages = gallery.length > 0 ? gallery : [image];
     }, 3000);
   };
 
-  // Simula una acción de compra/guardado con un pequeño delay de carga
+  // --- 3. Carrito y wishlist reales (localStorage) ---
+  const itemFromButton = (button: HTMLButtonElement) => ({
+    slug: button.dataset.slug ?? "",
+    title: button.dataset.title ?? "",
+    price: Number(button.dataset.price ?? 0),
+    image: button.dataset.image ?? "",
+  });
+
+  // Pequeño delay simulado para dar feedback de "procesando"
   const bindAction = (
     buttonId: string,
     loadingText: string,
-    doneText: string | null,
     delay: number,
-    onDone: () => void,
+    onDone: (button: HTMLButtonElement) => void,
   ) => {
     const button = document.getElementById(
       buttonId,
@@ -419,28 +448,45 @@ const galleryImages = gallery.length > 0 ? gallery : [image];
       if (span) span.innerText = loadingText;
 
       setTimeout(() => {
-        onDone();
+        onDone(button);
         button.disabled = false;
-        if (span) span.innerText = doneText ?? originalText;
+        if (span && span.innerText === loadingText) {
+          span.innerText = originalText;
+        }
       }, delay);
     });
   };
 
-  const gameTitle = document.querySelector("h2")?.innerText ?? "Juego";
-
-  bindAction("btn-add-cart", "ADDING...", null, 800, () =>
+  bindAction("btn-add-cart", "ADDING...", 600, (button) => {
+    const item = itemFromButton(button);
+    addToCart(item);
     showToast(
-      `${gameTitle} añadido`,
-      "Revisa tu carrito para finalizar.",
+      `${item.title} added to cart`,
+      "Check your cart to checkout.",
       "primary",
-    ),
-  );
+    );
+  });
 
-  bindAction("btn-wishlist", "SAVING...", "SAVED ✓", 600, () =>
+  const wishlistButton = document.getElementById(
+    "btn-wishlist",
+  ) as HTMLButtonElement | null;
+
+  const syncWishlistLabel = () => {
+    const span = wishlistButton?.querySelector("span");
+    const slug = wishlistButton?.dataset.slug ?? "";
+    if (span) span.innerText = isInWishlist(slug) ? "SAVED ✓" : "WISHLIST";
+  };
+
+  syncWishlistLabel();
+
+  bindAction("btn-wishlist", "SAVING...", 400, (button) => {
+    const item = itemFromButton(button);
+    const saved = toggleWishlist(item);
     showToast(
-      "Guardado en wishlist",
-      "Te avisaremos cuando esté en oferta.",
+      saved ? "Saved to wishlist" : "Removed from wishlist",
+      saved ? "We'll notify you about deals." : `${item.title} was removed.`,
       "accent",
-    ),
-  );
+    );
+    syncWishlistLabel();
+  });
 </script>

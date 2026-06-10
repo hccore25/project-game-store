@@ -3,6 +3,7 @@
   "edition": "Standard Edition",
   "description": "Tend an enchanted forest garden where every plant is a tiny spirit with opinions. Part farming sim, part puzzle box, entirely too charming to put down.",
   "price": 24.99,
+  "discountPercent": 20,
   "genres": ["indie"],
   "platforms": ["PC"],
   "developer": "Mossbed Games",

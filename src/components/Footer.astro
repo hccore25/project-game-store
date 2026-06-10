@@ -1,24 +1,49 @@
 ---
+import Icon from "./Icon.astro";
+import type { IconName } from "../data/icons";
 
+const year = new Date().getFullYear();
+
+const linkGroups = [
+  {
+    title: "HELP",
+    titleClass: "text-nexus-primary",
+    links: ["FAQ", "Contact", "Support"],
+  },
+  {
+    title: "LEGAL",
+    titleClass: "text-nexus-primary",
+    links: ["Terms", "Privacy", "Cookies"],
+  },
+  {
+    title: "CONNECT",
+    titleClass: "text-nexus-accent",
+    links: ["Twitter", "Discord", "Instagram"],
+  },
+];
+
+const socials: { name: IconName; label: string }[] = [
+  { name: "twitter", label: "Twitter" },
+  { name: "discord", label: "Discord" },
+  { name: "instagram", label: "Instagram" },
+];
 ---
 
 <footer
-  class="border-nexus-surface relative mt-16 overflow-hidden border-t bg-[#0B0E14] pt-12 pb-6"
+  class="border-nexus-surface bg-nexus-background relative mt-16 overflow-hidden border-t pt-12 pb-6"
 >
-  <!-- Glow line separator over border -->
+  <!-- Línea de glow sobre el borde -->
   <div
-    class="via-nexus-cyan/40 absolute top-0 right-0 left-0 h-[1px] bg-gradient-to-r from-transparent to-transparent"
+    class="via-nexus-accent/40 absolute top-0 right-0 left-0 h-[1px] bg-gradient-to-r from-transparent to-transparent"
   >
   </div>
 
   <div class="container mx-auto px-4 lg:px-8">
-    <!-- Main Footer Content -->
     <div
       class="mb-10 flex flex-col items-start justify-between gap-12 md:flex-row md:items-center"
     >
-      <!-- Logo Section -->
+      <!-- Logo -->
       <div class="flex items-center gap-6">
-        <!-- Logo Nexus Games -->
         <a
           href="/"
           class="flex flex-col items-center justify-center gap-0.5 leading-none"
@@ -28,7 +53,7 @@
             >NEXUS</span
           >
           <span
-            class="text-nexus-purple text-[0.7rem] font-bold tracking-[0.4em] uppercase"
+            class="text-nexus-primary text-[0.7rem] font-bold tracking-[0.4em] uppercase"
             >GAMES</span
           >
         </a>
@@ -36,209 +61,65 @@
         <p
           class="text-nexus-muted border-nexus-surface/50 hidden border-l py-2 pl-6 text-[13px] sm:block"
         >
-          &copy; {new Date().getFullYear()} NEXUS GAMES. Explore limitless worlds.
+          &copy; {year} NEXUS GAMES. Explore limitless worlds.
         </p>
       </div>
 
       <p class="text-nexus-muted text-[13px] sm:hidden">
-        &copy; {new Date().getFullYear()} NEXUS GAMES. Explore limitless worlds.
+        &copy; {year} NEXUS GAMES. Explore limitless worlds.
       </p>
 
       <!-- Menu Links -->
       <div
         class="flex w-full flex-wrap justify-between gap-12 md:w-auto md:flex-nowrap lg:justify-end lg:gap-24"
       >
-        <!-- Help -->
-        <div>
-          <h3
-            class="text-nexus-purple mb-4 text-sm font-bold tracking-widest uppercase"
-          >
-            HELP
-          </h3>
-          <ul class="space-y-3 text-[15px]">
-            <li>
-              <a
-                href="#"
-                class="hover:text-nexus-cyan text-white transition-colors"
-                >FAQ</a
+        {
+          linkGroups.map((group) => (
+            <div class={group.title === "CONNECT" ? "hidden sm:block" : ""}>
+              <h3
+                class={`${group.titleClass} mb-4 text-sm font-bold tracking-widest uppercase`}
               >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="hover:text-nexus-cyan text-white transition-colors"
-                >Contact</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="hover:text-nexus-cyan text-white transition-colors"
-                >Support</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- Legal -->
-        <div>
-          <h3
-            class="text-nexus-purple mb-4 text-sm font-bold tracking-widest uppercase"
-          >
-            LEGAL
-          </h3>
-          <ul class="space-y-3 text-[15px]">
-            <li>
-              <a
-                href="#"
-                class="hover:text-nexus-cyan text-white transition-colors"
-                >Terms</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="hover:text-nexus-cyan text-white transition-colors"
-                >Privacy</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="hover:text-nexus-cyan border-nexus-surface border-b pb-0.5 text-white transition-colors"
-                >Cookies</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- Connect / Socials -->
-        <div class="flex items-start gap-12">
-          <div class="hidden sm:block">
-            <h3
-              class="text-nexus-cyan mb-4 text-sm font-bold tracking-widest uppercase"
-            >
-              CONNECT
-            </h3>
-            <ul class="space-y-3 text-[15px]">
-              <li>
-                <a
-                  href="#"
-                  class="hover:text-nexus-cyan border-nexus-surface border-b pb-0.5 text-white transition-colors"
-                  >Twitter</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="hover:text-nexus-cyan border-nexus-surface border-b pb-0.5 text-white transition-colors"
-                  >Discord</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="hover:text-nexus-cyan text-white transition-colors"
-                  >Instagram</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
+                {group.title}
+              </h3>
+              <ul class="space-y-3 text-[15px]">
+                {group.links.map((label) => (
+                  <li>
+                    <a
+                      href="#"
+                      class="hover:text-nexus-accent text-white transition-colors"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
       </div>
 
-      <!-- Icons & Scroll Top -->
+      <!-- Socials & Scroll Top -->
       <div
         class="mt-4 flex items-center gap-4 self-start md:mt-0 md:self-center"
       >
-        <a
-          href="#"
-          class="text-nexus-cyan p-1 transition-colors hover:text-white"
-          aria-label="Twitter"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-twitter"
-            ><path
-              d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
-            ></path></svg
-          >
-        </a>
-        <a
-          href="#"
-          class="text-nexus-cyan p-1 transition-colors hover:text-white"
-          aria-label="Discord"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            ><path
-              d="M14.82 2.41c5.92 1.35 9.18 5.76 9.18 5.76-1.84-3.14-5.18-4.32-5.18-4.32-6-2.16-11.53 1.25-11.53 1.25-1.57.94-2.82 2.37-3.69 4.14C.94 13.9.23 19.33 1.5 23.63c.53 1.83 2 3.86 4.3 4.11 0 0 1.21-1.37 2.18-2.61-2.9-.84-4-2.58-4-2.58 2.38 1.58 4.7 2.18 7.35 2.5 3 .37 6.13-.19 8.94-1.63.15-.08.3-.15.44-.24-.04.05-.09.11-.14.16-3.05 2.56-6.62 3.39-6.62 3.39 1.44 1.7 4.54 3.47 7.02 3.39 2.14-.07 3.52-1.92 3.98-3.52 1.58-5.32.74-11.23-2.15-16.14-.94-1.6-2.07-2.9-3.54-3.87-2.3-1.55-5.34-2.63-8.8-2.73 0 0-1.8.1-1.8.1z"
-            ></path><circle cx="8" cy="15" r="2"></circle><circle
-              cx="16"
-              cy="15"
-              r="2"></circle></svg
-          >
-        </a>
-        <a
-          href="#"
-          class="text-nexus-cyan p-1 transition-colors hover:text-white"
-          aria-label="Instagram"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-instagram"
-            ><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path
-              d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line
-              x1="17.5"
-              x2="17.51"
-              y1="6.5"
-              y2="6.5"></line></svg
-          >
-        </a>
+        {
+          socials.map((social) => (
+            <a
+              href="#"
+              class="text-nexus-accent p-1 transition-colors hover:text-white"
+              aria-label={social.label}
+            >
+              <Icon name={social.name} size={22} />
+            </a>
+          ))
+        }
 
         <button
           onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-          class="bg-nexus-purple hover:text-nexus-purple relative ml-4 flex items-center justify-center rounded-lg p-2 text-white shadow-[0_0_10px_rgba(124,58,237,0.5)] transition-all hover:bg-white"
+          class="bg-nexus-primary text-nexus-background hover:text-nexus-primary hover:bg-nexus-surface relative ml-4 flex items-center justify-center rounded-lg p-2 shadow-[0_0_10px_rgba(159,204,46,0.5)] transition-all"
           aria-label="Volver arriba"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-chevron-up"
-            ><path d="m18 15-6-6-6 6"></path></svg
-          >
-          <!-- Estrellita decorativa derecha -->
+          <Icon name="chevron-up" size={20} strokeWidth={2.5} />
           <span
             class="absolute top-1/2 -right-6 hidden -translate-y-1/2 transform text-2xl text-white/50 md:block"
             >✦</span

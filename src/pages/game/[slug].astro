@@ -1,32 +1,43 @@
 ---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import Toast from "../../components/Toast.astro";
+import { formatPrice } from "../../utils/format";
 
-export function getStaticPaths() {
-  return [{ params: { slug: "aetherbound-shattered-stars" } }];
+export async function getStaticPaths() {
+  const games = await getCollection("games");
+  return games.map((game) => ({
+    params: { slug: game.id },
+    props: { game },
+  }));
 }
 
-const { slug } = Astro.params;
+interface Props {
+  game: CollectionEntry<"games">;
+}
 
-const gameData = {
-  title: "AETHERBOUND: SHATTERED STARS",
-  price: "$49.99",
-  image:
-    "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1200&auto=format&fit=crop", // same char from hero
-  description:
-    "Embark on an epic journey across fragmented star systems. Master Aether abilities, pilot modular ships, and forge alliances to save the cosmos from absolute annihilation.",
-  tags: ["RPG", "ACTION", "SCI-FI", "OPEN WORLD", "SINGLE-PLAYER"],
-  developer: "Astra Studios",
-  releaseDate: "Nov 15, 2024",
-  platforms: ["PC", "Next-Gen Console"],
-  rating: "M for Mature",
-  systemReq: {
-    min: "100M",
-    rec: "25GB",
-  },
-};
+const { game } = Astro.props;
+const {
+  title,
+  description,
+  price,
+  image,
+  gallery,
+  genres,
+  developer,
+  releaseDate,
+  platforms,
+  rating,
+  systemReq,
+} = game.data;
+
+const [titleMain, titleSub] = title.split(": ");
+const galleryImages = gallery.length > 0 ? gallery : [image];
 ---
 
-<Layout title={gameData.title}>
+<Layout title={title} description={description}>
   <div class="container mx-auto px-4 py-8 lg:px-6">
     <!-- Breadcrumb / Back Navigation -->
     <div class="mb-8">
@@ -34,19 +45,7 @@ const gameData = {
         href="/"
         class="text-nexus-muted flex items-center gap-2 text-sm font-bold tracking-widest uppercase transition-colors hover:text-white"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-arrow-left"
-          ><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg
-        >
+        <Icon name="arrow-left" size={16} />
         BACK TO STORE
       </a>
     </div>
@@ -55,7 +54,7 @@ const gameData = {
     <div
       class="relative grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12"
     >
-      <!-- LEFT COLUMN: Artwork (Sticky to stay visible on scroll if right side is long) -->
+      <!-- LEFT COLUMN: Artwork -->
       <div class="lg:sticky lg:top-28 lg:col-span-5">
         <!-- Main Artwork Card -->
         <div
@@ -63,8 +62,8 @@ const gameData = {
         >
           <img
             id="main-artwork"
-            src={gameData.image}
-            alt={gameData.title}
+            src={image}
+            alt={title}
             class="h-full w-full object-cover transition-opacity duration-300"
           />
           <div
@@ -77,49 +76,46 @@ const gameData = {
             <h1
               class="font-display mb-2 text-3xl leading-[1.1] font-black tracking-tight text-white drop-shadow-md md:text-4xl lg:text-5xl"
             >
-              {gameData.title.split(": ")[0]}<br />
-              <span
-                class="font-sans text-2xl font-bold tracking-normal opacity-90 md:text-3xl"
-                >{gameData.title.split(": ")[1]}</span
-              >
+              {titleMain}
+              {
+                titleSub && (
+                  <>
+                    <br />
+                    <span class="font-sans text-2xl font-bold tracking-normal opacity-90 md:text-3xl">
+                      {titleSub}
+                    </span>
+                  </>
+                )
+              }
             </h1>
           </div>
         </div>
 
-        <!-- Screenshots Thumbnails (Below main artwork) -->
+        <!-- Screenshots Thumbnails -->
         <div class="mt-4 grid grid-cols-4 gap-3">
-          <div
-            class="border-nexus-cyan aspect-video overflow-hidden rounded-lg border shadow-[0_0_10px_rgba(6,182,212,0.5)] thumbnail-container"
-          >
-            <img
-              src={gameData.image}
-              class="h-full w-full cursor-pointer object-cover transition-transform duration-500 hover:scale-110 gallery-thumb"
-            />
-          </div>
-          <div
-            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors thumbnail-container"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover opacity-70 transition-all duration-500 hover:scale-110 hover:opacity-100 gallery-thumb"
-            />
-          </div>
-          <div
-            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors thumbnail-container"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover opacity-70 transition-all duration-500 hover:scale-110 hover:opacity-100 gallery-thumb"
-            />
-          </div>
-          <div
-            class="border-nexus-surface hover:border-nexus-cyan aspect-video overflow-hidden rounded-lg border transition-colors thumbnail-container"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop"
-              class="h-full w-full cursor-pointer object-cover opacity-70 transition-all duration-500 hover:scale-110 hover:opacity-100 gallery-thumb"
-            />
-          </div>
+          {
+            galleryImages.map((src, index) => (
+              <button
+                type="button"
+                class={`gallery-thumb-btn aspect-video cursor-pointer overflow-hidden rounded-lg border transition-colors ${
+                  index === 0
+                    ? "border-nexus-accent shadow-neon-peach"
+                    : "border-nexus-surface hover:border-nexus-accent"
+                }`}
+                data-src={src.replace("&w=400", "&w=1200")}
+                aria-label={`Ver imagen ${index + 1} de ${title}`}
+              >
+                <img
+                  src={src}
+                  alt={`${title} - captura ${index + 1}`}
+                  loading="lazy"
+                  class={`h-full w-full object-cover transition-all duration-500 hover:scale-110 ${
+                    index === 0 ? "" : "opacity-70 hover:opacity-100"
+                  }`}
+                />
+              </button>
+            ))
+          }
         </div>
       </div>
 
@@ -132,7 +128,7 @@ const gameData = {
           <h2
             class="font-display text-4xl leading-tight font-black text-white lg:max-w-md lg:text-5xl"
           >
-            {gameData.title}
+            {title}
           </h2>
 
           <!-- Purchase Card -->
@@ -147,21 +143,21 @@ const gameData = {
             <div class="mb-6 flex items-center gap-3">
               <span class="text-lg text-white">Price:</span>
               <span
-                class="text-nexus-green font-display text-3xl font-black drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]"
-                >{gameData.price}</span
+                class="text-nexus-primary font-display text-3xl font-black drop-shadow-[0_0_8px_rgba(159,204,46,0.5)]"
+                >{formatPrice(price)}</span
               >
             </div>
 
             <div class="flex flex-col gap-3">
               <button
                 id="btn-add-cart"
-                class="bg-nexus-purple hover:text-nexus-purple shadow-neon-purple w-full rounded-lg px-6 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all duration-300 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-nexus-primary text-nexus-background shadow-neon-lime w-full rounded-lg px-6 py-4 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <span>ADD TO CART</span>
               </button>
               <button
                 id="btn-wishlist"
-                class="border-nexus-cyan text-nexus-cyan hover:bg-nexus-cyan hover:text-nexus-background block w-full rounded-lg border bg-transparent px-6 py-4 text-center text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="border-nexus-accent text-nexus-accent hover:bg-nexus-accent hover:text-nexus-background block w-full rounded-lg border bg-transparent px-6 py-4 text-center text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(246,190,154,0.2)] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <span>WISHLIST</span>
               </button>
@@ -184,12 +180,12 @@ const gameData = {
                 1. DESCRIPTION
               </h4>
               <span
-                class="bg-nexus-cyan/20 border-nexus-cyan text-nexus-cyan rounded border px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase shadow-[0_0_5px_rgba(6,182,212,0.3)]"
+                class="bg-nexus-accent/20 border-nexus-accent text-nexus-accent rounded border px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase shadow-[0_0_5px_rgba(246,190,154,0.3)]"
                 >LIMITED</span
               >
             </div>
             <p class="text-nexus-muted text-[15px] leading-relaxed">
-              {gameData.description}
+              {description}
             </p>
           </div>
 
@@ -200,17 +196,17 @@ const gameData = {
             </h4>
             <div class="flex flex-wrap gap-2">
               {
-                gameData.tags.map((tag, index) => (
+                genres.map((tag, index) => (
                   <span
                     class={`rounded-full border px-4 py-1.5 text-xs font-bold tracking-wider uppercase ${
                       index === 0
-                        ? "bg-nexus-cyan/20 border-nexus-cyan text-nexus-cyan shadow-[0_0_8px_rgba(6,182,212,0.3)]"
+                        ? "bg-nexus-accent/20 border-nexus-accent text-nexus-accent shadow-[0_0_8px_rgba(246,190,154,0.3)]"
                         : index === 1
-                          ? "bg-nexus-purple border-nexus-purple shadow-neon-purple text-white"
+                          ? "bg-nexus-teal border-nexus-teal shadow-neon-teal text-white"
                           : "border-nexus-surface text-nexus-muted bg-transparent transition-colors hover:border-white hover:text-white"
                     }`}
                   >
-                    {tag}
+                    {tag.replace("-", " ")}
                   </span>
                 ))
               }
@@ -223,54 +219,27 @@ const gameData = {
               3. DETAILS
             </h4>
             <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-              <div
-                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
-              >
-                <span
-                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
-                  >DEVELOPER:</span
-                >
-                <span class="text-sm font-medium text-white"
-                  >{gameData.developer}</span
-                >
-              </div>
-              <div
-                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
-              >
-                <span
-                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
-                  >RELEASE DATE:</span
-                >
-                <span class="text-sm font-medium text-white"
-                  >{gameData.releaseDate}</span
-                >
-              </div>
-              <div
-                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
-              >
-                <span
-                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
-                  >PLATFORMS:</span
-                >
-                <span class="text-sm font-medium text-white"
-                  >{gameData.platforms.join(", ")}</span
-                >
-              </div>
-              <div
-                class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4"
-              >
-                <span
-                  class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest"
-                  >RATING:</span
-                >
-                <span class="text-sm font-medium text-white"
-                  >{gameData.rating}</span
-                >
-              </div>
+              {
+                [
+                  { label: "DEVELOPER:", value: developer },
+                  { label: "RELEASE DATE:", value: releaseDate },
+                  { label: "PLATFORMS:", value: platforms.join(", ") },
+                  { label: "RATING:", value: rating },
+                ].map((detail) => (
+                  <div class="bg-nexus-surface/30 border-nexus-surface rounded-xl border p-4">
+                    <span class="text-nexus-muted mb-1 block text-[10px] font-bold tracking-widest">
+                      {detail.label}
+                    </span>
+                    <span class="text-sm font-medium text-white">
+                      {detail.value}
+                    </span>
+                  </div>
+                ))
+              }
             </div>
           </div>
 
-          <!-- Extra details (System Req, Achievements, Reviews) mirroring image 3 bottom -->
+          <!-- System Req, Achievements, Reviews -->
           <div
             class="border-nexus-surface grid grid-cols-1 gap-6 border-t pt-4 md:grid-cols-3"
           >
@@ -282,18 +251,7 @@ const gameData = {
                 >
                   SYSTEM REQUIREMENTS (PC)
                 </h4>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-nexus-muted"><path d="m6 9 6 6 6-6"></path></svg
-                >
+                <Icon name="chevron-down" size={16} class="text-nexus-muted" />
               </div>
               <div class="flex gap-8">
                 <div>
@@ -302,7 +260,7 @@ const gameData = {
                     >MINIMUM</span
                   >
                   <span class="mb-1 block text-lg font-bold text-white"
-                    >{gameData.systemReq.min}</span
+                    >{systemReq.min}</span
                   >
                   <span class="text-nexus-muted text-xs">Required Space</span>
                 </div>
@@ -312,7 +270,7 @@ const gameData = {
                     >RECOMMENDED</span
                   >
                   <span class="mb-1 block text-lg font-bold text-white"
-                    >{gameData.systemReq.rec}</span
+                    >{systemReq.rec}</span
                   >
                   <span class="text-nexus-muted text-xs">Required Space</span>
                 </div>
@@ -328,29 +286,15 @@ const gameData = {
                   ACHIEVEMENTS
                 </h4>
                 <div
-                  class="border-nexus-cyan/40 bg-nexus-cyan/5 hover:shadow-neon-cyan flex flex-grow cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border p-4 transition-shadow"
+                  class="border-nexus-accent/40 bg-nexus-accent/5 hover:shadow-neon-peach flex flex-grow cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border p-4 transition-shadow"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="text-nexus-cyan drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"
-                    ><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path
-                      d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path
-                      d="M4 22h16"></path><path
-                      d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"
-                    ></path><path
-                      d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"
-                    ></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg
-                  >
-                  <span class="text-nexus-cyan text-xs font-bold"
-                    >Glow cian</span
+                  <Icon
+                    name="trophy"
+                    size={28}
+                    class="text-nexus-accent drop-shadow-[0_0_5px_rgba(246,190,154,0.8)]"
+                  />
+                  <span class="text-nexus-accent text-xs font-bold"
+                    >52 / 60</span
                   >
                 </div>
               </div>
@@ -361,69 +305,27 @@ const gameData = {
                   REVIEWS
                 </h4>
                 <div
-                  class="border-nexus-surface bg-nexus-surface/20 group hover:border-nexus-cyan relative flex flex-grow cursor-pointer items-center justify-center overflow-hidden rounded-xl border p-4 transition-colors"
+                  class="border-nexus-surface bg-nexus-surface/20 group hover:border-nexus-accent relative flex flex-grow cursor-pointer items-center justify-center overflow-hidden rounded-xl border p-4 transition-colors"
                 >
                   <div
-                    class="from-nexus-cyan/20 absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t to-transparent"
+                    class="from-nexus-accent/20 absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t to-transparent"
                   >
                   </div>
-                  <div class="text-nexus-cyan relative z-10 flex gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      stroke="none"
-                      ><polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon></svg
-                    >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      stroke="none"
-                      ><polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon></svg
-                    >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      stroke="none"
-                      ><polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon></svg
-                    >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      stroke="none"
-                      ><polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon></svg
-                    >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      stroke="none"
-                      class="opacity-50"
-                      ><polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon></svg
-                    >
+                  <div
+                    class="text-nexus-accent relative z-10 flex gap-1"
+                    role="img"
+                    aria-label="4 de 5 estrellas"
+                  >
+                    {
+                      [1, 2, 3, 4, 5].map((star) => (
+                        <Icon
+                          name="star"
+                          size={16}
+                          filled
+                          class={star === 5 ? "opacity-50" : ""}
+                        />
+                      ))
+                    }
                   </div>
                 </div>
               </div>
@@ -434,129 +336,111 @@ const gameData = {
     </div>
   </div>
 
-  <!-- Toast Notification Container (Hidden by default) -->
-  <div
-    id="toast-notification"
-    class="bg-nexus-surface border-nexus-purple shadow-neon-purple fixed bottom-8 right-8 z-50 flex translate-y-20 items-center gap-3 rounded-lg border p-4 opacity-0 transition-all duration-500"
-  >
-    <div class="bg-nexus-purple/20 text-nexus-purple rounded-full p-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-    </div>
-    <div>
-      <h4 class="text-sm font-bold text-white" id="toast-title">Success</h4>
-      <p class="text-nexus-muted text-xs" id="toast-message">Item added to cart.</p>
-    </div>
-  </div>
+  <Toast />
 </Layout>
 
 <script>
-  // Script para manejar la Galería Dinámica y el Toast Notification
-  document.addEventListener("DOMContentLoaded", () => {
-    // --- 1. Lógica de Galería de Imágenes ---
-    const mainArtwork = document.getElementById("main-artwork") as HTMLImageElement;
-    const thumbnails = document.querySelectorAll(".gallery-thumb");
-    const thumbnailContainers = document.querySelectorAll(".thumbnail-container");
+  // Galería dinámica y notificaciones toast
+  // --- 1. Galería de imágenes ---
+  const mainArtwork = document.getElementById(
+    "main-artwork",
+  ) as HTMLImageElement | null;
+  const thumbButtons =
+    document.querySelectorAll<HTMLButtonElement>(".gallery-thumb-btn");
 
-    if (mainArtwork && thumbnails.length > 0) {
-      thumbnails.forEach((thumb, index) => {
-        thumb.addEventListener("click", () => {
-          mainArtwork.style.opacity = "0";
-          
-          setTimeout(() => {
-            const thumbImg = thumb as HTMLImageElement;
-            mainArtwork.src = thumbImg.src.replace("&w=400", "&w=1200"); 
-            mainArtwork.style.opacity = "1";
-          }, 150);
+  // Clases de estado de las miniaturas (strings completos para Tailwind)
+  const ACTIVE_BTN = ["border-nexus-accent", "shadow-neon-peach"];
+  const INACTIVE_BTN = ["border-nexus-surface"];
 
-          thumbnailContainers.forEach((container, i) => {
-            const img = container.querySelector("img");
-            if (i === index) {
-              container.classList.add("border-nexus-cyan", "shadow-[0_0_10px_rgba(6,182,212,0.5)]");
-              container.classList.remove("border-nexus-surface");
-              if (img) img.classList.remove("opacity-70");
-            } else {
-              container.classList.remove("border-nexus-cyan", "shadow-[0_0_10px_rgba(6,182,212,0.5)]");
-              container.classList.add("border-nexus-surface");
-              if (img) img.classList.add("opacity-70");
-            }
-          });
+  if (mainArtwork && thumbButtons.length > 0) {
+    thumbButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const newSrc = button.dataset.src;
+        if (!newSrc) return;
+
+        mainArtwork.style.opacity = "0";
+        setTimeout(() => {
+          mainArtwork.src = newSrc;
+          mainArtwork.style.opacity = "1";
+        }, 150);
+
+        thumbButtons.forEach((other) => {
+          const img = other.querySelector("img");
+          const isActive = other === button;
+          other.classList.toggle(ACTIVE_BTN[0], isActive);
+          other.classList.toggle(ACTIVE_BTN[1], isActive);
+          other.classList.toggle(INACTIVE_BTN[0], !isActive);
+          img?.classList.toggle("opacity-70", !isActive);
         });
       });
-    }
+    });
+  }
 
-    // --- 2. Lógica de Toast Notification ---
-    const btnCart = document.getElementById("btn-add-cart") as HTMLButtonElement;
-    const btnWishlist = document.getElementById("btn-wishlist") as HTMLButtonElement;
-    const toast = document.getElementById("toast-notification");
-    const toastTitle = document.getElementById("toast-title");
-    const toastMessage = document.getElementById("toast-message");
-    
-    // Función para mostrar el Toast
-    const showToast = (title: string, message: string, colorClass: string) => {
-      if (!toast || !toastTitle || !toastMessage) return;
-      
-      toastTitle.innerText = title;
-      toastMessage.innerText = message;
-      
-      // Actualizar clases de color según la acción (purple = cart, cyan = wishlist)
-      toast.className = `fixed bottom-8 right-8 z-50 flex items-center gap-3 rounded-lg border p-4 transition-all duration-500 bg-nexus-surface transform translate-y-0 opacity-100 border-${colorClass} shadow-neon-${colorClass}`;
-      
-      const iconContainer = toast.querySelector('div');
-      if (iconContainer) {
-        iconContainer.className = `rounded-full p-2 bg-${colorClass}/20 text-${colorClass}`;
-      }
+  // --- 2. Toast Notification ---
+  type ToastVariant = "primary" | "accent";
 
-      // Ocultar después de 3 segundos
+  const toast = document.getElementById("toast-notification");
+  const toastTitle = document.getElementById("toast-title");
+  const toastMessage = document.getElementById("toast-message");
+  let hideTimeout: ReturnType<typeof setTimeout> | undefined;
+
+  const showToast = (title: string, message: string, variant: ToastVariant) => {
+    if (!toast || !toastTitle || !toastMessage) return;
+
+    toastTitle.innerText = title;
+    toastMessage.innerText = message;
+    toast.dataset.variant = variant;
+    toast.classList.remove("translate-y-20", "opacity-0");
+
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+      toast.classList.add("translate-y-20", "opacity-0");
+    }, 3000);
+  };
+
+  // Simula una acción de compra/guardado con un pequeño delay de carga
+  const bindAction = (
+    buttonId: string,
+    loadingText: string,
+    doneText: string | null,
+    delay: number,
+    onDone: () => void,
+  ) => {
+    const button = document.getElementById(
+      buttonId,
+    ) as HTMLButtonElement | null;
+    if (!button) return;
+
+    button.addEventListener("click", () => {
+      const span = button.querySelector("span");
+      const originalText = span?.innerText ?? "";
+
+      button.disabled = true;
+      if (span) span.innerText = loadingText;
+
       setTimeout(() => {
-        toast.classList.remove("translate-y-0", "opacity-100");
-        toast.classList.add("translate-y-20", "opacity-0");
-      }, 3000);
-    };
+        onDone();
+        button.disabled = false;
+        if (span) span.innerText = doneText ?? originalText;
+      }, delay);
+    });
+  };
 
-    // Evento para Añadir al Carrito
-    if (btnCart) {
-      btnCart.addEventListener("click", () => {
-        const span = btnCart.querySelector("span");
-        const originalText = span ? span.innerText : "ADD TO CART";
-        
-        btnCart.disabled = true;
-        if (span) span.innerText = "ADDING...";
+  const gameTitle = document.querySelector("h2")?.innerText ?? "Juego";
 
-        setTimeout(() => {
-          showToast("Aetherbound Added", "Check your cart to checkout.", "nexus-purple");
-          btnCart.disabled = false;
-          if (span) span.innerText = originalText;
-        }, 800); // Simulamos una pequeña carga
-      });
-    }
+  bindAction("btn-add-cart", "ADDING...", null, 800, () =>
+    showToast(
+      `${gameTitle} añadido`,
+      "Revisa tu carrito para finalizar.",
+      "primary",
+    ),
+  );
 
-    // Evento para Wishlist
-    if (btnWishlist) {
-      btnWishlist.addEventListener("click", () => {
-        const span = btnWishlist.querySelector("span");
-        const originalText = span ? span.innerText : "WISHLIST";
-        
-        btnWishlist.disabled = true;
-        if (span) span.innerText = "SAVING...";
-
-        setTimeout(() => {
-          showToast("Saved to Wishlist", "We'll notify you on sales.", "nexus-cyan");
-          btnWishlist.disabled = false;
-          if (span) span.innerText = "SAVED ✓";
-        }, 600);
-      });
-    }
-  });
+  bindAction("btn-wishlist", "SAVING...", "SAVED ✓", 600, () =>
+    showToast(
+      "Guardado en wishlist",
+      "Te avisaremos cuando esté en oferta.",
+      "accent",
+    ),
+  );
 </script>

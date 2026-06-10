@@ -1,0 +1,21 @@
+{
+  "title": "Aetherbound: Shattered Stars",
+  "edition": "Enhanced Edition",
+  "description": "Embark on an epic journey across fragmented star systems. Master Aether abilities, pilot modular ships, and forge alliances to save the cosmos from absolute annihilation.",
+  "price": 49.99,
+  "tag": "bestseller",
+  "isNew": true,
+  "genres": ["rpg", "action-adv"],
+  "platforms": ["PC", "PS"],
+  "developer": "Astra Studios",
+  "releaseDate": "Nov 15, 2024",
+  "rating": "M for Mature",
+  "systemReq": { "min": "100 GB", "rec": "125 GB" },
+  "image": "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=1200&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1610056494052-6a4f814e4125?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1622285802778-cf560de649a3?q=80&w=400&auto=format&fit=crop"
+  ]
+}

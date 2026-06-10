@@ -1,0 +1,19 @@
+{
+  "title": "Void Protocol",
+  "edition": "Standard Edition",
+  "description": "A tactical extraction shooter set aboard derelict orbital stations. Every run is procedural, every shot is loud, and the void is always listening.",
+  "price": 39.99,
+  "tag": "bestseller",
+  "isNew": false,
+  "genres": ["action-adv"],
+  "platforms": ["PC", "PS"],
+  "developer": "Blacksite Collective",
+  "releaseDate": "Jun 09, 2024",
+  "rating": "M for Mature",
+  "systemReq": { "min": "55 GB", "rec": "75 GB" },
+  "image": "https://images.unsplash.com/photo-1622285802778-cf560de649a3?q=80&w=800&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1622285802778-cf560de649a3?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1610056494052-6a4f814e4125?q=80&w=400&auto=format&fit=crop"
+  ]
+}

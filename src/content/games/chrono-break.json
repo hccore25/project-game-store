@@ -1,0 +1,23 @@
+{
+  "title": "Chrono-Break",
+  "edition": "Collector's Edition",
+  "description": "Time is fracturing and every decision splinters reality. Wield the Chrono Gauntlet to rewind battles, freeze enemies mid-strike and explore alternate timelines of a city on the edge of collapse. A new era of adventure begins.",
+  "price": 69.99,
+  "tag": "new",
+  "isNew": true,
+  "featured": true,
+  "preorder": true,
+  "genres": ["action-adv", "rpg"],
+  "platforms": ["PC", "PS"],
+  "developer": "Nexus Interactive",
+  "releaseDate": "Dec 05, 2026",
+  "rating": "T for Teen",
+  "systemReq": { "min": "60 GB", "rec": "80 GB" },
+  "image": "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1200&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop"
+  ]
+}

@@ -1,23 +1,63 @@
 @import "tailwindcss";
 
-/* Al usar Tailwind v4, incluimos el config con theme si es necesario.
-   Ya que tu tailwind.config.mjs define el theme v3, en v4 podemos o no necesitar 
-   una directiva @config pero vite usa tailwind postcss de todos modos en compat mode. */
-@config "../../tailwind.config.mjs";
+/*
+  Design tokens (Tailwind v4 CSS-first).
+  Paleta base: Ink Black #0c1618 · Pine Teal #004643 · Peach Glow #f6be9a
+               Lavender Mist #ece5f0 · Yellow Green #9fcc2e
+  Los nombres son semánticos: para cambiar la paleta solo se tocan estos valores.
+*/
+@theme {
+  /* Colores */
+  --color-nexus-background: #0c1618; /* Ink Black — fondo principal */
+  --color-nexus-surface: #11302d; /* Derivado ink+pine — tarjetas, bordes, menús */
+  --color-nexus-teal: #004643; /* Pine Teal — badges, acentos secundarios */
+  --color-nexus-primary: #9fcc2e; /* Yellow Green — CTAs, precios, estados activos */
+  --color-nexus-accent: #f6be9a; /* Peach Glow — tags, links, highlights */
+  --color-nexus-text: #ece5f0; /* Lavender Mist — titulares y texto principal */
+  --color-nexus-muted: #94a8a5; /* Derivado — texto secundario */
+
+  /* Tipografía */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  /* Glow neón */
+  --shadow-neon-lime:
+    0 0 15px rgb(159 204 46 / 0.4), 0 0 5px rgb(159 204 46 / 0.2);
+  --shadow-neon-peach:
+    0 0 15px rgb(246 190 154 / 0.4), 0 0 5px rgb(246 190 154 / 0.2);
+  --shadow-neon-teal: 0 0 18px rgb(0 70 67 / 0.8), 0 0 6px rgb(0 70 67 / 0.5);
+  --shadow-glass: 0 8px 32px 0 rgb(0 0 0 / 0.37);
+}
+
+/* Container centrado con ancho máximo fijo (reemplaza theme.container de v3) */
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 1280px;
+}
 
 @layer base {
   body {
     @apply bg-nexus-background text-nexus-text;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
 }
 
-/* Customized Splide Pagination para el tema Nexus */
+/* Paginación de Splide adaptada al tema Nexus */
 .splide__pagination {
   bottom: -2rem !important;
 }
 
 .splide__pagination__page {
-  background: theme("colors.nexus.muted") !important;
+  background: var(--color-nexus-muted) !important;
   opacity: 0.3;
   width: 40px !important;
   height: 4px !important;
@@ -28,14 +68,12 @@
 }
 
 .splide__pagination__page.is-active {
-  background: theme("colors.nexus.purple") !important;
+  background: var(--color-nexus-primary) !important;
   width: 60px !important;
   opacity: 0.8 !important;
-  box-shadow: 0 0 8px theme("colors.nexus.purple") !important;
+  box-shadow: 0 0 8px var(--color-nexus-primary) !important;
 }
 
 .splide__pagination__page:hover {
   opacity: 0.6;
 }
-
-

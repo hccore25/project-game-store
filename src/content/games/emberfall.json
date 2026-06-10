@@ -1,0 +1,19 @@
+{
+  "title": "Emberfall",
+  "edition": "Deluxe Edition",
+  "description": "The last cities burn beneath a dying sun. Lead a caravan of survivors through ember storms, forge pacts with fire spirits and decide who gets to see the dawn.",
+  "price": 54.99,
+  "tag": "new",
+  "isNew": false,
+  "genres": ["rpg", "strategy"],
+  "platforms": ["PC", "PS"],
+  "developer": "Ashlight Forge",
+  "releaseDate": "Oct 31, 2025",
+  "rating": "M for Mature",
+  "systemReq": { "min": "40 GB", "rec": "65 GB" },
+  "image": "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=800&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop"
+  ]
+}

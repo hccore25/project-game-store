@@ -1,0 +1,18 @@
+{
+  "title": "Iron Vanguard",
+  "edition": "Field Ops Edition",
+  "description": "Pilot customizable mechs in squad-based assaults on fortified colonies. Heavy metal, heavier consequences: armor you lose stays lost between missions.",
+  "price": 49.99,
+  "tag": "bestseller",
+  "genres": ["action-adv", "strategy"],
+  "platforms": ["PC", "PS"],
+  "developer": "Bastion Heavy Industries",
+  "releaseDate": "Sep 13, 2024",
+  "rating": "T for Teen",
+  "systemReq": { "min": "50 GB", "rec": "70 GB" },
+  "image": "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=800&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=400&auto=format&fit=crop"
+  ]
+}

@@ -1,0 +1,18 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  platforms: ("PC" | "PS")[];
+}
+
+const { platforms } = Astro.props;
+---
+
+<div class="text-nexus-muted flex items-center gap-2">
+  {
+    platforms.includes("PC") && (
+      <span class="px-1 text-xs leading-none font-bold">PC</span>
+    )
+  }
+  {platforms.includes("PS") && <Icon name="playstation" size={16} filled />}
+</div>

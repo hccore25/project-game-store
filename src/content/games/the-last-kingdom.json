@@ -1,0 +1,20 @@
+{
+  "title": "The Last Kingdom",
+  "edition": "Royal Edition",
+  "description": "Command the final free realm against an empire of ash. Deep grand-strategy layers, dynastic intrigue and real-time siege battles decide the fate of your bloodline.",
+  "price": 59.99,
+  "tag": "bestseller",
+  "isNew": true,
+  "genres": ["strategy"],
+  "platforms": ["PC", "PS"],
+  "developer": "Ironcrown Games",
+  "releaseDate": "Aug 02, 2024",
+  "rating": "M for Mature",
+  "systemReq": { "min": "30 GB", "rec": "50 GB" },
+  "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=400&auto=format&fit=crop"
+  ]
+}

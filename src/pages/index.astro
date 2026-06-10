@@ -1,156 +1,59 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import GameCard from "../components/GameCard.astro";
+import GameSliderCard from "../components/GameSliderCard.astro";
+import GenreCard from "../components/GenreCard.astro";
+import { genres } from "../data/genres";
 
-const games = [
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "NEW RELEASE",
-    tagColor: "bg-nexus-purple shadow-neon-purple",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "NEW RELEASE",
-    tagColor: "bg-nexus-purple shadow-neon-purple",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "The Last Kingdom",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "BESTSELLER",
-    tagColor: "bg-nexus-cyan shadow-[0_0_10px_rgba(6,182,212,0.8)] text-black",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "The Last Kingdom",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1580234811497-9df7fd2f357e?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "BESTSELLER",
-    tagColor: "bg-nexus-cyan shadow-[0_0_10px_rgba(6,182,212,0.8)] text-black",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1622285802778-cf560de649a3?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "NEW RELEASE",
-    tagColor: "bg-nexus-purple shadow-neon-purple",
-    platforms: ["PC"],
-  },
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "BESTSELLER",
-    tagColor: "bg-nexus-cyan shadow-[0_0_10px_rgba(6,182,212,0.8)] text-black",
-    platforms: ["PS"],
-  },
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "NEW RELEASE",
-    tagColor: "bg-nexus-purple shadow-neon-purple",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1610056494052-6a4f814e4125?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "BESTSELLER",
-    tagColor: "bg-nexus-cyan shadow-[0_0_10px_rgba(6,182,212,0.8)] text-black",
-    platforms: ["PC"],
-  },
-];
+const allGames = await getCollection("games");
 
-const newGames = [
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1614729939124-032f0b5609ce?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "NEW RELEASE",
-    tagColor: "bg-nexus-purple shadow-neon-purple",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "Stellar Odyssey",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "NEW RELEASE",
-    tagColor: "bg-nexus-purple shadow-neon-purple",
-    platforms: ["PC", "PS"],
-  },
-  {
-    title: "The Last Kingdom",
-    edition: "Enhanced Edition",
-    image:
-      "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
-    price: "$59.99",
-    tag: "BESTSELLER",
-    tagColor: "bg-nexus-cyan shadow-[0_0_10px_rgba(6,182,212,0.8)] text-black",
-    platforms: ["PC", "PS"],
-  },
-];
-
-const genres = [
-  { name: "RPG", icon: "shield" },
-  { name: "ACTION-ADV", icon: "swords" },
-  { name: "STRATEGY", icon: "users" },
-  { name: "INDIE", icon: "gamepad-2" },
-];
+const featuredGame = allGames.find((game) => game.data.featured) ?? allGames[0];
+const newGames = allGames.filter((game) => game.data.isNew);
+const catalog = [...allGames].sort((a, b) =>
+  a.data.title.localeCompare(b.data.title),
+);
 ---
 
 <Layout title="Explore Limitless Worlds">
-  <!-- Outer Container for Page Content -->
   <div class="container mx-auto px-4">
-    <!-- Hero Section/Banner -->
-    <section class="bg-nexus-surface border-nexus-surface/80 relative mb-16 flex h-[500px] flex-col items-stretch overflow-hidden rounded-[2rem] border shadow-lg md:flex-row">
+    <!-- Hero Section -->
+    <section
+      class="bg-nexus-surface border-nexus-surface/80 relative mb-16 flex h-[500px] flex-col items-stretch overflow-hidden rounded-[2rem] border shadow-lg md:flex-row"
+    >
       <!-- Hero Content (Left) -->
-      <div class="from-nexus-background via-nexus-background/95 relative z-10 flex flex-1 flex-col justify-center bg-gradient-to-r to-transparent p-10 md:p-16">
-        <h1 class="font-display mb-4 text-4xl leading-[1.1] font-black tracking-tight text-white md:text-5xl lg:text-6xl">
-          A NEW <br>ERA OF ADVENTURE BEGINS.
+      <div
+        class="from-nexus-background via-nexus-background/95 relative z-10 flex flex-1 flex-col justify-center bg-gradient-to-r to-transparent p-10 md:p-16"
+      >
+        <h1
+          class="font-display mb-4 text-4xl leading-[1.1] font-black tracking-tight text-white md:text-5xl lg:text-6xl"
+        >
+          A NEW <br />ERA OF ADVENTURE BEGINS.
         </h1>
-        <p class="text-nexus-muted mb-10 max-w-md text-lg font-medium md:text-xl">
-          Explore limitless worlds. Pre-order Chrono-Break today.
+        <p
+          class="text-nexus-muted mb-10 max-w-md text-lg font-medium md:text-xl"
+        >
+          Explore limitless worlds. {
+            featuredGame.data.preorder ? "Pre-order" : "Play"
+          }
+          {featuredGame.data.title} today.
         </p>
         <div>
-          <a href="/game/chrono-break" class="bg-nexus-purple hover:text-nexus-purple hover:shadow-neon-purple shadow-neon-purple inline-block rounded-lg px-8 py-3.5 text-center text-sm font-bold tracking-widest text-white uppercase transition-all duration-500 hover:scale-102 hover:bg-white active:scale-95 cursor-pointer">
-            PRE-ORDER NOW
+          <a
+            href={`/game/${featuredGame.id}`}
+            class="bg-nexus-primary text-nexus-background hover:text-nexus-primary hover:shadow-neon-lime shadow-neon-lime inline-block cursor-pointer rounded-lg px-8 py-3.5 text-center text-sm font-bold tracking-widest uppercase transition-all duration-500 hover:scale-102 hover:bg-white active:scale-95"
+          >
+            {featuredGame.data.preorder ? "PRE-ORDER NOW" : "BUY NOW"}
           </a>
         </div>
       </div>
 
       <!-- Hero Image (Right) -->
       <div class="absolute inset-0 h-full md:relative md:inset-auto md:w-3/5">
-        <!-- Using an illustration/game character placeholder -->
         <img
-          src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1200&auto=format&fit=crop"
-          alt="Chrono-Break Character"
+          src={featuredGame.data.image}
+          alt={featuredGame.data.title}
           class="h-full w-full object-cover object-right-top"
         />
         <div
@@ -161,166 +64,43 @@ const genres = [
           class="from-nexus-background via-nexus-background/50 absolute inset-0 hidden bg-gradient-to-r to-transparent md:block"
         >
         </div>
-        <!-- Some glow overlay -->
-        <div class="bg-nexus-purple/10 absolute inset-0 mix-blend-color-dodge">
+        <!-- Glow overlay -->
+        <div class="bg-nexus-teal/20 absolute inset-0 mix-blend-color-dodge">
         </div>
       </div>
     </section>
 
     <!-- EXPLORE BY GENRE -->
-    <section class="mb-16">
+    <section class="mb-16" id="genres">
       <h2
         class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
       >
         EXPLORE BY GENRE
       </h2>
       <div class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
-        {/* Shield RPG */}
-        <a href="#" class="bg-nexus-surface hover:bg-nexus-surface/80 hover:border-nexus-cyan group hover:shadow-neon-cyan flex flex-col items-center justify-center gap-4 rounded-2xl border border-transparent p-6 transition-all duration-300">
-          <div class="text-nexus-cyan">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-swords drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,1)]"
-              ><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2-1 4-2 7-2 2.5 0 4.5 1 6.5 2a1 1 0 0 1 1 1z"></path></svg>
-          </div>
-          <span class="text-center text-sm font-bold tracking-widest text-white">RPG</span>
-        </a>
-
-        {/* Swords Action-Adv */}
-        <a
-          href="#"
-          class="bg-nexus-surface hover:bg-nexus-surface/80 hover:border-nexus-cyan group hover:shadow-neon-cyan flex flex-col items-center justify-center gap-4 rounded-2xl border border-transparent p-6 transition-all duration-300"
-        >
-          <div class="text-nexus-cyan">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-swords drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,1)]"
-              ><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"
-              ></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line
-                x1="16"
-                x2="20"
-                y1="16"
-                y2="20"></line><line x1="19" x2="21" y1="21" y2="19"
-              ></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"
-              ></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line
-                x1="7"
-                x2="4"
-                y1="17"
-                y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg
-            >
-          </div>
-          <span class="text-center text-sm font-bold tracking-widest text-white"
-            >ACTION-ADV</span
-          >
-        </a>
-
-        {/* Users Strategy */}
-        <a
-          href="#"
-          class="bg-nexus-surface hover:bg-nexus-surface/80 hover:border-nexus-cyan group hover:shadow-neon-cyan flex flex-col items-center justify-center gap-4 rounded-2xl border border-transparent p-6 transition-all duration-300"
-        >
-          <div class="text-nexus-cyan">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              fill-opacity="0.2"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-users drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,1)]"
-              ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-              ></path><circle cx="9" cy="7" r="4"></circle><path
-                d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path
-                d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
-            >
-          </div>
-          <span class="text-center text-sm font-bold tracking-widest text-white"
-            >STRATEGY</span
-          >
-        </a>
-
-        {/* Gamepad Indie */}
-        <a
-          href="#"
-          class="bg-nexus-surface hover:bg-nexus-surface/80 hover:border-nexus-cyan group hover:shadow-neon-cyan flex flex-col items-center justify-center gap-4 rounded-2xl border border-transparent p-6 transition-all duration-300"
-        >
-          <div class="text-nexus-cyan">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              fill-opacity="0.2"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-gamepad-2 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,1)]"
-              ><line x1="6" x2="10" y1="12" y2="12"></line><line
-                x1="8"
-                x2="8"
-                y1="10"
-                y2="14"></line><line x1="15" x2="15.01" y1="13" y2="13"
-              ></line><line x1="18" x2="18.01" y1="11" y2="11"></line><rect
-                width="20"
-                height="12"
-                x="2"
-                y="6"
-                rx="2"></rect></svg
-            >
-          </div>
-          <span class="text-center text-sm font-bold tracking-widest text-white"
-            >INDIE</span
-          >
-        </a>
+        {genres.map((genre) => <GenreCard genre={genre} />)}
       </div>
     </section>
 
-    <!-- NEW GAMES GRID -->
-    <section class="splide relative w-full group/slider" id="new-games-slider">
-      <!-- Ocultamos las flechas por defecto y mostramos nuestra propia paginación o custom arrows si se quiere, aquí usaremos paginación -->
+    <!-- NEW GAMES SLIDER -->
+    <section
+      class="splide group/slider relative w-full"
+      id="new-games-slider"
+      aria-label="Nuevos lanzamientos"
+    >
       <!-- Custom Arrows -->
-      <div class="splide__arrows pointer-events-none absolute inset-y-0 left-0 right-0 z-10 md:-mx-6">
-        <button class="splide__arrow splide__arrow--prev bg-nexus-purple border-nexus-surface hover:bg-nexus-cyan hover:shadow-neon-cyan pointer-events-auto absolute -left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-left-8 md:h-16 md:w-16 md:border-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#111827"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
+      <div
+        class="splide__arrows pointer-events-none absolute inset-y-0 right-0 left-0 z-10 md:-mx-6"
+      >
+        <button
+          class="splide__arrow splide__arrow--prev bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-left-8 md:h-16 md:w-16 md:border-4"
+        >
+          <Icon name="chevron-left" size={24} strokeWidth={3} />
         </button>
-        <button class="splide__arrow splide__arrow--next bg-nexus-purple border-nexus-surface hover:bg-nexus-cyan hover:shadow-neon-cyan pointer-events-auto absolute -right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-right-8 md:h-16 md:w-16 md:border-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#111827"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
+        <button
+          class="splide__arrow splide__arrow--next bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-right-8 md:h-16 md:w-16 md:border-4"
+        >
+          <Icon name="chevron-right" size={24} strokeWidth={3} />
         </button>
       </div>
 
@@ -329,61 +109,7 @@ const genres = [
           {
             newGames.map((game) => (
               <li class="splide__slide">
-                <div class="group border-nexus-surface hover:border-nexus-purple relative flex w-full flex-col overflow-hidden rounded-2xl border bg-[#0B0E14] transition-all duration-300 hover:shadow-[0_0_15px_rgba(124,58,237,0.3)] md:flex-row md:items-center">
-                  
-                  {/* El enlace principal cubre toda la tarjeta, pero se coloca detrás del botón */}
-                  <a href="/game/aetherbound-shattered-stars" class="absolute inset-0 z-10">
-                    <span class="sr-only">Ver detalles del juego</span>
-                  </a>
-
-                  <div class="relative z-0 h-64 w-full shrink-0 overflow-hidden rounded-t-xl md:h-[400px] md:w-1/2 md:rounded-l-xl md:rounded-tr-none lg:w-[60%]">
-                    <img
-                      src={game.image}
-                      alt={game.title}
-                      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
-                    />
-                    <span class="bg-nexus-cyan text-nexus-background absolute top-0 left-4 translate-y-[-200%] rounded-b-md px-4 py-2 text-xs font-bold tracking-widest transition-transform duration-500 group-hover:translate-y-0">
-                      NUEVO
-                    </span>
-                  </div>
-
-                  <div class="relative z-0 flex w-full flex-col justify-center p-6 md:p-10 lg:p-14">
-                    <h3 class="font-display text-nexus-text group-hover:text-nexus-purple text-lg transition-colors duration-300">
-                      {game.title}
-                    </h3>
-
-                    <p class="text-nexus-muted mt-2 line-clamp-2 text-sm opacity-80 transition-opacity duration-300 group-hover:opacity-100">
-                      {game.edition}
-                    </p>
-
-                    <div class="mt-6 flex items-center justify-between">
-                      <span class="text-nexus-green text-2xl font-bold">
-                        {game.price}
-                      </span>
-
-                      {/* Botón interactivo superior al enlace principal */}
-                      <button class="bg-nexus-purple hover:shadow-neon-purple relative z-20 flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-bold text-white transition-all duration-300 hover:ring-2 hover:ring-purple-400 active:scale-95">
-                        COMPRAR
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-4 w-4 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="group-hover:border-nexus-purple/30 pointer-events-none absolute inset-0 z-30 rounded-2xl border-2 border-transparent transition-colors duration-500" />
-                </div>
+                <GameSliderCard game={game} />
               </li>
             ))
           }
@@ -392,103 +118,35 @@ const genres = [
     </section>
 
     <!-- GAMES GRID -->
-    <section>
+    <section id="store">
       <div
         class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6"
       >
-        {
-          games.map((game) => (
-            <a
-              href="/game/aetherbound-shattered-stars"
-              class="group border-nexus-surface hover:border-nexus-purple block flex h-full flex-col overflow-hidden rounded-xl border bg-[#0B0E14] transition-all duration-300 hover:shadow-[0_0_15px_rgba(124,58,237,0.3)]"
-            >
-              {/* Top Image Area */}
-              <div class="relative aspect-[3/4] w-full overflow-hidden">
-                <img
-                  src={game.image}
-                  alt={game.title}
-                  class="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
-                />
-
-                {/* Floating Tag attached to Top (like design) */}
-                <div class="absolute top-0 right-4 flex justify-end">
-                  <span
-                    class={`rounded-b-md px-3 py-1 text-[10px] font-bold tracking-widest ${game.tagColor}`}
-                  >
-                    {game.tag}
-                  </span>
-                </div>
-
-                <div class="from-nexus-background absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
-              </div>
-
-              {/* Content Area */}
-              <div class="border-nexus-surface relative z-10 -mt-2 flex flex-grow flex-col border-t bg-[#0B0E14] p-4">
-                <h3 class="font-display group-hover:text-nexus-purple mb-1 truncate text-lg leading-tight font-bold text-white transition-colors">
-                  {game.title}
-                </h3>
-                <p class="text-nexus-muted mb-auto text-xs font-medium">
-                  {game.edition}
-                </p>
-
-                <div class="mt-4 flex items-center justify-between">
-                  <span class="text-nexus-green text-lg font-bold">
-                    {game.price}
-                  </span>
-                  <div class="text-nexus-muted flex items-center gap-2">
-                    {game.platforms.includes("PC") && (
-                      <span class="px-1 text-xs leading-none font-bold">
-                        PC
-                      </span>
-                    )}
-                    {game.platforms.includes("PS") && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        stroke="none"
-                        class="lucide lucide-playstation"
-                      >
-                        <path
-                          d="M22 13h-4v2h2v4h-2v-4h-4v6H2v-2h4v-8H2V9h12V7h4v2h2v4Z"
-                          opacity="0.8"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </a>
-          ))
-        }
+        {catalog.map((game) => <GameCard game={game} />)}
       </div>
     </section>
   </div>
 </Layout>
 
 <script>
-  // Inicialización de Splide para Slider de Nuevos Lanzamientos
-  // En Astro los tags script se ejecutan como type="module" después de que el DOM carga.
-  const initSlider = () => {
-    const sliderEl = document.getElementById("new-games-slider");
-    // @ts-ignore
-    if (sliderEl && window.Splide) {
-      // @ts-ignore
-      new window.Splide(sliderEl, {
-        type: "loop", // Hace que el slider sea infinito
-        perPage: 1, // Mueve de a 1, ocupando el 100% de la caja
-        perMove: 1, 
-        gap: "24px", // Espacio entre tarjetas, aunque solo hay 1 a la vez
-        pagination: true, // Muestra los puntitos abajo
-        arrows: true, // Activamos las flechas porque al ser muy ancho es más cómodo
-        autoplay: true, // Se mueve solo
-        interval: 4000, // Cada 4 segundos
-        pauseOnHover: true,
-      }).mount();
-    }
-  };
+  import Splide from "@splidejs/splide";
+  import "@splidejs/splide/css/core";
 
-  initSlider();
+  // Slider de nuevos lanzamientos (los scripts de Astro corren como módulos
+  // después de parsear el DOM, no hace falta esperar a DOMContentLoaded)
+  const sliderEl = document.getElementById("new-games-slider");
+
+  if (sliderEl) {
+    new Splide(sliderEl, {
+      type: "loop",
+      perPage: 1,
+      perMove: 1,
+      gap: "24px",
+      pagination: true,
+      arrows: true,
+      autoplay: true,
+      interval: 4000,
+      pauseOnHover: true,
+    }).mount();
+  }
 </script>

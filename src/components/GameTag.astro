@@ -1,0 +1,31 @@
+---
+/**
+ * Etiqueta flotante de las tarjetas de juego.
+ * Las clases viven completas aquí (nunca construidas dinámicamente)
+ * para que el escáner de Tailwind las detecte.
+ */
+interface Props {
+  tag: "new" | "bestseller";
+}
+
+const { tag } = Astro.props;
+
+const variants = {
+  new: {
+    label: "NEW RELEASE",
+    class: "bg-nexus-primary text-nexus-background shadow-neon-lime",
+  },
+  bestseller: {
+    label: "BESTSELLER",
+    class: "bg-nexus-accent text-nexus-background shadow-neon-peach",
+  },
+} as const;
+
+const variant = variants[tag];
+---
+
+<span
+  class={`rounded-b-md px-3 py-1 text-[10px] font-bold tracking-widest ${variant.class}`}
+>
+  {variant.label}
+</span>

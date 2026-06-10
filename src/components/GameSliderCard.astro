@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatPrice } from "../utils/format";
+import Icon from "./Icon.astro";
+
+interface Props {
+  game: CollectionEntry<"games">;
+}
+
+const { game } = Astro.props;
+const { title, edition, image, price } = game.data;
+const href = `/game/${game.id}`;
+---
+
+<div
+  class="group border-nexus-surface hover:border-nexus-primary bg-nexus-background relative flex w-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-[0_0_15px_rgba(159,204,46,0.3)] md:flex-row md:items-center"
+>
+  <!-- El enlace principal cubre toda la tarjeta, detrás de los controles interactivos -->
+  <a href={href} class="absolute inset-0 z-10">
+    <span class="sr-only">Ver detalles de {title}</span>
+  </a>
+
+  <div
+    class="relative z-0 h-64 w-full shrink-0 overflow-hidden rounded-t-xl md:h-[400px] md:w-1/2 md:rounded-l-xl md:rounded-tr-none lg:w-[60%]"
+  >
+    <img
+      src={image}
+      alt={title}
+      loading="lazy"
+      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
+    />
+    <span
+      class="bg-nexus-primary text-nexus-background absolute top-0 left-4 translate-y-[-200%] rounded-b-md px-4 py-2 text-xs font-bold tracking-widest transition-transform duration-500 group-hover:translate-y-0"
+    >
+      NUEVO
+    </span>
+  </div>
+
+  <div
+    class="relative z-0 flex w-full flex-col justify-center p-6 md:p-10 lg:p-14"
+  >
+    <h3
+      class="font-display text-nexus-text group-hover:text-nexus-primary text-lg transition-colors duration-300"
+    >
+      {title}
+    </h3>
+
+    <p
+      class="text-nexus-muted mt-2 line-clamp-2 text-sm opacity-80 transition-opacity duration-300 group-hover:opacity-100"
+    >
+      {edition}
+    </p>
+
+    <div class="mt-6 flex items-center justify-between">
+      <span class="text-nexus-primary text-2xl font-bold">
+        {formatPrice(price)}
+      </span>
+
+      <!-- Botón interactivo por encima del enlace principal -->
+      <a
+        href={href}
+        class="bg-nexus-primary text-nexus-background hover:shadow-neon-lime hover:ring-nexus-primary/60 relative z-20 flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-bold transition-all duration-300 hover:ring-2 active:scale-95"
+      >
+        COMPRAR
+        <Icon
+          name="arrow-right"
+          size={16}
+          class="transition-transform group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+  </div>
+
+  <div
+    class="group-hover:border-nexus-primary/30 pointer-events-none absolute inset-0 z-30 rounded-2xl border-2 border-transparent transition-colors duration-500"
+  >
+  </div>
+</div>

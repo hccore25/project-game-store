@@ -1,0 +1,17 @@
+{
+  "title": "Lumen Saga",
+  "edition": "Standard Edition",
+  "description": "Guide a wandering lightkeeper restoring color to a world drained of it. A cozy action-RPG where your lantern is your sword, shield and storybook.",
+  "price": 34.99,
+  "genres": ["rpg", "indie"],
+  "platforms": ["PC", "PS"],
+  "developer": "Softglow Studio",
+  "releaseDate": "May 23, 2025",
+  "rating": "E for Everyone",
+  "systemReq": { "min": "10 GB", "rec": "15 GB" },
+  "image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1580234811497-9df7fd2f357e?q=80&w=400&auto=format&fit=crop"
+  ]
+}

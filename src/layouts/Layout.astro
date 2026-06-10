@@ -5,20 +5,21 @@ import "../styles/global.css";
 
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "NEXUSSTORE - La tienda definitiva para gamers de corazón.",
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="NEXUSSTORE - La tienda definitiva para gamers de corazón."
-    />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title} | NEXUSSTORE</title>
@@ -29,15 +30,9 @@ const { title } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
     />
-    <!-- Splide CSS & JS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" is:inline></script>
   </head>
   <body
-    class="bg-nexus-background text-nexus-text selection:bg-nexus-purple selection:text-nexus-text flex min-h-screen flex-col font-sans"
+    class="bg-nexus-background text-nexus-text selection:bg-nexus-primary selection:text-nexus-background flex min-h-screen flex-col font-sans"
   >
     <Header />
     <main class="flex-grow">
@@ -46,18 +41,3 @@ const { title } = Astro.props;
     <Footer />
   </body>
 </html>
-
-<style is:global>
-  body {
-    font-family: "Montserrat", sans-serif;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  .font-display {
-    font-family: "Nunito", sans-serif;
-  }
-</style>

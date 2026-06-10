@@ -1,0 +1,27 @@
+---
+import Icon from "./Icon.astro";
+
+/**
+ * Contenedor de notificación toast (oculto por defecto).
+ * Los scripts solo cambian `data-variant` y las clases de visibilidad;
+ * las variantes de color viven aquí como clases estáticas data-driven.
+ */
+---
+
+<div
+  id="toast-notification"
+  data-variant="primary"
+  class="group/toast bg-nexus-surface data-[variant=accent]:border-nexus-accent data-[variant=accent]:shadow-neon-peach data-[variant=primary]:border-nexus-primary data-[variant=primary]:shadow-neon-lime fixed right-8 bottom-8 z-50 flex translate-y-20 items-center gap-3 rounded-lg border p-4 opacity-0 transition-all duration-500"
+>
+  <div
+    class="group-data-[variant=accent]/toast:bg-nexus-accent/20 group-data-[variant=accent]/toast:text-nexus-accent group-data-[variant=primary]/toast:bg-nexus-primary/20 group-data-[variant=primary]/toast:text-nexus-primary rounded-full p-2"
+  >
+    <Icon name="check" size={20} />
+  </div>
+  <div>
+    <h4 class="text-sm font-bold text-white" id="toast-title">Listo</h4>
+    <p class="text-nexus-muted text-xs" id="toast-message">
+      Acción completada.
+    </p>
+  </div>
+</div>

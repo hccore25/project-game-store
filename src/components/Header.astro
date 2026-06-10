@@ -1,8 +1,18 @@
 ---
+import Icon from "./Icon.astro";
 
+const navLinks = [
+  { href: "/", label: "EXPLORE" },
+  { href: "/#store", label: "STORE" },
+  { href: "/#genres", label: "GENRES" },
+  { href: "/#community", label: "COMMUNITY" },
+  { href: "/#deals", label: "DEALS" },
+];
 ---
 
-<header class="border-nexus-surface sticky top-0 z-50 border-b bg-[#0B0E14]">
+<header
+  class="border-nexus-surface bg-nexus-background sticky top-0 z-50 border-b"
+>
   <div
     class="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6"
   >
@@ -13,7 +23,7 @@
         >NEXUS</span
       >
       <span
-        class="text-nexus-purple text-[0.6rem] font-bold tracking-[0.4em] uppercase"
+        class="text-nexus-primary text-[0.6rem] font-bold tracking-[0.4em] uppercase"
         >GAMES</span
       >
     </a>
@@ -22,90 +32,41 @@
     <nav
       class="text-nexus-muted hidden gap-8 text-xs font-semibold tracking-widest lg:flex"
     >
-      <a href="/" class="uppercase transition-colors hover:text-white"
-        >EXPLORE</a
-      >
-      <a href="#store" class="uppercase transition-colors hover:text-white"
-        >STORE</a
-      >
-      <a href="#genres" class="uppercase transition-colors hover:text-white"
-        >GENRES</a
-      >
-      <a href="#community" class="uppercase transition-colors hover:text-white"
-        >COMMUNITY</a
-      >
-      <a href="#deals" class="uppercase transition-colors hover:text-white"
-        >DEALS</a
-      >
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="uppercase transition-colors hover:text-white"
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
     <!-- Right Icons -->
     <div class="flex items-center gap-5">
-      <!-- Search -->
       <button
         class="text-nexus-muted transition-colors hover:text-white"
-        aria-label="Search"
+        aria-label="Buscar"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-search"
-          ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"
-          ></path></svg
-        >
+        <Icon name="search" size={20} />
       </button>
 
-      <!-- User Profile (Desktop) -->
       <button
         class="text-nexus-muted hidden transition-colors hover:text-white sm:block"
-        aria-label="User Account"
+        aria-label="Cuenta de usuario"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-user-circle-2"
-          ><path d="M18 20a6 6 0 0 0-12 0"></path><circle cx="12" cy="10" r="4"
-          ></circle><circle cx="12" cy="12" r="10"></circle></svg
-        >
+        <Icon name="user-circle" size={20} />
       </button>
 
-      <!-- Cart -->
       <button
-        class="text-nexus-cyan relative transition-colors hover:text-white"
-        aria-label="Cart"
+        class="text-nexus-accent relative transition-colors hover:text-white"
+        aria-label="Carrito"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-shopping-cart"
-          ><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"
-          ></circle><path
-            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
-          ></path></svg
-        >
+        <Icon name="cart" size={20} />
         <span
-          class="bg-nexus-cyan text-nexus-background absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+          class="bg-nexus-primary text-nexus-background absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
           >2</span
         >
       </button>
@@ -113,38 +74,24 @@
       <!-- Mobile Menu Toggle -->
       <button
         class="text-nexus-muted transition-colors hover:text-white lg:hidden"
-        aria-label="Open Mobile Menu"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
         id="mobile-menu-btn"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-menu"
-          ><line x1="4" x2="20" y1="12" y2="12"></line><line
-            x1="4"
-            x2="20"
-            y1="6"
-            y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg
-        >
+        <Icon name="menu" size={24} />
       </button>
     </div>
   </div>
 </header>
 
-<!-- Mobile Menu (Hidden by default) -->
+<!-- Mobile Menu (oculto por defecto) -->
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-[60] flex translate-x-full transform flex-col bg-[#0B0E14] transition-transform duration-300 ease-in-out"
+  class="bg-nexus-background fixed inset-0 z-[60] flex translate-x-full transform flex-col transition-transform duration-300 ease-in-out"
 >
   <div
-    class="border-nexus-surface flex items-center justify-between border-b bg-[#0B0E14] px-6 py-6"
+    class="border-nexus-surface bg-nexus-background flex items-center justify-between border-b px-6 py-6"
   >
     <div class="flex flex-col items-start gap-0.5 leading-none">
       <span
@@ -152,97 +99,62 @@
         >NEXUS</span
       >
       <span
-        class="text-nexus-purple text-[0.5rem] font-bold tracking-[0.4em] uppercase"
+        class="text-nexus-primary text-[0.5rem] font-bold tracking-[0.4em] uppercase"
         >GAMES</span
       >
     </div>
     <button
       id="close-mobile-menu"
-      class="text-nexus-purple transition-colors hover:text-white"
+      class="text-nexus-primary transition-colors hover:text-white"
+      aria-label="Cerrar menú"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="lucide lucide-x"
-        ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
-      >
+      <Icon name="close" size={28} />
     </button>
   </div>
 
   <div class="flex flex-grow flex-col justify-between overflow-y-auto p-6">
     <!-- Vertical Nav Links -->
     <nav
-      class="border-nexus-purple mt-4 flex flex-col space-y-8 border-l-[3px] pl-6"
+      class="border-nexus-primary mt-4 flex flex-col space-y-8 border-l-[3px] pl-6"
     >
-      <a
-        href="/"
-        class="font-display hover:text-nexus-cyan text-3xl font-bold tracking-wider text-white uppercase transition-colors"
-        >EXPLORE</a
-      >
-      <a
-        href="#store"
-        class="font-display text-nexus-cyan hover:shadow-neon-cyan flex items-center justify-between text-3xl font-bold tracking-wider uppercase shadow-none"
-        >STORE <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-chevron-right"
-          ><path d="m9 18 6-6-6-6"></path></svg
-        ></a
-      >
-      <a
-        href="#genres"
-        class="font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
-        >GENRES</a
-      >
-      <a
-        href="#community"
-        class="font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
-        >COMMUNITY</a
-      >
-      <a
-        href="#deals"
-        class="font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
-        >DEALS</a
-      >
+      {
+        navLinks.map((link, index) => (
+          <a
+            href={link.href}
+            class={
+              index === 0
+                ? "font-display hover:text-nexus-accent text-3xl font-bold tracking-wider text-white uppercase transition-colors"
+                : "font-display text-nexus-muted text-3xl font-bold tracking-wider uppercase transition-colors hover:text-white"
+            }
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
     <!-- User Section Mobile -->
-    <div class="border-nexus-cyan mt-12 mb-8 border-l-[3px] pl-6">
+    <div class="border-nexus-accent mt-12 mb-8 border-l-[3px] pl-6">
       <h4
-        class="text-nexus-cyan mb-4 text-sm font-bold tracking-widest uppercase"
+        class="text-nexus-accent mb-4 text-sm font-bold tracking-widest uppercase"
       >
         YOUR ACCOUNT
       </h4>
       <div class="mb-6 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <img
-            src="https://ui-avatars.com/api/?name=Aether+Striker&background=7C3AED&color=fff"
+            src="https://ui-avatars.com/api/?name=Aether+Striker&background=004643&color=f6be9a"
             alt="AETHER_STRIKER"
-            class="border-nexus-purple h-12 w-12 rounded-full border-2"
+            class="border-nexus-primary h-12 w-12 rounded-full border-2"
           />
           <div class="flex flex-col">
             <span class="leading-tight font-bold text-white uppercase"
               >AETHER_STRIKER</span
             >
             <span class="text-nexus-muted flex items-center gap-2 text-sm"
-              >Level 42 <div
-                class="bg-nexus-cyan h-2 w-2 rounded-full drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"
-              >
-              </div> ONLINE</span
+              >Level 42 <span
+                class="bg-nexus-primary h-2 w-2 rounded-full drop-shadow-[0_0_5px_rgba(159,204,46,0.8)]"
+              ></span> ONLINE</span
             >
           </div>
         </div>
@@ -256,65 +168,21 @@
           href="#"
           class="flex flex-col items-center gap-2 transition-colors hover:text-white"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-bell text-nexus-cyan"
-            ><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path
-              d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg
-          >
+          <Icon name="bell" size={24} class="text-nexus-accent" />
           NOTIFICATIONS
         </a>
         <a
           href="#"
           class="flex flex-col items-center gap-2 transition-colors hover:text-white"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-settings text-nexus-purple"
-            ><path
-              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-            ></path><circle cx="12" cy="12" r="3"></circle></svg
-          >
+          <Icon name="settings" size={24} class="text-nexus-primary" />
           SETTINGS
         </a>
         <a
           href="#"
           class="flex flex-col items-center gap-2 transition-colors hover:text-white"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-log-out text-red-500"
-            ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline
-              points="16 17 21 12 16 7"></polyline><line
-              x1="21"
-              x2="9"
-              y1="12"
-              y2="12"></line></svg
-          >
+          <Icon name="logout" size={24} class="text-red-500" />
           LOGOUT
         </a>
       </div>
@@ -323,20 +191,34 @@
 </div>
 
 <script>
-  // Script para menejar el menú móvil
+  // Manejo del menú móvil
   const mobileMenuBtn = document.getElementById("mobile-menu-btn");
   const closeMobileBtn = document.getElementById("close-mobile-menu");
   const mobileMenu = document.getElementById("mobile-menu");
 
   if (mobileMenuBtn && closeMobileBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener("click", () => {
+    const openMenu = () => {
       mobileMenu.classList.remove("translate-x-full");
+      mobileMenuBtn.setAttribute("aria-expanded", "true");
       document.body.style.overflow = "hidden"; // Prevenir scroll
+    };
+
+    const closeMenu = () => {
+      mobileMenu.classList.add("translate-x-full");
+      mobileMenuBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = ""; // Restaurar scroll
+    };
+
+    mobileMenuBtn.addEventListener("click", openMenu);
+    closeMobileBtn.addEventListener("click", closeMenu);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
     });
 
-    closeMobileBtn.addEventListener("click", () => {
-      mobileMenu.classList.add("translate-x-full");
-      document.body.style.overflow = ""; // Restaurar scroll
+    // Cerrar al navegar a un enlace del menú
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
     });
   }
 </script>

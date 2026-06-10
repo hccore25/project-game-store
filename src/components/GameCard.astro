@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatPrice } from "../utils/format";
+import GameTag from "./GameTag.astro";
+import PlatformIcons from "./PlatformIcons.astro";
+
+interface Props {
+  game: CollectionEntry<"games">;
+}
+
+const { game } = Astro.props;
+const { title, edition, image, price, tag, platforms } = game.data;
+---
+
+<a
+  href={`/game/${game.id}`}
+  class="group border-nexus-surface hover:border-nexus-primary bg-nexus-background flex h-full flex-col overflow-hidden rounded-xl border transition-all duration-300 hover:shadow-[0_0_15px_rgba(159,204,46,0.3)]"
+>
+  <!-- Imagen -->
+  <div class="relative aspect-[3/4] w-full overflow-hidden">
+    <img
+      src={image}
+      alt={title}
+      loading="lazy"
+      class="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
+    />
+
+    {
+      tag && (
+        <div class="absolute top-0 right-4 flex justify-end">
+          <GameTag tag={tag} />
+        </div>
+      )
+    }
+
+    <div
+      class="from-nexus-background absolute inset-0 bg-gradient-to-t via-transparent to-transparent"
+    >
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div
+    class="border-nexus-surface bg-nexus-background relative z-10 -mt-2 flex flex-grow flex-col border-t p-4"
+  >
+    <h3
+      class="font-display group-hover:text-nexus-primary mb-1 truncate text-lg leading-tight font-bold text-white transition-colors"
+    >
+      {title}
+    </h3>
+    <p class="text-nexus-muted mb-auto text-xs font-medium">{edition}</p>
+
+    <div class="mt-4 flex items-center justify-between">
+      <span class="text-nexus-primary text-lg font-bold">
+        {formatPrice(price)}
+      </span>
+      <PlatformIcons platforms={platforms} />
+    </div>
+  </div>
+</a>

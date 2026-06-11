@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://project-game-store.netlify.app/sitemap-index.xml
+Sitemap: https://project-game-store.vercel.app/sitemap-index.xml

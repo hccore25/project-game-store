@@ -20,6 +20,9 @@ const deals = allGames
 const catalog = [...allGames].sort((a, b) =>
   a.data.title.localeCompare(b.data.title),
 );
+
+// Juegos visibles en móvil antes del botón "See more"
+const MOBILE_INITIAL_GAMES = 3;
 ---
 
 <Layout title="Explore Limitless Worlds">
@@ -156,10 +159,42 @@ const catalog = [...allGames].sort((a, b) =>
         ALL GAMES
       </h2>
       <div
+        id="catalog-grid"
         class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6"
       >
-        {catalog.map((game) => <GameCard game={game} />)}
+        {
+          catalog.map((game, index) => (
+            <div
+              class={`catalog-item ${index >= MOBILE_INITIAL_GAMES ? "hidden md:block" : ""}`}
+            >
+              <GameCard game={game} />
+            </div>
+          ))
+        }
       </div>
+
+      <!-- Ver más (solo móvil; en md+ el grid muestra todo) -->
+      <div id="see-more-wrapper" class="mt-6 flex justify-center md:hidden">
+        <button
+          id="see-more-btn"
+          class="border-nexus-primary text-nexus-primary hover:bg-nexus-primary hover:text-nexus-background flex items-center gap-2 rounded-lg border px-8 py-3 text-sm font-bold tracking-widest uppercase transition-all duration-300"
+        >
+          SEE MORE
+          <Icon name="chevron-down" size={16} />
+        </button>
+      </div>
+
+      <!-- Sin JS, el catálogo completo queda visible -->
+      <noscript>
+        <style>
+          .catalog-item {
+            display: block !important;
+          }
+          #see-more-wrapper {
+            display: none !important;
+          }
+        </style>
+      </noscript>
     </section>
   </div>
 </Layout>
@@ -189,5 +224,27 @@ const catalog = [...allGames].sort((a, b) =>
       interval: 4000,
       pauseOnHover: true,
     }).mount();
+  }
+
+  // --- "See more" del catálogo en móvil ---
+  // Revela las tarjetas ocultas por tandas y oculta el botón al terminar
+  const SEE_MORE_BATCH = 4;
+  const seeMoreBtn = document.getElementById("see-more-btn");
+  const seeMoreWrapper = document.getElementById("see-more-wrapper");
+
+  if (seeMoreBtn && seeMoreWrapper) {
+    seeMoreBtn.addEventListener("click", () => {
+      const hiddenItems = document.querySelectorAll(
+        "#catalog-grid .catalog-item.hidden",
+      );
+
+      [...hiddenItems]
+        .slice(0, SEE_MORE_BATCH)
+        .forEach((item) => item.classList.remove("hidden"));
+
+      if (hiddenItems.length <= SEE_MORE_BATCH) {
+        seeMoreWrapper.classList.add("hidden");
+      }
+    });
   }
 </script>

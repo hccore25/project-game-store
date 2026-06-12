@@ -50,6 +50,12 @@
     font-family: var(--font-display);
   }
 
+  /* El header sticky mide 5rem (h-20): al navegar a un ancla, deja
+     espacio para que no se monte sobre el contenido */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
   /* Anillo de foco visible para navegación por teclado */
   a:focus-visible,
   button:focus-visible,

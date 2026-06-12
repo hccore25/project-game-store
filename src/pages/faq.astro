@@ -1,0 +1,178 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import type { IconName } from "../data/icons";
+
+const faqs: { category: string; icon: IconName; items: { q: string; a: string }[] }[] = [
+  {
+    category: "Shopping at NEXUSSTORE",
+    icon: "cart",
+    items: [
+      {
+        q: "Are all games digital downloads?",
+        a: "Yes. Every title sold on NEXUSSTORE is a digital product. After your purchase is confirmed you will receive a game key that can be redeemed on the respective platform — Steam for PC titles, PlayStation Store for PS titles.",
+      },
+      {
+        q: "What platforms do you support?",
+        a: "We currently sell games for PC (Steam-compatible keys) and PlayStation (PS Store codes). Platform availability is clearly shown on each game's detail page.",
+      },
+      {
+        q: "How do I access my purchased games?",
+        a: "Your game key is delivered immediately on the Order Confirmation page right after checkout. Save that page or note your key — we recommend keeping it somewhere safe.",
+      },
+      {
+        q: "Do you offer gift cards or vouchers?",
+        a: "Not yet — gifting is on our roadmap. Stay tuned by joining our Discord community.",
+      },
+    ],
+  },
+  {
+    category: "Orders & Payments",
+    icon: "key",
+    items: [
+      {
+        q: "What payment methods are accepted?",
+        a: "We accept major credit and debit cards (Visa, Mastercard, AMEX). PayPal and crypto payments are planned for a future release.",
+      },
+      {
+        q: "When will I receive my game key?",
+        a: "Immediately. Keys are generated and shown the moment your payment is confirmed — usually within seconds.",
+      },
+      {
+        q: "I didn't receive my key — what do I do?",
+        a: "Your key is displayed on the Order Confirmation page right after checkout. If you closed it by accident, contact our support team with your order details and we will recover it for you.",
+      },
+      {
+        q: "Can I cancel or get a refund?",
+        a: "Refunds are accepted within 14 days of purchase provided the key has not been redeemed on the platform. Once a key is activated it cannot be refunded. To request a refund, reach out via the Contact page with your order ID.",
+      },
+    ],
+  },
+  {
+    category: "Technical Issues",
+    icon: "settings",
+    items: [
+      {
+        q: "My game key is not working — what should I do?",
+        a: "Make sure you are redeeming the key on the correct platform. PC keys go to Steam (or the platform specified on the product page), PS keys go to the PlayStation Store. If the key still fails after a correct redemption attempt, contact support and we will issue a replacement.",
+      },
+      {
+        q: "The game won't launch after installation.",
+        a: "Check that your system meets the minimum requirements listed on the game's page. Make sure your GPU drivers and the platform client are fully up to date. If the issue persists, the game developer's support team is best placed to help, but our team is here if you need a hand.",
+      },
+      {
+        q: "The NEXUSSTORE website is loading slowly.",
+        a: "Try clearing your browser cache and reloading the page. If the issue continues across multiple sessions or devices, please let us know through the Contact page so we can investigate.",
+      },
+    ],
+  },
+  {
+    category: "Wishlist & Account",
+    icon: "heart",
+    items: [
+      {
+        q: "Do I need an account to purchase?",
+        a: "No account required. Just go through checkout — your order confirmation including game keys is shown immediately after payment. We recommend saving the confirmation page URL or the key itself.",
+      },
+      {
+        q: "How does the wishlist work?",
+        a: "The wishlist is saved in your browser's local storage. Add games you want to track and move them to your cart whenever you're ready. It persists across sessions on the same device and browser.",
+      },
+      {
+        q: "Can I share my wishlist?",
+        a: "Wishlist sharing is not yet supported but is planned for a future update.",
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="FAQ"
+  description="Frequently asked questions about NEXUSSTORE — shopping, orders, payments, and technical help."
+>
+  <div class="container mx-auto px-4 py-12 lg:px-6">
+    <!-- Header -->
+    <div class="mb-14 text-center">
+      <p
+        class="text-nexus-primary mb-3 text-xs font-bold tracking-widest uppercase"
+      >
+        Help Center
+      </p>
+      <h1
+        class="font-display mb-4 text-4xl font-black text-white uppercase md:text-5xl"
+      >
+        Frequently Asked Questions
+      </h1>
+      <p class="text-nexus-muted mx-auto max-w-lg text-base">
+        Can't find your answer?{" "}
+        <a href="/contact" class="text-nexus-primary hover:underline"
+          >Contact our support team</a
+        >.
+      </p>
+    </div>
+
+    <!-- FAQ Sections -->
+    <div class="mx-auto max-w-3xl space-y-12">
+      {
+        faqs.map((section) => (
+          <div>
+            <div class="mb-5 flex items-center gap-3">
+              <div class="bg-nexus-teal/30 text-nexus-primary rounded-lg p-2">
+                <Icon name={section.icon} size={18} />
+              </div>
+              <h2 class="font-display text-lg font-bold tracking-wide text-white uppercase">
+                {section.category}
+              </h2>
+            </div>
+
+            <div class="border-nexus-surface overflow-hidden rounded-2xl border">
+              {section.items.map((item, i) => (
+                <details
+                  class={`group ${i < section.items.length - 1 ? "border-nexus-surface border-b" : ""}`}
+                >
+                  <summary class="hover:text-nexus-primary flex cursor-pointer select-none items-center justify-between gap-4 px-6 py-5 text-sm font-bold text-white transition-colors [&::-webkit-details-marker]:hidden">
+                    <span>{item.q}</span>
+                    <Icon
+                      name="chevron-down"
+                      size={16}
+                      class="text-nexus-muted shrink-0 transition-transform duration-200 group-open:rotate-180"
+                    />
+                  </summary>
+                  <div class="text-nexus-muted px-6 pb-6 text-sm leading-relaxed">
+                    {item.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16 text-center">
+      <div
+        class="bg-nexus-surface/40 border-nexus-surface mx-auto max-w-xl rounded-2xl border p-10"
+      >
+        <Icon
+          name="help-circle"
+          size={36}
+          class="text-nexus-primary mx-auto mb-4"
+        />
+        <p class="font-display mb-2 text-xl font-bold text-white">
+          Still need help?
+        </p>
+        <p class="text-nexus-muted mb-6 text-sm">
+          Our support team is available to help you with any issue.
+        </p>
+        <a
+          href="/contact"
+          class="bg-nexus-primary text-nexus-background shadow-neon-lime inline-block rounded-lg px-8 py-3.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+        >
+          CONTACT SUPPORT
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

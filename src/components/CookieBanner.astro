@@ -1,0 +1,71 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-banner-title"
+  class="bg-nexus-surface/90 border-nexus-surface fixed bottom-0 left-0 right-0 z-50 translate-y-full border-t backdrop-blur-md transition-transform duration-500"
+>
+  <div
+    class="container mx-auto flex flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between lg:px-6"
+  >
+    <div class="flex items-start gap-4">
+      <div class="text-nexus-accent mt-0.5 shrink-0">
+        <Icon name="settings" size={20} />
+      </div>
+      <div>
+        <p id="cookie-banner-title" class="mb-1 text-sm font-bold text-white">
+          We use cookies
+        </p>
+        <p class="text-nexus-muted text-xs leading-relaxed">
+          We use cookies to enhance your experience. Essential cookies are
+          always active. Read our <a
+            href="/cookies"
+            class="text-nexus-primary hover:underline">Cookie Policy</a
+          > for details.
+        </p>
+      </div>
+    </div>
+    <div class="flex shrink-0 flex-wrap gap-3">
+      <button
+        id="cookie-decline"
+        class="border-nexus-surface text-nexus-muted hover:border-nexus-muted hover:text-white rounded-lg border px-4 py-2 text-xs font-bold tracking-wider uppercase transition-all"
+      >
+        Reject Non-Essential
+      </button>
+      <button
+        id="cookie-accept"
+        class="bg-nexus-primary text-nexus-background shadow-neon-lime hover:bg-white rounded-lg px-6 py-2 text-xs font-bold tracking-wider uppercase transition-all"
+      >
+        Accept All
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById(
+    "cookie-banner",
+  ) as HTMLDivElement | null;
+
+  if (banner && !localStorage.getItem("nexus:cookie-consent")) {
+    requestAnimationFrame(() => {
+      banner.classList.remove("translate-y-full");
+    });
+  }
+
+  function dismiss(choice: string) {
+    localStorage.setItem("nexus:cookie-consent", choice);
+    banner?.classList.add("translate-y-full");
+  }
+
+  document
+    .getElementById("cookie-accept")
+    ?.addEventListener("click", () => dismiss("accepted"));
+  document
+    .getElementById("cookie-decline")
+    ?.addEventListener("click", () => dismiss("declined"));
+</script>

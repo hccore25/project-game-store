@@ -1,0 +1,270 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const sections = [
+  { id: "what", title: "1. What Are Cookies?" },
+  { id: "essential", title: "2. Essential Cookies" },
+  { id: "analytics", title: "3. Analytics Cookies" },
+  { id: "marketing", title: "4. Marketing Cookies" },
+  { id: "third-party", title: "5. Third-Party Cookies" },
+  { id: "managing", title: "6. Managing Your Preferences" },
+  { id: "contact", title: "7. Contact Us" },
+];
+
+const essentialCookies = [
+  {
+    name: "nexus:cookie-consent",
+    purpose: "Stores your cookie consent choice (accepted / declined).",
+    duration: "1 year",
+  },
+  {
+    name: "nexus:cart",
+    purpose: "Saves the items currently in your shopping cart.",
+    duration: "Session / persistent",
+  },
+  {
+    name: "nexus:wishlist",
+    purpose: "Saves games you have added to your wishlist.",
+    duration: "Persistent",
+  },
+  {
+    name: "nexus:order",
+    purpose: "Stores your most recent order for the confirmation page.",
+    duration: "Session",
+  },
+];
+---
+
+<Layout
+  title="Cookie Policy"
+  description="Learn about the cookies NEXUSSTORE uses and how to manage your preferences."
+>
+  <div class="container mx-auto px-4 py-12 lg:px-6">
+    <!-- Page Header -->
+    <div class="border-nexus-surface mb-10 border-b pb-8">
+      <p
+        class="text-nexus-primary mb-2 text-xs font-bold tracking-widest uppercase"
+      >
+        Legal
+      </p>
+      <h1
+        class="font-display text-4xl font-black text-white uppercase md:text-5xl"
+      >
+        Cookie Policy
+      </h1>
+      <p class="text-nexus-muted mt-3 text-sm">
+        Last updated: <time datetime="2025-06-01">June 1, 2025</time>
+      </p>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-[220px_1fr]">
+      <!-- Sidebar TOC -->
+      <aside class="hidden lg:block">
+        <nav class="sticky top-24 space-y-0.5">
+          <p
+            class="text-nexus-muted mb-3 text-xs font-bold tracking-widest uppercase"
+          >
+            Contents
+          </p>
+          {
+            sections.map((s) => (
+              <a
+                href={`#${s.id}`}
+                class="hover:text-nexus-primary text-nexus-muted block py-1.5 text-xs transition-colors"
+              >
+                {s.title}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <article class="space-y-10 text-sm leading-relaxed">
+        <p class="text-nexus-muted">
+          This Cookie Policy explains what cookies are, how NEXUSSTORE uses
+          them, and the options available to you.
+        </p>
+
+        <section id="what">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            1. What Are Cookies?
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              Cookies are small text files placed on your device by a website.
+              They are widely used to make websites work more efficiently and to
+              provide information to site owners.
+            </p>
+            <p>
+              NEXUSSTORE uses a combination of browser cookies and
+              <strong class="text-white">localStorage</strong> — a similar
+              client-side mechanism that stores data locally in your browser
+              without expiry unless you clear your browser data.
+            </p>
+          </div>
+        </section>
+
+        <section id="essential">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            2. Essential Cookies
+          </h2>
+          <div class="text-nexus-muted space-y-4">
+            <p>
+              Essential cookies are strictly necessary for the platform to
+              function. They cannot be disabled as the site would not work
+              without them.
+            </p>
+
+            <div class="border-nexus-surface overflow-hidden rounded-xl border">
+              <table class="w-full text-xs">
+                <thead>
+                  <tr class="bg-nexus-surface/50">
+                    <th
+                      class="text-nexus-muted px-4 py-3 text-left font-bold tracking-wider uppercase"
+                      >Name</th
+                    >
+                    <th
+                      class="text-nexus-muted px-4 py-3 text-left font-bold tracking-wider uppercase"
+                      >Purpose</th
+                    >
+                    <th
+                      class="text-nexus-muted hidden px-4 py-3 text-left font-bold tracking-wider uppercase sm:table-cell"
+                      >Duration</th
+                    >
+                  </tr>
+                </thead>
+                <tbody class="divide-nexus-surface divide-y">
+                  {
+                    essentialCookies.map((c) => (
+                      <tr>
+                        <td class="px-4 py-3 font-mono text-white">
+                          {c.name}
+                        </td>
+                        <td class="text-nexus-muted px-4 py-3 leading-relaxed">
+                          {c.purpose}
+                        </td>
+                        <td class="text-nexus-muted hidden px-4 py-3 sm:table-cell">
+                          {c.duration}
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="analytics">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            3. Analytics Cookies
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              Analytics cookies help us understand how visitors interact with
+              NEXUSSTORE — which pages are popular, where users drop off, and
+              how the site is navigated. This data is aggregated and
+              anonymized.
+            </p>
+            <p>
+              These cookies are only placed when you accept non-essential
+              cookies via our cookie banner. You can withdraw consent at any
+              time by clearing your browser's localStorage for this site.
+            </p>
+          </div>
+        </section>
+
+        <section id="marketing">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            4. Marketing Cookies
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              NEXUSSTORE does not currently use marketing or advertising cookies
+              and does not serve targeted advertisements on the platform.
+            </p>
+          </div>
+        </section>
+
+        <section id="third-party">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            5. Third-Party Cookies
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              Our payment processing partner may set cookies on your device
+              during checkout to detect fraud and ensure secure transactions.
+              These cookies are governed by the payment provider's own privacy
+              policy.
+            </p>
+            <p>
+              We do not embed third-party social media pixels or advertising
+              networks on this site.
+            </p>
+          </div>
+        </section>
+
+        <section id="managing">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            6. Managing Your Preferences
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              You can accept or decline non-essential cookies via the banner
+              shown on your first visit. To change your choice later:
+            </p>
+            <ul class="ml-4 list-disc space-y-2">
+              <li>
+                Open your browser's developer tools (F12) → Application →
+                Local Storage → find this site's entry.
+              </li>
+              <li>
+                Delete the <span class="font-mono text-white"
+                  >nexus:cookie-consent</span
+                > key and reload the page — the banner will reappear.
+              </li>
+            </ul>
+            <p>
+              You can also manage cookies at the browser level. Note that
+              disabling all cookies may affect core site functionality.
+            </p>
+          </div>
+        </section>
+
+        <section id="contact">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            7. Contact Us
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              Questions about our use of cookies? Contact us at <a
+                href="mailto:privacy@nexusgames.co"
+                class="text-nexus-primary hover:underline"
+                >privacy@nexusgames.co</a
+              > or through our <a
+                href="/contact"
+                class="text-nexus-primary hover:underline">Contact page</a
+              >.
+            </p>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+</Layout>

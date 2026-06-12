@@ -1,0 +1,258 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const sections = [
+  { id: "collect", title: "1. Information We Collect" },
+  { id: "use", title: "2. How We Use Your Information" },
+  { id: "sharing", title: "3. Information Sharing" },
+  { id: "security", title: "4. Data Security" },
+  { id: "cookies", title: "5. Cookies" },
+  { id: "rights", title: "6. Your Rights" },
+  { id: "children", title: "7. Children's Privacy" },
+  { id: "changes", title: "8. Changes to This Policy" },
+  { id: "contact", title: "9. Contact Us" },
+];
+---
+
+<Layout
+  title="Privacy Policy"
+  description="Learn how NEXUSSTORE collects, uses, and protects your personal data."
+>
+  <div class="container mx-auto px-4 py-12 lg:px-6">
+    <!-- Page Header -->
+    <div class="border-nexus-surface mb-10 border-b pb-8">
+      <p
+        class="text-nexus-primary mb-2 text-xs font-bold tracking-widest uppercase"
+      >
+        Legal
+      </p>
+      <h1
+        class="font-display text-4xl font-black text-white uppercase md:text-5xl"
+      >
+        Privacy Policy
+      </h1>
+      <p class="text-nexus-muted mt-3 text-sm">
+        Last updated: <time datetime="2025-06-01">June 1, 2025</time>
+      </p>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-[220px_1fr]">
+      <!-- Sidebar TOC -->
+      <aside class="hidden lg:block">
+        <nav class="sticky top-24 space-y-0.5">
+          <p
+            class="text-nexus-muted mb-3 text-xs font-bold tracking-widest uppercase"
+          >
+            Contents
+          </p>
+          {
+            sections.map((s) => (
+              <a
+                href={`#${s.id}`}
+                class="hover:text-nexus-primary text-nexus-muted block py-1.5 text-xs transition-colors"
+              >
+                {s.title}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <article class="space-y-10 text-sm leading-relaxed">
+        <p class="text-nexus-muted">
+          Your privacy matters to us. This Privacy Policy explains what
+          information we collect when you use NEXUSSTORE, how we use it, and
+          the choices you have.
+        </p>
+
+        <section id="collect">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            1. Information We Collect
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              <strong class="text-white">Information you provide:</strong> When
+              you place an order we collect your name, email address, and
+              payment details. Payment card data is processed directly by our
+              payment processor and is never stored on our servers.
+            </p>
+            <p>
+              <strong class="text-white">Information collected automatically:</strong
+              > We collect standard server logs including IP addresses, browser
+              type, referring URLs, and pages visited. This data helps us
+              maintain service quality and security.
+            </p>
+            <p>
+              <strong class="text-white">Local storage:</strong> Your cart,
+              wishlist, and order data are stored in your browser's local
+              storage. This information never leaves your device unless you
+              initiate a transaction.
+            </p>
+          </div>
+        </section>
+
+        <section id="use">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            2. How We Use Your Information
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>We use the information we collect to:</p>
+            <ul class="ml-4 list-disc space-y-1.5">
+              <li>Process and fulfill your orders.</li>
+              <li>Deliver game keys and order confirmations.</li>
+              <li>Respond to support requests and inquiries.</li>
+              <li>Detect and prevent fraud and abuse.</li>
+              <li>
+                Improve our platform based on aggregated, anonymized usage
+                patterns.
+              </li>
+            </ul>
+            <p>
+              We do not sell your personal information to third parties. We do
+              not use your data for targeted advertising without explicit
+              consent.
+            </p>
+          </div>
+        </section>
+
+        <section id="sharing">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            3. Information Sharing
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              We share personal data only with trusted service providers
+              necessary to operate the platform — such as payment processors and
+              hosting infrastructure — under strict data processing agreements.
+            </p>
+            <p>
+              We may also disclose information if required by law, court order,
+              or to protect the rights, property, or safety of NEXUSSTORE or
+              its users.
+            </p>
+          </div>
+        </section>
+
+        <section id="security">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            4. Data Security
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              We implement industry-standard security measures including HTTPS
+              encryption, secure payment tokenization, and access controls to
+              protect your data. However, no method of transmission or storage
+              is 100% secure, and we cannot guarantee absolute security.
+            </p>
+            <p>
+              We recommend using strong, unique passwords and keeping your
+              browser and operating system up to date.
+            </p>
+          </div>
+        </section>
+
+        <section id="cookies">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            5. Cookies
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              We use cookies and similar technologies to maintain session state
+              and analyze usage. For full details on the cookies we use and how
+              to manage them, see our <a
+                href="/cookies"
+                class="text-nexus-primary hover:underline">Cookie Policy</a
+              >.
+            </p>
+          </div>
+        </section>
+
+        <section id="rights">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            6. Your Rights
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              Depending on your jurisdiction you may have rights including:
+              access to your personal data, correction of inaccuracies,
+              deletion of your data, and objection to certain processing
+              activities. To exercise any of these rights, contact us at
+              <a
+                href="mailto:privacy@nexusgames.co"
+                class="text-nexus-primary hover:underline"
+                >privacy@nexusgames.co</a
+              >.
+            </p>
+          </div>
+        </section>
+
+        <section id="children">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            7. Children's Privacy
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              NEXUSSTORE is not directed at children under 13. We do not
+              knowingly collect personal information from children. If you
+              believe a child has provided us with personal data, please contact
+              us and we will delete it promptly.
+            </p>
+          </div>
+        </section>
+
+        <section id="changes">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            8. Changes to This Policy
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              We may update this Privacy Policy from time to time. Material
+              changes will be communicated via a notice on our homepage or by
+              email. The date at the top of this page reflects the most recent
+              revision.
+            </p>
+          </div>
+        </section>
+
+        <section id="contact">
+          <h2
+            class="font-display mb-4 text-lg font-bold text-white uppercase tracking-wide"
+          >
+            9. Contact Us
+          </h2>
+          <div class="text-nexus-muted space-y-3">
+            <p>
+              Questions or concerns about this Privacy Policy? Reach out at
+              <a
+                href="mailto:privacy@nexusgames.co"
+                class="text-nexus-primary hover:underline"
+                >privacy@nexusgames.co</a
+              > or use our <a
+                href="/contact"
+                class="text-nexus-primary hover:underline">Contact page</a
+              >.
+            </p>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+</Layout>

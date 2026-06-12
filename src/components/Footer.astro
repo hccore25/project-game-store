@@ -8,17 +8,29 @@ const linkGroups = [
   {
     title: "HELP",
     titleClass: "text-nexus-primary",
-    links: ["FAQ", "Contact", "Support"],
+    links: [
+      { label: "FAQ", href: "/faq" },
+      { label: "Contact", href: "/contact" },
+      { label: "Support", href: "/support" },
+    ],
   },
   {
     title: "LEGAL",
     titleClass: "text-nexus-primary",
-    links: ["Terms", "Privacy", "Cookies"],
+    links: [
+      { label: "Terms", href: "/terms" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Cookies", href: "/cookies" },
+    ],
   },
   {
     title: "CONNECT",
     titleClass: "text-nexus-accent",
-    links: ["Twitter", "Discord", "Instagram"],
+    links: [
+      { label: "Twitter", href: "#" },
+      { label: "Discord", href: "#" },
+      { label: "Instagram", href: "#" },
+    ],
   },
 ];
 
@@ -82,13 +94,13 @@ const socials: { name: IconName; label: string }[] = [
                 {group.title}
               </h3>
               <ul class="space-y-3 text-[15px]">
-                {group.links.map((label) => (
+                {group.links.map((link) => (
                   <li>
                     <a
-                      href="#"
+                      href={link.href}
                       class="hover:text-nexus-accent text-white transition-colors"
                     >
-                      {label}
+                      {link.label}
                     </a>
                   </li>
                 ))}

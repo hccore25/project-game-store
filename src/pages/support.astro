@@ -1,0 +1,195 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+
+const quickActions = [
+  {
+    icon: "key" as const,
+    title: "Retrieve Game Key",
+    desc: "Access your order confirmation to find the key.",
+    href: "/order-confirmation",
+  },
+  {
+    icon: "help-circle" as const,
+    title: "Browse FAQs",
+    desc: "Quick answers to the most common questions.",
+    href: "/faq",
+  },
+  {
+    icon: "message-circle" as const,
+    title: "Contact Support",
+    desc: "Send us a message and we'll reply within 48 h.",
+    href: "/contact",
+  },
+  {
+    icon: "shield" as const,
+    title: "Refund Policy",
+    desc: "Learn how to request a refund for an order.",
+    href: "/faq#refund",
+  },
+];
+
+const commonIssues = [
+  {
+    title: "I can't find my game key",
+    steps: [
+      "Go to the Order Confirmation page — the link was shown right after checkout.",
+      "If you lost the URL, contact support with your order details.",
+    ],
+  },
+  {
+    title: "Game key won't redeem",
+    steps: [
+      "Confirm you are redeeming on the correct platform (PC keys → Steam, PS keys → PlayStation Store).",
+      "Make sure the key has been entered exactly, with no extra spaces.",
+      "If the key still fails, contact support and we will issue a replacement.",
+    ],
+  },
+  {
+    title: "Payment was declined",
+    steps: [
+      "Check that your billing address matches the one on file with your bank.",
+      "Try a different card or payment method.",
+      "Contact your bank if the issue persists.",
+    ],
+  },
+  {
+    title: "Game crashes or won't launch",
+    steps: [
+      "Verify your system meets the minimum requirements on the game's page.",
+      "Update your GPU drivers and the platform client (Steam, PS app).",
+      "Reinstall the game if the issue persists.",
+    ],
+  },
+];
+---
+
+<Layout
+  title="Support"
+  description="Get help with your NEXUSSTORE orders, game keys, payments, and technical issues."
+>
+  <!-- Hero Banner -->
+  <section class="bg-nexus-surface/40 border-nexus-surface border-b">
+    <div class="container mx-auto px-4 py-14 lg:px-6">
+      <div class="text-center">
+        <p
+          class="text-nexus-primary mb-3 text-xs font-bold tracking-widest uppercase"
+        >
+          Help Center
+        </p>
+        <h1
+          class="font-display mb-4 text-4xl font-black text-white uppercase md:text-5xl"
+        >
+          How Can We Help?
+        </h1>
+        <p class="text-nexus-muted mx-auto max-w-lg text-base">
+          Browse quick actions below, check common issues, or reach out
+          directly.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mx-auto space-y-16 px-4 py-12 lg:px-6">
+    <!-- Quick Actions Grid -->
+    <section>
+      <h2
+        class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
+      >
+        Quick Actions
+      </h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          quickActions.map((action) => (
+            <a
+              href={action.href}
+              class="bg-nexus-surface/30 border-nexus-surface hover:border-nexus-primary group rounded-2xl border p-6 transition-colors duration-300"
+            >
+              <div class="bg-nexus-teal/30 text-nexus-primary mb-4 w-fit rounded-lg p-3 transition-colors group-hover:bg-nexus-primary/20">
+                <Icon name={action.icon} size={22} />
+              </div>
+              <p class="font-display mb-1 text-sm font-bold text-white group-hover:text-nexus-primary transition-colors">
+                {action.title}
+              </p>
+              <p class="text-nexus-muted text-xs leading-relaxed">
+                {action.desc}
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Common Issues -->
+    <section>
+      <h2
+        class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
+      >
+        Common Issues
+      </h2>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {
+          commonIssues.map((issue) => (
+            <div class="bg-nexus-surface/30 border-nexus-surface rounded-2xl border p-6">
+              <h3 class="font-display mb-4 text-sm font-bold text-white">
+                {issue.title}
+              </h3>
+              <ol class="space-y-2">
+                {issue.steps.map((step, i) => (
+                  <li class="flex gap-3 text-sm">
+                    <span class="text-nexus-primary mt-0.5 shrink-0 font-bold">
+                      {i + 1}.
+                    </span>
+                    <span class="text-nexus-muted leading-relaxed">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Still Stuck CTA -->
+    <section>
+      <div
+        class="border-nexus-surface relative overflow-hidden rounded-2xl border"
+      >
+        <div class="from-nexus-teal/10 to-nexus-background absolute inset-0 bg-gradient-to-br">
+        </div>
+        <div
+          class="relative flex flex-col items-center gap-6 px-8 py-14 text-center md:flex-row md:text-left"
+        >
+          <div class="shrink-0">
+            <div class="bg-nexus-primary/10 rounded-full p-5">
+              <Icon name="message-circle" size={36} class="text-nexus-primary" />
+            </div>
+          </div>
+          <div class="flex-1">
+            <p class="font-display mb-2 text-xl font-bold text-white">
+              Still stuck? We're here.
+            </p>
+            <p class="text-nexus-muted max-w-md text-sm">
+              Our support team is ready to help. Send us a message and we'll
+              get back to you within 24–48 hours on business days.
+            </p>
+          </div>
+          <div class="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <a
+              href="/faq"
+              class="border-nexus-primary text-nexus-primary hover:bg-nexus-primary hover:text-nexus-background rounded-lg border px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all"
+            >
+              VIEW FAQ
+            </a>
+            <a
+              href="/contact"
+              class="bg-nexus-primary text-nexus-background shadow-neon-lime hover:bg-white rounded-lg px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all"
+            >
+              CONTACT US
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

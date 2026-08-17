@@ -37,6 +37,7 @@ const inputClass =
             id="field-name"
             name="name"
             type="text"
+            autocomplete="name"
             placeholder="Aether Striker"
             class={inputClass}
           />
@@ -55,6 +56,7 @@ const inputClass =
             id="field-email"
             name="email"
             type="email"
+            autocomplete="email"
             placeholder="player@nexus.gg"
             class={inputClass}
           />
@@ -73,6 +75,8 @@ const inputClass =
             id="field-card"
             name="card"
             inputmode="numeric"
+            autocomplete="cc-number"
+            maxlength="19"
             placeholder="4242 4242 4242 4242"
             class={inputClass}
           />
@@ -91,6 +95,9 @@ const inputClass =
             <input
               id="field-expiry"
               name="expiry"
+              inputmode="numeric"
+              autocomplete="cc-exp"
+              maxlength="5"
               placeholder="12/28"
               class={inputClass}
             />
@@ -108,6 +115,8 @@ const inputClass =
               id="field-cvc"
               name="cvc"
               inputmode="numeric"
+              autocomplete="cc-csc"
+              maxlength="4"
               placeholder="123"
               class={inputClass}
             />
@@ -217,6 +226,23 @@ const inputClass =
         ?.classList.toggle("hidden", valid);
       return valid;
     };
+
+    // Formateo en vivo: agrupa la tarjeta en bloques de 4 y la expiración en
+    // MM/AA, reduciendo errores al probar con la tarjeta demo. La validación
+    // ya tolera espacios, así que estos listeners no la rompen.
+    const cardInput = document.getElementById("field-card");
+    cardInput?.addEventListener("input", () => {
+      const digits = (cardInput as HTMLInputElement).value.replace(/\D/g, "").slice(0, 16);
+      (cardInput as HTMLInputElement).value = digits
+        .replace(/(\d{4})(?=\d)/g, "$1 ")
+        .trim();
+    });
+    const expiryInput = document.getElementById("field-expiry");
+    expiryInput?.addEventListener("input", () => {
+      const digits = (expiryInput as HTMLInputElement).value.replace(/\D/g, "").slice(0, 4);
+      (expiryInput as HTMLInputElement).value =
+        digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+    });
 
     form?.addEventListener("submit", (event) => {
       event.preventDefault();

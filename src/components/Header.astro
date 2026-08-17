@@ -1,13 +1,20 @@
 ---
 import Icon from "./Icon.astro";
 
+// `sectionId` (si existe) identifica la sección de la misma página a la que
+// apunta el ancla; se usa para el scroll-spy del estado activo de navegación.
 const navLinks = [
-  { href: "/", label: "EXPLORE" },
-  { href: "/#store", label: "STORE" },
-  { href: "/#genres", label: "GENRES" },
-  { href: "/#deals", label: "DEALS" },
-  { href: "/wishlist", label: "WISHLIST" },
+  { href: "/", label: "EXPLORE", sectionId: null },
+  { href: "/#store", label: "STORE", sectionId: "store" },
+  { href: "/#genres", label: "GENRES", sectionId: "genres" },
+  { href: "/#deals", label: "DEALS", sectionId: "deals" },
+  { href: "/wishlist", label: "WISHLIST", sectionId: null },
 ];
+
+// En el home, la sección "EXPLORE" es la página en curso hasta que el
+// scroll-spy detecte otra. La ruta es la única base para marcarla en SSR.
+const { pathname } = Astro.url;
+const isHome = pathname === "/" || pathname === "/index.html";
 ---
 
 <header
@@ -31,16 +38,29 @@ const navLinks = [
     <!-- Desktop Nav -->
     <nav
       class="text-nexus-muted hidden gap-8 text-xs font-semibold tracking-widest lg:flex"
+      aria-label="Primary"
     >
       {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="uppercase transition-colors hover:text-white"
-          >
-            {link.label}
-          </a>
-        ))
+        navLinks.map((link) => {
+          // Estado inicial en el home: EXPLORE activo hasta que el scroll-spy
+          // marque la sección visible. En otras páginas, su ruta.
+          const active =
+            (isHome && link.href === "/") ||
+            (!isHome && link.href !== "/" && pathname === new URL(link.href, Astro.url).pathname);
+          return (
+            <a
+              href={link.href}
+              data-nav-link={link.sectionId ?? ""}
+              aria-current={active ? "page" : undefined}
+              class={[
+                "nav-link uppercase transition-colors",
+                active ? "text-nexus-primary" : "hover:text-white",
+              ].join(" ")}
+            >
+              {link.label}
+            </a>
+          );
+        })
       }
     </nav>
 
@@ -50,6 +70,7 @@ const navLinks = [
         id="search-toggle"
         class="text-nexus-muted transition-colors hover:text-white"
         aria-label="Search games"
+        title="Search games"
         aria-expanded="false"
         aria-controls="search-panel"
       >
@@ -60,6 +81,7 @@ const navLinks = [
         href="/wishlist"
         class="text-nexus-muted relative hidden transition-colors hover:text-white sm:block"
         aria-label="Wishlist"
+        title="Wishlist"
       >
         <Icon name="heart" size={20} />
         <span
@@ -72,6 +94,7 @@ const navLinks = [
         href="/cart"
         class="text-nexus-accent relative transition-colors hover:text-white"
         aria-label="Cart"
+        title="Cart"
       >
         <Icon name="cart" size={20} />
         <span
@@ -96,7 +119,7 @@ const navLinks = [
   <!-- Search Panel -->
   <div
     id="search-panel"
-    class="border-nexus-surface bg-nexus-background/95 shadow-glass absolute top-full right-0 left-0 hidden border-b backdrop-blur-sm"
+    class="border-nexus-surface bg-nexus-background/95 shadow-glass absolute top-full right-0 left-0 hidden origin-top border-b transition-[opacity,transform] duration-500 ease-in-out backdrop-blur-sm"
   >
     <div class="container mx-auto px-4 py-6 lg:px-6">
       <div class="relative">
@@ -306,6 +329,60 @@ const navLinks = [
   const searchResults = document.getElementById("search-results");
   const searchEmpty = document.getElementById("search-empty");
 
+  // --- Estado activo de navegación (scroll-spy del home) ---
+  const navAnchors = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
+  );
+  const sectionIds = navAnchors
+    .map((a) => a.dataset.navLink)
+    .filter((id): id is string => Boolean(id));
+  const activeClass = "text-nexus-primary";
+  const setActiveAnchor = (href: string) => {
+    navAnchors.forEach((a) => {
+      const isActive =
+        a.getAttribute("href") === href ||
+        (a.dataset.navLink === "" &&
+          href === "#" &&
+          !navAnchors.some((o) => o.dataset.navLink !== "" && o.getAttribute("href") === href));
+      a.toggleAttribute("aria-current", isActive);
+      a.classList.toggle(activeClass, isActive);
+      // El enlace activo mantiene el acento primario también en hover; los
+      // inactivos reaccionan a blanco al posarse sobre ellos.
+      a.classList.toggle("hover:text-white", !isActive);
+    });
+  };
+  // Solo aplica scroll-spy a los enlaces de la misma página (anclas del home).
+  const isHomePage = window.location.pathname === "/";
+  if (isHomePage && sectionIds.length) {
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+    const onSpy = () => {
+      const { scrollY, innerHeight } = window;
+      let current: HTMLElement | null = null;
+      for (const s of sections) {
+        const rect = s.getBoundingClientRect();
+        // Una sección es "en curso" cuando su tope ha cruzado el header sticky.
+        if (rect.top - 88 <= 0) current = s;
+      }
+      // Al llegar al fondo de la página, la última sección puede no haber
+      // cruzado el header todavía; forzarla como activa para no perder estado.
+      const atEnd =
+        scrollY + innerHeight >=
+        document.documentElement.scrollHeight - 2;
+      const activeHref = current
+        ? `/#${current.id}`
+        : scrollY < 100
+          ? "/"
+          : atEnd
+            ? `/#${sections[sections.length - 1]?.id}`
+            : (navAnchors.find((a) => a.getAttribute("href") === "/")?.getAttribute("href") ?? "/");
+      setActiveAnchor(activeHref);
+    };
+    onSpy();
+    window.addEventListener("scroll", onSpy, { passive: true });
+  }
+
   let searchIndex: SearchEntry[] | null = null;
 
   const usd = new Intl.NumberFormat("en-US", {
@@ -361,16 +438,45 @@ const navLinks = [
 
   if (searchToggle && searchPanel && searchInput) {
     const closeSearch = () => {
-      searchPanel.classList.add("hidden");
+      searchPanel.classList.add(
+        "pointer-events-none",
+        "opacity-0",
+        "-translate-y-2",
+      );
       searchToggle.setAttribute("aria-expanded", "false");
+      // Devuelve el foco al disparador, como en el menú móvil.
+      searchToggle.focus();
+      // Oculta del árbol accesible al terminar la transición de cierre.
+      window.setTimeout(() => {
+        if (searchToggle.getAttribute("aria-expanded") === "false") {
+          searchPanel.classList.add("hidden");
+        }
+      }, 500);
+    };
+
+    const openSearch = async () => {
+      searchPanel.classList.remove("hidden");
+      // Forzar reflow para que la transición parta del estado cerrado.
+      searchPanel.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        searchPanel.classList.remove(
+          "pointer-events-none",
+          "opacity-0",
+          "-translate-y-2",
+        );
+      });
+      searchToggle.setAttribute("aria-expanded", "true");
+      searchInput.focus();
+      await loadIndex();
     };
 
     searchToggle.addEventListener("click", async () => {
-      const isOpen = !searchPanel.classList.toggle("hidden");
-      searchToggle.setAttribute("aria-expanded", String(isOpen));
+      const isOpen =
+        searchToggle.getAttribute("aria-expanded") === "true";
       if (isOpen) {
-        searchInput.focus();
-        await loadIndex();
+        closeSearch();
+      } else {
+        await openSearch();
       }
     });
 

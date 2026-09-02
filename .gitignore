@@ -1,5 +1,6 @@
 # build output
 dist/
+.vercel/
 
 # generated types
 .astro/
@@ -17,6 +18,11 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+
+# local sqlite database (dev)
+local.db
+local.db-*
+*.db-journal
 
 # macOS-specific files
 .DS_Store

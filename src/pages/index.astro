@@ -1,14 +1,17 @@
 ---
-import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
 import GameCard from "../components/GameCard.astro";
 import GameSliderCard from "../components/GameSliderCard.astro";
 import GenreCard from "../components/GenreCard.astro";
 import { genres } from "../data/genres";
+import { listGames } from "../lib/games";
 
-const allGames = await getCollection("games");
+// Renderizado on-demand: el catálogo se lee de la base de datos en cada
+// visita, así los cambios del panel de administración se ven al instante.
+export const prerender = false;
+
+const allGames = await listGames();
 
 const featuredGame = allGames.find((game) => game.data.featured) ?? allGames[0];
 const newGames = allGames.filter((game) => game.data.isNew);
@@ -60,7 +63,7 @@ const MOBILE_INITIAL_GAMES = 3;
 
       <!-- Hero Image (Right) -->
       <div class="absolute inset-0 h-full md:relative md:inset-auto md:w-3/5">
-        <Image
+        <img
           src={featuredGame.data.image}
           alt={featuredGame.data.title}
           width={1200}

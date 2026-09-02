@@ -1,0 +1,73 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+export const prerender = false;
+
+const hasError = Astro.url.searchParams.has("error");
+
+const inputClass =
+  "border-nexus-surface bg-nexus-surface/30 text-nexus-text placeholder:text-nexus-muted/60 focus:border-nexus-primary w-full rounded-lg border px-4 py-3 text-sm focus:outline-none";
+---
+
+<AdminLayout title="Entrar" bare>
+  <div class="mx-auto mt-16 max-w-sm">
+    <div class="mb-8 text-center">
+      <span
+        class="font-display text-2xl font-black tracking-widest text-white uppercase"
+        >NEXUS</span
+      >
+      <p
+        class="text-nexus-primary text-[0.6rem] font-bold tracking-[0.4em] uppercase"
+      >
+        Panel de administración
+      </p>
+    </div>
+
+    {
+      hasError && (
+        <p class="border-nexus-accent bg-nexus-accent/10 text-nexus-accent mb-4 rounded-lg border px-4 py-3 text-sm">
+          Email o contraseña incorrectos.
+        </p>
+      )
+    }
+
+    <form method="POST" action="/api/admin/login" class="space-y-4">
+      <div>
+        <label
+          for="email"
+          class="text-nexus-muted mb-2 block text-xs font-bold tracking-widest uppercase"
+          >Email</label
+        >
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="username"
+          required
+          class={inputClass}
+        />
+      </div>
+      <div>
+        <label
+          for="password"
+          class="text-nexus-muted mb-2 block text-xs font-bold tracking-widest uppercase"
+          >Contraseña</label
+        >
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          class={inputClass}
+        />
+      </div>
+      <button
+        type="submit"
+        class="bg-nexus-primary text-nexus-background shadow-neon-lime w-full rounded-lg px-6 py-3.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+      >
+        Entrar
+      </button>
+    </form>
+  </div>
+</AdminLayout>

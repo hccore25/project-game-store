@@ -1,7 +1,7 @@
 /**
- * Estado de la tienda en el navegador (carrito, wishlist y última orden),
- * persistido en localStorage. Sin backend: esta es la simulación de la
- * tienda para el portafolio.
+ * Carrito y wishlist en el navegador, persistidos en localStorage.
+ * No hay cuentas de comprador: el checkout es de invitado y el pedido
+ * confirmado se guarda en la base (ver `src/lib/orders.ts`).
  */
 
 export interface StoreItem {
@@ -15,20 +15,8 @@ export interface CartItem extends StoreItem {
   qty: number;
 }
 
-export interface OrderItem extends CartItem {
-  keys: string[];
-}
-
-export interface Order {
-  id: string;
-  date: string;
-  items: OrderItem[];
-  total: number;
-}
-
 const CART_KEY = "nexus-cart";
 const WISHLIST_KEY = "nexus-wishlist";
-const ORDER_KEY = "nexus-last-order";
 
 export const CART_EVENT = "nexus:cart-updated";
 export const WISHLIST_EVENT = "nexus:wishlist-updated";
@@ -104,41 +92,3 @@ export const removeFromWishlist = (slug: string) => {
 };
 
 export const wishlistCount = () => getWishlist().length;
-
-// --- Órdenes (checkout simulado) ---
-
-const KEY_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-function randomBlock(length: number): string {
-  return Array.from(
-    { length },
-    () => KEY_CHARS[Math.floor(Math.random() * KEY_CHARS.length)],
-  ).join("");
-}
-
-/** Clave de juego ficticia estilo XXXX-XXXX-XXXX-XXXX. */
-const generateGameKey = () => [4, 4, 4, 4].map((n) => randomBlock(n)).join("-");
-
-/**
- * Convierte el carrito actual en una orden confirmada (con claves de juego
- * generadas), la persiste como última orden y vacía el carrito.
- */
-export function placeOrder(): Order {
-  const items: OrderItem[] = getCart().map((item) => ({
-    ...item,
-    keys: Array.from({ length: item.qty }, generateGameKey),
-  }));
-
-  const order: Order = {
-    id: `NX-${randomBlock(8)}`,
-    date: new Date().toISOString(),
-    items,
-    total: cartTotal(),
-  };
-
-  localStorage.setItem(ORDER_KEY, JSON.stringify(order));
-  clearCart();
-  return order;
-}
-
-export const getLastOrder = () => read<Order | null>(ORDER_KEY, null);

@@ -1,0 +1,23 @@
+CREATE TABLE `games` (
+	`slug` text PRIMARY KEY NOT NULL,
+	`title` text NOT NULL,
+	`edition` text NOT NULL,
+	`description` text NOT NULL,
+	`price` real NOT NULL,
+	`discount_percent` integer,
+	`tag` text,
+	`is_new` integer DEFAULT false NOT NULL,
+	`featured` integer DEFAULT false NOT NULL,
+	`preorder` integer DEFAULT false NOT NULL,
+	`genres` text NOT NULL,
+	`platforms` text NOT NULL,
+	`developer` text NOT NULL,
+	`release_date` text NOT NULL,
+	`rating` text NOT NULL,
+	`system_req_min` text NOT NULL,
+	`system_req_rec` text NOT NULL,
+	`image` text NOT NULL,
+	`gallery` text DEFAULT '[]' NOT NULL,
+	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch()) NOT NULL
+);

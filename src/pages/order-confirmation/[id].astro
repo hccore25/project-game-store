@@ -1,0 +1,107 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import { formatPrice } from "../../utils/format";
+import { getOrder } from "../../lib/orders";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const order = id ? await getOrder(id) : null;
+
+if (!order) {
+  return Astro.rewrite("/404");
+}
+
+const orderDate = order.createdAt.toLocaleDateString("es", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+---
+
+<Layout title="Order Confirmed" description="Your simulated order is ready.">
+  <div class="container mx-auto max-w-3xl px-4 py-8 lg:px-6">
+    <div class="mb-10 flex flex-col items-center gap-4 text-center">
+      <div
+        class="bg-nexus-primary/20 text-nexus-primary shadow-neon-lime flex h-20 w-20 items-center justify-center rounded-full"
+      >
+        <Icon name="check" size={40} strokeWidth={3} />
+      </div>
+      <h1
+        class="font-display text-3xl font-black tracking-widest text-white uppercase"
+      >
+        ORDER CONFIRMED
+      </h1>
+      <p class="text-nexus-muted text-sm">
+        Order <span class="text-nexus-accent font-bold">{order.id}</span>
+        · {orderDate}
+      </p>
+      <p class="text-nexus-muted max-w-md text-sm">
+        This is a demo order — no payment was processed. Your game keys are below
+        and were also "sent" to <span class="text-white">{order.email}</span>.
+        Keep the order code <span class="text-nexus-accent font-bold"
+          >{order.id}</span
+        > to look it up later.
+      </p>
+    </div>
+
+    <ul class="space-y-4">
+      {
+        order.items.map((item) => (
+          <li class="border-nexus-surface bg-nexus-surface/20 rounded-xl border p-4">
+            <div class="flex items-center gap-4">
+              <img
+                src={item.image}
+                alt=""
+                width="48"
+                height="64"
+                loading="lazy"
+                class="h-16 w-12 shrink-0 rounded-lg object-cover"
+              />
+              <div class="min-w-0 flex-1">
+                <h3 class="font-display truncate font-bold text-white">
+                  {item.title}
+                </h3>
+                <span class="text-nexus-muted text-sm">
+                  {item.qty} × {formatPrice(item.unitPrice)}
+                </span>
+              </div>
+            </div>
+            <ul class="mt-4 space-y-2">
+              {item.keys.map((key) => (
+                <li class="bg-nexus-background border-nexus-teal text-nexus-primary rounded-lg border px-4 py-2 font-mono text-sm tracking-[0.2em]">
+                  {key}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div
+      class="border-nexus-surface mt-8 flex justify-between border-t pt-6 text-lg"
+    >
+      <span class="font-bold text-white">Total paid</span>
+      <span class="text-nexus-primary font-display font-black">
+        {formatPrice(order.total)}
+      </span>
+    </div>
+
+    <div class="mt-10 flex justify-center gap-4">
+      <a
+        href="/#store"
+        class="bg-nexus-primary text-nexus-background shadow-neon-lime rounded-lg px-8 py-3.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+      >
+        BACK TO STORE
+      </a>
+      <a
+        href="/orders"
+        class="border-nexus-surface text-nexus-muted rounded-lg border px-8 py-3.5 text-sm font-bold tracking-widest uppercase transition-colors hover:border-white hover:text-white"
+      >
+        LOOK UP AN ORDER
+      </a>
+    </div>
+  </div>
+</Layout>

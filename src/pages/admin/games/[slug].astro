@@ -1,0 +1,66 @@
+---
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import GameForm from "../../../components/admin/GameForm.astro";
+import {
+  gameDataToForm,
+  parseGameForm,
+  readGameForm,
+} from "../../../lib/admin-form";
+import { getGame, updateGame } from "../../../lib/games";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const game = slug ? await getGame(slug) : null;
+
+if (!game) {
+  return Astro.rewrite("/404");
+}
+
+let values = gameDataToForm(game.id, game.data);
+let errors: Record<string, string> = {};
+
+if (Astro.request.method === "POST") {
+  const submitted = readGameForm(await Astro.request.formData());
+  // El slug no se edita: se conserva el de la URL.
+  values = { ...submitted, slug: game.id };
+  const result = parseGameForm(values);
+
+  if (!result.ok) {
+    errors = result.errors;
+  } else {
+    await updateGame(game.id, result.data!);
+    return Astro.redirect(`/admin?updated=${game.id}`, 303);
+  }
+}
+---
+
+<AdminLayout title={`Editar · ${game.data.title}`}>
+  <a
+    href="/admin"
+    class="text-nexus-muted mb-6 inline-block text-sm font-bold tracking-widest uppercase transition-colors hover:text-white"
+  >
+    ← Catálogo
+  </a>
+  <div class="mb-8 flex items-center justify-between gap-4">
+    <h1
+      class="font-display text-2xl font-black tracking-widest text-white uppercase"
+    >
+      Editar juego
+    </h1>
+    <a
+      href={`/game/${game.id}`}
+      class="text-nexus-muted text-xs font-bold tracking-widest uppercase transition-colors hover:text-white"
+    >
+      Ver en la tienda ↗
+    </a>
+  </div>
+
+  <GameForm
+    values={values}
+    errors={errors}
+    action={`/admin/games/${game.id}`}
+    submitLabel="Guardar cambios"
+    mode="edit"
+  />
+</AdminLayout>

@@ -1,12 +1,11 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
+import type { GameEntry } from "../lib/games";
 import GameTag from "./GameTag.astro";
 import PlatformIcons from "./PlatformIcons.astro";
 import PriceDisplay from "./PriceDisplay.astro";
 
 interface Props {
-  game: CollectionEntry<"games">;
+  game: GameEntry;
 }
 
 const { game } = Astro.props;
@@ -20,12 +19,13 @@ const { title, edition, image, price, discountPercent, tag, platforms } =
 >
   <!-- Imagen -->
   <div class="relative aspect-[3/4] w-full overflow-hidden">
-    <Image
+    <img
       src={image}
       alt={title}
       width={600}
       height={800}
       loading="lazy"
+      decoding="async"
       class="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
     />
 

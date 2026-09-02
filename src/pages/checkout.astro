@@ -126,6 +126,12 @@ const inputClass =
           </div>
         </div>
 
+        <p
+          id="checkout-error"
+          class="border-nexus-accent bg-nexus-accent/10 text-nexus-accent hidden rounded-lg border px-4 py-3 text-sm"
+        >
+        </p>
+
         <button
           id="pay-button"
           type="submit"
@@ -158,7 +164,7 @@ const inputClass =
   </div>
 
   <script>
-    import { getCart, cartTotal, placeOrder } from "../utils/store";
+    import { getCart, cartTotal, clearCart } from "../utils/store";
     import { formatPrice } from "../utils/format";
 
     const cart = getCart();
@@ -244,23 +250,72 @@ const inputClass =
         digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
     });
 
-    form?.addEventListener("submit", (event) => {
+    const errorBox = document.getElementById("checkout-error");
+    const showError = (message: string) => {
+      if (!errorBox) return;
+      errorBox.textContent = message;
+      errorBox.classList.remove("hidden");
+    };
+
+    const label = document.getElementById("pay-label");
+    const resetButton = () => {
+      if (payButton) payButton.disabled = false;
+      if (label) label.textContent = `PAY ${formatPrice(cartTotal())}`;
+    };
+
+    form?.addEventListener("submit", async (event) => {
       event.preventDefault();
+      errorBox?.classList.add("hidden");
 
       const allValid = Object.keys(validators)
         .map(validateField)
         .every(Boolean);
       if (!allValid || !payButton) return;
 
-      const label = document.getElementById("pay-label");
       payButton.disabled = true;
       if (label) label.textContent = "PROCESSING PAYMENT...";
 
-      // Simula el procesamiento del pago y genera la orden con claves
-      setTimeout(() => {
-        placeOrder();
-        window.location.href = "/order-confirmation";
-      }, 1800);
+      const name = (
+        document.getElementById("field-name") as HTMLInputElement
+      ).value.trim();
+      const email = (
+        document.getElementById("field-email") as HTMLInputElement
+      ).value.trim();
+
+      // El pago es simulado: solo esperamos un momento para dar feedback.
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+
+      try {
+        const response = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            items: getCart().map((item) => ({
+              slug: item.slug,
+              qty: item.qty,
+            })),
+          }),
+        });
+        const data = (await response.json()) as {
+          ok?: boolean;
+          orderId?: string;
+          error?: string;
+        };
+
+        if (!response.ok || !data.orderId) {
+          showError(data.error ?? "No se pudo completar el pedido.");
+          resetButton();
+          return;
+        }
+
+        clearCart();
+        window.location.href = `/order-confirmation/${data.orderId}`;
+      } catch {
+        showError("Error de red. Intentá de nuevo.");
+        resetButton();
+      }
     });
   </script>
 </Layout>

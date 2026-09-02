@@ -1,26 +1,22 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/Icon.astro";
 import GameCard from "../../components/GameCard.astro";
 import { genres } from "../../data/genres";
-import type { Genre } from "../../data/genres";
+import { listGamesByGenre } from "../../lib/games";
 
-export function getStaticPaths() {
-  return genres.map((genre) => ({
-    params: { slug: genre.slug },
-    props: { genre },
-  }));
+export const prerender = false;
+
+const { slug } = Astro.params;
+const genre = genres.find((g) => g.slug === slug);
+
+if (!genre) {
+  return Astro.rewrite("/404");
 }
 
-interface Props {
-  genre: Genre;
-}
-
-const { genre } = Astro.props;
-const games = (await getCollection("games"))
-  .filter((game) => game.data.genres.includes(genre.slug))
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+const games = (await listGamesByGenre(genre.slug)).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title),
+);
 ---
 
 <Layout

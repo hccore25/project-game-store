@@ -1,26 +1,20 @@
 ---
-import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/Icon.astro";
 import Toast from "../../components/Toast.astro";
 import PriceDisplay from "../../components/PriceDisplay.astro";
 import { finalPrice } from "../../utils/format";
+import { getGame } from "../../lib/games";
 
-export async function getStaticPaths() {
-  const games = await getCollection("games");
-  return games.map((game) => ({
-    params: { slug: game.id },
-    props: { game },
-  }));
+export const prerender = false;
+
+const { slug } = Astro.params;
+const game = slug ? await getGame(slug) : null;
+
+if (!game) {
+  return Astro.rewrite("/404");
 }
 
-interface Props {
-  game: CollectionEntry<"games">;
-}
-
-const { game } = Astro.props;
 const {
   title,
   description,
@@ -64,7 +58,7 @@ const unitPrice = finalPrice(price, discountPercent);
         <div
           class="border-nexus-surface relative aspect-[3/4] overflow-hidden rounded-[2rem] border shadow-[0_0_30px_rgba(0,0,0,0.5)]"
         >
-          <Image
+          <img
             id="main-artwork"
             src={image}
             alt={title}
@@ -113,12 +107,13 @@ const unitPrice = finalPrice(price, discountPercent);
                 data-src={src.replace("&w=400", "&w=1200")}
                 aria-label={`View image ${index + 1} of ${title}`}
               >
-                <Image
+                <img
                   src={src}
                   alt={`${title} - screenshot ${index + 1}`}
                   width={320}
                   height={180}
                   loading="lazy"
+                  decoding="async"
                   class={`h-full w-full object-cover transition-all duration-500 hover:scale-110 ${
                     index === 0 ? "" : "opacity-70 hover:opacity-100"
                   }`}

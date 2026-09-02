@@ -1,13 +1,15 @@
 import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
+import { listGames } from "../lib/games";
 import { finalPrice } from "../utils/format";
 
 /**
- * Índice estático del catálogo para la búsqueda client-side.
- * Se genera en build como /games.json.
+ * Índice del catálogo para la búsqueda client-side (`/games.json`).
+ * On-demand: refleja los cambios del panel al instante.
  */
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
-  const games = await getCollection("games");
+  const games = await listGames();
 
   const index = games.map((game) => ({
     slug: game.id,

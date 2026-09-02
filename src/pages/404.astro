@@ -1,6 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
+
+// On-demand para poder reusarla vía `Astro.rewrite("/404")` desde las
+// rutas dinámicas del catálogo (juego/género inexistente).
+export const prerender = false;
+
+Astro.response.status = 404;
 ---
 
 <Layout title="404 — Lost in the Void" description="Page not found.">

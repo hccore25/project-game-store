@@ -1,0 +1,90 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { findOrder } from "../lib/orders";
+
+export const prerender = false;
+
+let error: string | null = null;
+let values = { id: "", email: "" };
+
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  values = {
+    id: String(form.get("id") ?? "").trim(),
+    email: String(form.get("email") ?? "").trim(),
+  };
+
+  if (!values.id || !values.email) {
+    error = "Completá el código y el email.";
+  } else {
+    const order = await findOrder(values.id, values.email);
+    if (order) {
+      return Astro.redirect(`/order-confirmation/${order.id}`, 303);
+    }
+    error = "No encontramos un pedido con ese código y email.";
+  }
+}
+
+const inputClass =
+  "border-nexus-surface bg-nexus-surface/30 text-nexus-text placeholder:text-nexus-muted/60 focus:border-nexus-primary w-full rounded-lg border px-4 py-3 text-sm focus:outline-none";
+const labelClass =
+  "text-nexus-muted mb-2 block text-xs font-bold tracking-widest uppercase";
+---
+
+<Layout
+  title="Look Up Your Order"
+  description="Find a previous demo order and its game keys."
+>
+  <div class="container mx-auto max-w-md px-4 py-12 lg:px-6">
+    <h1
+      class="font-display mb-2 text-3xl font-black tracking-widest text-white uppercase"
+    >
+      YOUR ORDERS
+    </h1>
+    <p class="text-nexus-muted mb-8 text-sm">
+      Enter your order code and the email you used at checkout to see your game
+      keys again.
+    </p>
+
+    {
+      error && (
+        <p class="border-nexus-accent bg-nexus-accent/10 text-nexus-accent mb-6 rounded-lg border px-4 py-3 text-sm">
+          {error}
+        </p>
+      )
+    }
+
+    <form method="POST" class="space-y-4">
+      <div>
+        <label for="id" class={labelClass}>Order code</label>
+        <input
+          id="id"
+          name="id"
+          type="text"
+          value={values.id}
+          placeholder="NX-XXXXXXXXXXXX"
+          required
+          class={inputClass}
+        />
+      </div>
+      <div>
+        <label for="email" class={labelClass}>Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={values.email}
+          placeholder="player@nexus.gg"
+          required
+          class={inputClass}
+        />
+      </div>
+      <button
+        type="submit"
+        class="bg-nexus-primary text-nexus-background shadow-neon-lime w-full rounded-lg px-6 py-3.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white"
+      >
+        FIND ORDER
+      </button>
+    </form>
+  </div>
+</Layout>

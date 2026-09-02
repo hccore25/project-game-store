@@ -13,6 +13,19 @@ export const prerender = false;
 
 const allGames = await listGames();
 
+// Sin catálogo (base recién creada y sin sembrar) no hay hero que mostrar:
+// degradamos con un aviso en vez de romper con un 500.
+if (allGames.length === 0) {
+  return new Response(
+    `<!doctype html><meta charset="utf-8"><title>Catálogo vacío</title>
+     <body style="font-family:system-ui;background:#0c1618;color:#ece5f0;padding:3rem;max-width:40rem;margin:auto">
+     <h1>El catálogo está vacío</h1>
+     <p>Sembrá los juegos de ejemplo con <code>pnpm db:seed</code> o agregá el primero desde
+     <a style="color:#9fcc2e" href="/admin">/admin</a>.</p>`,
+    { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } },
+  );
+}
+
 const featuredGame = allGames.find((game) => game.data.featured) ?? allGames[0];
 const newGames = allGames.filter((game) => game.data.isNew);
 const deals = allGames
@@ -98,47 +111,42 @@ const MOBILE_INITIAL_GAMES = 3;
       </div>
     </section>
 
-    <!-- NEW RELEASES SLIDER -->
-    <section>
-      <h2
-        class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase"
-      >
-        NEW RELEASES
-      </h2>
-      <div
-        class="splide group/slider relative w-full"
-        id="new-games-slider"
-        aria-label="New releases"
-      >
-        <!-- Custom Arrows -->
-        <div
-          class="splide__arrows pointer-events-none absolute inset-y-0 right-0 left-0 z-10 md:-mx-6"
-        >
-          <button
-            class="splide__arrow splide__arrow--prev bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-left-8 md:h-16 md:w-16 md:border-4"
+    <!-- NEW RELEASES SLIDER (solo si hay juegos marcados como "nuevo") -->
+    {
+      newGames.length > 0 && (
+        <section>
+          <h2 class="font-display mb-6 text-xl font-black tracking-widest text-white uppercase">
+            NEW RELEASES
+          </h2>
+          <div
+            class="splide group/slider relative w-full"
+            id="new-games-slider"
+            aria-label="New releases"
           >
-            <Icon name="chevron-left" size={24} strokeWidth={3} />
-          </button>
-          <button
-            class="splide__arrow splide__arrow--next bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-0 transition-all duration-300 group-hover/slider:opacity-100 md:-right-8 md:h-16 md:w-16 md:border-4"
-          >
-            <Icon name="chevron-right" size={24} strokeWidth={3} />
-          </button>
-        </div>
+            {/* Flechas: siempre visibles (en touch no hay hover), con énfasis
+                extra al pasar el cursor. */}
+            <div class="splide__arrows pointer-events-none absolute inset-y-0 right-0 left-0 z-10 md:-mx-6">
+              <button class="splide__arrow splide__arrow--prev bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-80 transition-all duration-300 group-hover/slider:opacity-100 md:-left-8 md:h-16 md:w-16 md:border-4">
+                <Icon name="chevron-left" size={24} strokeWidth={3} />
+              </button>
+              <button class="splide__arrow splide__arrow--next bg-nexus-primary border-nexus-surface hover:bg-nexus-accent hover:shadow-neon-peach text-nexus-background pointer-events-auto absolute top-1/2 -right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border-2 opacity-80 transition-all duration-300 group-hover/slider:opacity-100 md:-right-8 md:h-16 md:w-16 md:border-4">
+                <Icon name="chevron-right" size={24} strokeWidth={3} />
+              </button>
+            </div>
 
-        <div class="splide__track w-full pb-10">
-          <ul class="splide__list">
-            {
-              newGames.map((game) => (
-                <li class="splide__slide">
-                  <GameSliderCard game={game} />
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
-    </section>
+            <div class="splide__track w-full pb-10">
+              <ul class="splide__list">
+                {newGames.map((game) => (
+                  <li class="splide__slide">
+                    <GameSliderCard game={game} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )
+    }
 
     <!-- HOT DEALS -->
     <section id="deals">

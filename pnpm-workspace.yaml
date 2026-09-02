@@ -12,5 +12,8 @@ allowBuilds:
 minimumReleaseAge: 4320
 
 # Force patched versions of vulnerable transitive dependencies (GHSA-48c2-rrv3-qjmp)
+# y una sola versión de sharp: la 0.34.x que arrastra Astro no tiene binarios
+# precompilados para Node 24+ y falla al instalar.
 overrides:
   "yaml@>=2.0.0 <2.8.3": ">=2.8.3"
+  "sharp": "^0.35.4"

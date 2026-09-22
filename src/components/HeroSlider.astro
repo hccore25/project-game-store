@@ -1,0 +1,236 @@
+---
+import type { GameEntry } from "../lib/games";
+import { formatPrice, finalPrice } from "../utils/format";
+import Icon from "./Icon.astro";
+
+interface Props {
+  games: GameEntry[];
+}
+
+const { games } = Astro.props;
+
+function badge(game: GameEntry): { label: string; cls: string } | null {
+  if (game.data.tag === "bestseller")
+    return { label: "BESTSELLER", cls: "bg-nexus-accent text-nexus-background" };
+  if (game.data.isNew || game.data.tag === "new")
+    return { label: "NEW RELEASE", cls: "bg-nexus-primary text-nexus-background" };
+  if (game.data.featured)
+    return { label: "FEATURED", cls: "bg-nexus-teal text-nexus-text" };
+  return null;
+}
+---
+
+<section
+  id="hero-slider"
+  class="splide relative overflow-hidden rounded-[2rem]"
+  aria-label="Featured games"
+>
+  <!-- Arrows wrapper (required by Splide) — positioned in bottom bar via CSS -->
+  <div class="splide__arrows">
+    <button
+      class="splide__arrow splide__arrow--prev"
+      aria-label="Previous slide"
+    >
+      <Icon name="chevron-left" size={18} strokeWidth={2.5} />
+    </button>
+    <button
+      class="splide__arrow splide__arrow--next"
+      aria-label="Next slide"
+    >
+      <Icon name="chevron-right" size={18} strokeWidth={2.5} />
+    </button>
+  </div>
+
+  <div class="splide__track">
+    <ul class="splide__list">
+      {
+        games.map((game) => {
+          const b = badge(game);
+          const price = finalPrice(game.data.price, game.data.discountPercent);
+          return (
+            <li class="splide__slide">
+              {/* Invisible full-slide link — buy button sits above it (z-30) */}
+              <a
+                href={`/game/${game.id}`}
+                class="absolute inset-0 z-10"
+                tabindex="-1"
+                aria-hidden="true"
+              ></a>
+
+              {/* Background image */}
+              <img
+                src={game.data.image}
+                alt={game.data.title}
+                width={1400}
+                height={600}
+                loading="eager"
+                fetchpriority="high"
+                class="hero-img absolute inset-0 h-full w-full object-cover object-right-top"
+              />
+
+              {/* Gradients */}
+              <div class="from-nexus-background via-nexus-background/90 absolute inset-0 bg-gradient-to-r to-transparent"></div>
+              <div class="from-nexus-background absolute inset-0 bg-gradient-to-t via-nexus-background/30 to-transparent md:hidden"></div>
+              <div class="bg-nexus-teal/15 absolute inset-0 mix-blend-color-dodge"></div>
+
+              {/* Content */}
+              <div class="relative z-20 flex h-full flex-col justify-center p-8 pb-20 md:max-w-[58%] md:p-14 md:pb-20">
+                {b && (
+                  <span class={`${b.cls} mb-4 inline-block w-fit rounded-md px-3 py-1 text-xs font-bold tracking-widest`}>
+                    {b.label}
+                  </span>
+                )}
+
+                <h2 class="font-display mb-2 text-3xl leading-tight font-black tracking-tight text-white md:text-4xl lg:text-5xl">
+                  {game.data.title}
+                </h2>
+
+                <p class="text-nexus-muted mb-1 text-sm font-medium tracking-wide uppercase">
+                  {game.data.edition}
+                </p>
+
+                <p class="text-nexus-muted mb-7 line-clamp-2 max-w-md text-base">
+                  {game.data.description}
+                </p>
+
+                <div class="flex items-center gap-5">
+                  <span class="text-nexus-primary text-2xl font-bold">
+                    {formatPrice(price)}
+                    {game.data.discountPercent && (
+                      <span class="text-nexus-muted ml-2 text-sm line-through">
+                        {formatPrice(game.data.price)}
+                      </span>
+                    )}
+                  </span>
+
+                  <a
+                    href={`/game/${game.id}`}
+                    class="bg-nexus-primary text-nexus-background hover:text-nexus-primary hover:shadow-neon-lime shadow-neon-lime relative z-30 inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-95"
+                  >
+                    {game.data.preorder ? "PRE-ORDER" : "BUY NOW"}
+                    <Icon name="arrow-right" size={14} />
+                  </a>
+                </div>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+
+  <!-- Pagination dots -->
+  <div class="splide__pagination hero-pagination"></div>
+</section>
+
+<script>
+  import Splide from "@splidejs/splide";
+  import "@splidejs/splide/css/core";
+
+  const hero = document.getElementById("hero-slider");
+  if (hero) {
+    new Splide(hero, {
+      type       : "loop",
+      fixedHeight: "500px",
+      pagination : true,
+      arrows     : true,
+      autoplay   : true,
+      interval   : 5000,
+      pauseOnHover: true,
+      speed      : 600,
+      gap        : 0,
+    }).mount();
+  }
+</script>
+
+<style>
+  /* ── Track / slide height ───────────────────────────────── */
+  #hero-slider .splide__track,
+  #hero-slider .splide__slide {
+    height: 500px;
+  }
+  #hero-slider .splide__slide {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Arrows: move into bottom-left / bottom-right corners ── */
+  #hero-slider .splide__arrows {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+  }
+  #hero-slider .splide__arrow {
+    pointer-events: auto;
+    position: absolute;
+    bottom: 1.25rem;
+    top: auto;
+    transform: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: rgba(12, 22, 24, 0.6);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease;
+    border: none;
+    cursor: pointer;
+    /* override Splide's default opacity/transform */
+    opacity: 1 !important;
+  }
+  #hero-slider .splide__arrow:hover {
+    background: #9fcc2e;
+    color: #0c1618;
+  }
+  #hero-slider .splide__arrow--prev { left: 1rem; }
+  #hero-slider .splide__arrow--next { right: 1rem; }
+  #hero-slider .splide__arrow svg   { display: none; } /* hide Splide's default chevron */
+
+  /* ── Bottom gradient bar ────────────────────────────────── */
+  #hero-slider::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5rem;
+    background: linear-gradient(to top, rgba(12,22,24,0.65), transparent);
+    pointer-events: none;
+    z-index: 25;
+    border-radius: 0 0 2rem 2rem;
+  }
+
+  /* ── Pagination dots ────────────────────────────────────── */
+  #hero-slider .hero-pagination {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 35;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #hero-slider :global(.splide__pagination__page) {
+    background: rgba(250, 250, 248, 0.35);
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    transform: none;
+    margin: 0;
+    opacity: 1;
+    border: none;
+    cursor: pointer;
+  }
+  #hero-slider :global(.splide__pagination__page.is-active) {
+    background: #9fcc2e;
+    width: 28px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px #9fcc2e;
+  }
+</style>

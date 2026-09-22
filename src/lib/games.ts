@@ -66,6 +66,18 @@ export function dataToRow(slug: string, data: GameData): NewGameRow {
   };
 }
 
+/** Juegos para el hero slider: featured → isNew → bestseller, dedup, max 6. */
+export async function listHeroGames(): Promise<GameEntry[]> {
+  const all = await listGames()
+  const seen = new Set<string>()
+  const result: GameEntry[] = []
+  const add = (g: GameEntry) => { if (!seen.has(g.id)) { seen.add(g.id); result.push(g) } }
+  all.filter(g => g.data.featured).forEach(add)
+  all.filter(g => g.data.isNew).forEach(add)
+  all.filter(g => g.data.tag === 'bestseller').forEach(add)
+  return result.slice(0, 6)
+}
+
 /** Todo el catálogo, ordenado alfabéticamente por título. */
 export async function listGames(): Promise<GameEntry[]> {
   const rows = await db.select().from(games).orderBy(asc(games.title));

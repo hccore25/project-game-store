@@ -1,0 +1,23 @@
+---
+interface Props {
+  accent?: string
+  hColor?: string
+  text?: string
+  size?: 'sm' | 'md' | 'lg' | 'xl' | string
+  class?: string
+}
+
+const { accent, hColor, text, size, class: className } = Astro.props
+
+const attrs: Record<string, string> = {}
+if (accent) attrs['accent']   = accent
+if (hColor) attrs['h-color']  = hColor
+if (text)   attrs['text']     = text
+if (size)   attrs['size']     = size
+---
+
+<hc-logo {...attrs} class={className}></hc-logo>
+
+<script>
+  import './hc-logo.js'
+</script>

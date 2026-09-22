@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
 
 // `sectionId` (si existe) identifica la sección de la misma página a la que
 // apunta el ancla; se usa para el scroll-spy del estado activo de navegación.
@@ -24,15 +25,8 @@ const isHome = pathname === "/" || pathname === "/index.html";
     class="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6"
   >
     <!-- Logo -->
-    <a href="/" class="flex flex-col items-start gap-0.5 leading-none">
-      <span
-        class="font-display text-2xl font-black tracking-widest text-white uppercase"
-        >NEXUS</span
-      >
-      <span
-        class="text-nexus-primary text-[0.6rem] font-bold tracking-[0.4em] uppercase"
-        >GAMES</span
-      >
+    <a href="/" aria-label="Hernán Cubillos Store – Home">
+      <Logo accent="#9fcc2e" text="Hernán Cubillos" size="md" />
     </a>
 
     <!-- Desktop Nav -->
@@ -152,15 +146,8 @@ const isHome = pathname === "/" || pathname === "/index.html";
   <div
     class="border-nexus-surface bg-nexus-background flex items-center justify-between border-b px-6 py-6"
   >
-    <div class="flex flex-col items-start gap-0.5 leading-none">
-      <span
-        class="font-display text-xl font-black tracking-widest text-white uppercase"
-        >NEXUS</span
-      >
-      <span
-        class="text-nexus-primary text-[0.5rem] font-bold tracking-[0.4em] uppercase"
-        >GAMES</span
-      >
+    <div>
+      <Logo accent="#9fcc2e" text="Hernán Cubillos" size="sm" />
     </div>
     <button
       id="close-mobile-menu"

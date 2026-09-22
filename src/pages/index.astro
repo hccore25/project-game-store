@@ -4,8 +4,9 @@ import Icon from "../components/Icon.astro";
 import GameCard from "../components/GameCard.astro";
 import GameSliderCard from "../components/GameSliderCard.astro";
 import GenreCard from "../components/GenreCard.astro";
+import HeroSlider from "../components/HeroSlider.astro";
 import { genres } from "../data/genres";
-import { listGames } from "../lib/games";
+import { listGames, listHeroGames } from "../lib/games";
 
 // Renderizado on-demand: el catálogo se lee de la base de datos en cada
 // visita, así los cambios del panel de administración se ven al instante.
@@ -26,7 +27,7 @@ if (allGames.length === 0) {
   );
 }
 
-const featuredGame = allGames.find((game) => game.data.featured) ?? allGames[0];
+const heroGames = await listHeroGames();
 const newGames = allGames.filter((game) => game.data.isNew);
 const deals = allGames
   .filter((game) => game.data.discountPercent)
@@ -43,61 +44,8 @@ const MOBILE_INITIAL_GAMES = 3;
 
 <Layout title="Explore Limitless Worlds">
   <div class="container mx-auto space-y-16 px-4 py-8 lg:px-6">
-    <!-- Hero Section -->
-    <section
-      class="bg-nexus-surface border-nexus-surface/80 relative flex h-[500px] flex-col items-stretch overflow-hidden rounded-[2rem] border shadow-lg md:flex-row"
-    >
-      <!-- Hero Content (Left) -->
-      <div
-        class="from-nexus-background via-nexus-background/95 relative z-10 flex flex-1 flex-col justify-center bg-gradient-to-r to-transparent p-10 md:p-16"
-      >
-        <h1
-          class="font-display mb-4 text-4xl leading-[1.1] font-black tracking-tight text-white md:text-5xl lg:text-6xl"
-        >
-          A NEW <br />ERA OF ADVENTURE BEGINS.
-        </h1>
-        <p
-          class="text-nexus-muted mb-10 max-w-md text-lg font-medium md:text-xl"
-        >
-          Explore limitless worlds. {
-            featuredGame.data.preorder ? "Pre-order" : "Play"
-          }
-          {featuredGame.data.title} today.
-        </p>
-        <div>
-          <a
-            href={`/game/${featuredGame.id}`}
-            class="bg-nexus-primary text-nexus-background hover:text-nexus-primary hover:shadow-neon-lime shadow-neon-lime inline-block cursor-pointer rounded-lg px-8 py-3.5 text-center text-sm font-bold tracking-widest uppercase transition-all duration-500 hover:scale-102 hover:bg-white active:scale-95"
-          >
-            {featuredGame.data.preorder ? "PRE-ORDER NOW" : "BUY NOW"}
-          </a>
-        </div>
-      </div>
-
-      <!-- Hero Image (Right) -->
-      <div class="absolute inset-0 h-full md:relative md:inset-auto md:w-3/5">
-        <img
-          src={featuredGame.data.image}
-          alt={featuredGame.data.title}
-          width={1200}
-          height={800}
-          loading="eager"
-          fetchpriority="high"
-          class="h-full w-full object-cover object-right-top"
-        />
-        <div
-          class="from-nexus-background absolute inset-0 bg-gradient-to-t via-nexus-background/40 to-transparent md:hidden"
-        >
-        </div>
-        <div
-          class="from-nexus-background via-nexus-background/50 absolute inset-0 hidden bg-gradient-to-r to-transparent md:block"
-        >
-        </div>
-        <!-- Glow overlay -->
-        <div class="bg-nexus-teal/20 absolute inset-0 mix-blend-color-dodge">
-        </div>
-      </div>
-    </section>
+    <!-- Hero Slider -->
+    <HeroSlider games={heroGames} />
 
     <!-- EXPLORE BY GENRE -->
     <section id="genres">

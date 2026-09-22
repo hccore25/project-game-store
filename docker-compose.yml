@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  game-store:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: game_store
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=3000
+      - DATABASE_URL=file:/app/data/local.db
+    volumes:
+      - game_store_db:/app/data
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    external: true
+
+volumes:
+  game_store_db:

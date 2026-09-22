@@ -33,5 +33,37 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return context.redirect("/admin/login");
   }
 
+  // Protección Anti-CSRF para operaciones administrativas que mutan estado
+  if (context.request.method !== "GET" && context.request.method !== "HEAD") {
+    const origin = context.request.headers.get("origin");
+    const secFetchSite = context.request.headers.get("sec-fetch-site");
+
+    if (secFetchSite === "cross-site") {
+      if (pathname.startsWith("/api/")) {
+        return new Response(
+          JSON.stringify({ error: "Petición cross-site no permitida (CSRF)" }),
+          {
+            status: 403,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+      return new Response("Forbidden: Cross-site request rejected", { status: 403 });
+    }
+
+    if (origin && origin !== context.url.origin) {
+      if (pathname.startsWith("/api/")) {
+        return new Response(
+          JSON.stringify({ error: "Origen no autorizado (CSRF)" }),
+          {
+            status: 403,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+      return new Response("Forbidden: Origin mismatch", { status: 403 });
+    }
+  }
+
   return next();
 });

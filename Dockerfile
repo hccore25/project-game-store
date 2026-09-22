@@ -1,12 +1,12 @@
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 WORKDIR /app
 
-# Instalar pnpm
-RUN npm install -g pnpm
+# Instalar pnpm compatible con Node 22
+RUN npm install -g pnpm@11.3.0
 
 FROM base AS dependencies
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 FROM dependencies AS build
 COPY . .
@@ -24,7 +24,7 @@ WORKDIR /app
 RUN mkdir -p /app/data && chown -R node:node /app
 
 COPY --chown=node:node package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod
 
 COPY --chown=node:node --from=build /app/dist ./dist
 COPY --chown=node:node --from=build /app/drizzle ./drizzle

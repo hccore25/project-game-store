@@ -6,7 +6,11 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-process.loadEnvFile?.(".env");
+try {
+  process.loadEnvFile?.(".env");
+} catch {
+  // En Docker o CI las variables vienen del entorno
+}
 
 const { db } = await import("../src/lib/db/index.js");
 const { games } = await import("../src/lib/db/schema.js");

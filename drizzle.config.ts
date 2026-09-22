@@ -1,7 +1,11 @@
 import { defineConfig } from "drizzle-kit";
 
-// Carga .env sin dependencias extra (Node 20.6+).
-process.loadEnvFile?.(".env");
+// Carga .env si existe sin romper el build si no está presente
+try {
+  process.loadEnvFile?.(".env");
+} catch {
+  // En Docker o CI las variables vienen del entorno del sistema
+}
 
 export default defineConfig({
   schema: "./src/lib/db/schema.ts",

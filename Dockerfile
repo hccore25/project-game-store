@@ -28,10 +28,15 @@ RUN pnpm install --prod
 
 COPY --chown=node:node --from=build /app/dist ./dist
 COPY --chown=node:node --from=build /app/drizzle ./drizzle
-COPY --chown=node:node --from=build /app/local.db ./data/local.db
+COPY --chown=node:node --from=build /app/local.db /app/seed.db
+COPY --chown=node:node scripts/docker-entrypoint.sh /app/docker-entrypoint.sh
+COPY --chown=node:node scripts/sync-catalog.mjs /app/scripts/sync-catalog.mjs
+
+RUN chmod +x /app/docker-entrypoint.sh
 
 USER node
 
 EXPOSE 3000
 
+ENTRYPOINT ["/bin/sh", "/app/docker-entrypoint.sh"]
 CMD ["node", "./dist/server/entry.mjs"]

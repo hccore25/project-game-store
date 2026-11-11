@@ -3,7 +3,12 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
 
 export const prerender = false;
 
-const hasError = Astro.url.searchParams.has("error");
+const errorParam = Astro.url.searchParams.get("error");
+const hasError = errorParam !== null;
+const errorMessage =
+  errorParam === "rate"
+    ? "Demasiados intentos. Por favor, intentá de nuevo en unos minutos."
+    : "Email o contraseña incorrectos.";
 
 const inputClass =
   "border-nexus-surface bg-nexus-surface/30 text-nexus-text placeholder:text-nexus-muted/60 focus:border-nexus-primary w-full rounded-lg border px-4 py-3 text-sm focus:outline-none";
@@ -23,13 +28,13 @@ const inputClass =
       </p>
     </div>
 
-    {
-      hasError && (
-        <p class="border-nexus-accent bg-nexus-accent/10 text-nexus-accent mb-4 rounded-lg border px-4 py-3 text-sm">
-          Email o contraseña incorrectos.
-        </p>
-      )
-    }
+     {
+       hasError && (
+         <p class="border-nexus-accent bg-nexus-accent/10 text-nexus-accent mb-4 rounded-lg border px-4 py-3 text-sm">
+           {errorMessage}
+         </p>
+       )
+     }
 
     <form method="POST" action="/api/admin/login" class="space-y-4">
       <div>

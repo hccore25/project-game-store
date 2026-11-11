@@ -1,8 +1,8 @@
-# NEXUSSTORE 🎮
+# Hernán Cubillos Store 🎮
 
-A dark, neon-themed digital game storefront built with **Astro 5**, **Tailwind CSS 4** and a small **SQLite/libSQL backend**. Portfolio project: the catalog is managed from an authenticated admin panel and served from a database, and guest checkout persists real orders (no real payment).
+A dark, neon-themed digital game storefront built with **Astro 5**, **Tailwind CSS 4** and a **SQLite/libSQL backend**. Portfolio project: the catalog is managed from an authenticated admin panel and served from a database, and guest checkout persists real orders (no real payment).
 
-**Live demo:** https://project-game-store.vercel.app
+**Live demo:** https://store.hernancubillos.dev
 
 > 💳 The checkout is simulated. Use test card `4242 4242 4242 4242` — no payment is processed. Confirmed orders get generated demo keys and are stored in the database; look one up again at `/orders` with its code + email.
 
@@ -22,7 +22,7 @@ A dark, neon-themed digital game storefront built with **Astro 5**, **Tailwind C
 
 | Layer      | Choice                                                                    |
 | :--------- | :----------------------------------------------------------------------- |
-| Framework  | [Astro 5](https://astro.build) — static pages + on-demand routes, Vercel adapter |
+| Framework  | [Astro 5](https://astro.build) — static pages + on-demand SSR routes (`@astrojs/node`) |
 | Styling    | [Tailwind CSS 4](https://tailwindcss.com) — CSS-first `@theme` tokens     |
 | Language   | TypeScript (strict)                                                       |
 | Database   | [libSQL](https://github.com/tursodatabase/libsql) / SQLite — local file in dev, [Turso](https://turso.tech) in prod |

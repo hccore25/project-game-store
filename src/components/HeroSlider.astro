@@ -53,9 +53,9 @@ function badge(game: GameEntry): { label: string; cls: string } | null {
               {/* Invisible full-slide link — buy button sits above it (z-30) */}
               <a
                 href={`/game/${game.id}`}
-                class="absolute inset-0 z-10"
+                class="absolute inset-0 z-20 cursor-pointer"
                 tabindex="-1"
-                aria-hidden="true"
+                aria-label={`View ${game.data.title}`}
               ></a>
 
               {/* Background image */}
@@ -67,16 +67,16 @@ function badge(game: GameEntry): { label: string; cls: string } | null {
                 loading={isFirst ? "eager" : "lazy"}
                 fetchpriority={isFirst ? "high" : "auto"}
                 decoding={isFirst ? "sync" : "async"}
-                class="hero-img absolute inset-0 h-full w-full object-cover object-right-top"
+                class="hero-img pointer-events-none absolute inset-0 h-full w-full object-cover object-right-top"
               />
 
               {/* Gradients */}
-              <div class="from-nexus-background via-nexus-background/90 absolute inset-0 bg-gradient-to-r to-transparent"></div>
-              <div class="from-nexus-background absolute inset-0 bg-gradient-to-t via-nexus-background/30 to-transparent md:hidden"></div>
-              <div class="bg-nexus-teal/15 absolute inset-0 mix-blend-color-dodge"></div>
+              <div class="from-nexus-background via-nexus-background/90 pointer-events-none absolute inset-0 bg-gradient-to-r to-transparent"></div>
+              <div class="from-nexus-background via-nexus-background/30 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent md:hidden"></div>
+              <div class="bg-nexus-teal/15 pointer-events-none absolute inset-0 mix-blend-color-dodge"></div>
 
               {/* Content */}
-              <div class="relative z-20 flex h-full flex-col justify-center p-8 pb-20 md:max-w-[58%] md:p-14 md:pb-20">
+              <div class="pointer-events-none relative z-20 flex h-full flex-col justify-center p-8 pb-20 md:max-w-[58%] md:p-14 md:pb-20">
                 {b && (
                   <span class={`${b.cls} mb-4 inline-block w-fit rounded-md px-3 py-1 text-xs font-bold tracking-widest`}>
                     {b.label}
@@ -107,7 +107,7 @@ function badge(game: GameEntry): { label: string; cls: string } | null {
 
                   <a
                     href={`/game/${game.id}`}
-                    class="bg-nexus-primary text-nexus-background hover:text-nexus-primary hover:shadow-neon-lime shadow-neon-lime relative z-30 inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-95"
+                    class="bg-nexus-primary text-nexus-background hover:text-nexus-primary hover:shadow-neon-lime shadow-neon-lime pointer-events-auto relative z-30 inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-95"
                   >
                     {game.data.preorder ? "PRE-ORDER" : "BUY NOW"}
                     <Icon name="arrow-right" size={14} />

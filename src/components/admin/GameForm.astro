@@ -261,13 +261,13 @@ const errClass = "text-nexus-accent mt-1 text-xs";
   </div>
 
   <div>
-    <label for="image" class={labelClass}>URL de la imagen principal</label>
+    <label for="image" class={labelClass}>URL o ruta de la imagen principal</label>
     <input
       id="image"
       name="image"
-      type="url"
+      type="text"
       value={values.image}
-      placeholder="https://images.unsplash.com/..."
+      placeholder="/images/games/mi-juego.webp o https://..."
       required
       class={inputClass}
     />

@@ -12,9 +12,10 @@
   "releaseDate": "Jun 09, 2024",
   "rating": "M for Mature",
   "systemReq": { "min": "55 GB", "rec": "75 GB" },
-  "image": "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=800&auto=format&fit=crop",
+  "image": "https://images.unsplash.com/photo-1447433865958-f402f562b843?q=80&w=1200&auto=format&fit=crop",
   "gallery": [
-    "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1592155931584-901ac15763e3?q=80&w=400&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1447433865958-f402f562b843?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1712512161511-fe699dee54e0?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=400&auto=format&fit=crop"
   ]
 }

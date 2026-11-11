@@ -4,9 +4,24 @@ import { es } from "zod/locales";
 // Mensajes de validación en español (panel de administración).
 z.config(es());
 
-const httpUrl = z.url().refine((val) => /^https?:\/\//i.test(val), {
-  message: "La URL debe comenzar con http:// o https://",
-});
+const imageUrl = z
+  .string()
+  .min(1)
+  .refine(
+    (val) => {
+      if (val.startsWith("/") && !val.startsWith("//")) return true;
+      try {
+        const u = new URL(val);
+        return u.protocol === "http:" || u.protocol === "https:";
+      } catch {
+        return false;
+      }
+    },
+    {
+      message:
+        "Debe ser una URL válida (http:// o https://) o una ruta local (/images/...)",
+    },
+  );
 
 /**
  * Esquema canónico de un juego del catálogo.
@@ -32,8 +47,8 @@ export const gameSchema = z.object({
     min: z.string().min(1),
     rec: z.string().min(1),
   }),
-  image: httpUrl,
-  gallery: z.array(httpUrl).default([]),
+  image: imageUrl,
+  gallery: z.array(imageUrl).default([]),
 });
 
 export type GameData = z.infer<typeof gameSchema>;

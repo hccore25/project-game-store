@@ -12,9 +12,10 @@
   "releaseDate": "Jan 17, 2025",
   "rating": "E for Everyone",
   "systemReq": { "min": "12 GB", "rec": "20 GB" },
-  "image": "https://images.unsplash.com/photo-1580234811497-9df7fd2f357e?q=80&w=800&auto=format&fit=crop",
+  "image": "https://images.unsplash.com/photo-1653474031572-248dffc6037a?q=80&w=1200&auto=format&fit=crop",
   "gallery": [
-    "https://images.unsplash.com/photo-1580234811497-9df7fd2f357e?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1653474031572-248dffc6037a?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1563863251222-11d3e3bd3b62?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1662499840292-0805bbc95005?q=80&w=400&auto=format&fit=crop"
   ]
 }

@@ -17,12 +17,13 @@ interface Props {
 const {
   title,
   description = "Hernán Cubillos Store – a full-stack digital game storefront portfolio project.",
-  image = "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1200&auto=format&fit=crop",
+  image = "/images/games/chrono-break.webp",
   referrerPolicy,
 } = Astro.props;
 
 const fullTitle = `${title} | Hernán Cubillos Store`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -46,13 +47,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={ogImageURL} />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image" content={ogImageURL} />
   </head>
   <body
     class="bg-nexus-background text-nexus-text selection:bg-nexus-primary selection:text-nexus-background flex min-h-screen flex-col font-sans"

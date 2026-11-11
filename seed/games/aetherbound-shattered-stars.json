@@ -11,11 +11,11 @@
   "releaseDate": "Nov 15, 2024",
   "rating": "M for Mature",
   "systemReq": { "min": "100 GB", "rec": "125 GB" },
-  "image": "https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=1200&auto=format&fit=crop",
+  "image": "/images/games/aetherbound-shattered-stars.webp",
   "gallery": [
-    "https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1592155931584-901ac15763e3?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=400&auto=format&fit=crop"
+    "/images/games/aetherbound-shattered-stars.webp",
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1677357623576-7c8aab08da22?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1757457236911-44c0227c886d?q=80&w=400&auto=format&fit=crop"
   ]
 }

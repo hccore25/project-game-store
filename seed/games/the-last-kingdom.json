@@ -11,10 +11,10 @@
   "releaseDate": "Aug 02, 2024",
   "rating": "M for Mature",
   "systemReq": { "min": "30 GB", "rec": "50 GB" },
-  "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
+  "image": "/images/games/the-last-kingdom.webp",
   "gallery": [
-    "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&auto=format&fit=crop"
+    "/images/games/the-last-kingdom.webp",
+    "https://images.unsplash.com/photo-1597466599360-3b9775841aec?q=80&w=400&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1784574055170-9dbac964bc11?q=80&w=400&auto=format&fit=crop"
   ]
 }

@@ -154,3 +154,4 @@ La tienda estará disponible en `http://localhost:4321` y el panel de administra
 
 - Todos los videojuegos, empresas desarrolladoras, fechas y textos presentados en esta demo son ficticios.
 - Diseñado y desarrollado por **Hernán Cubillos**.
+- Publicado bajo la [Licencia MIT](LICENSE).

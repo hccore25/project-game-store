@@ -154,3 +154,4 @@ The application will be accessible at `http://localhost:4321`. Access the admini
 
 - All video games, publisher names, release dates, and product summaries featured in this demo are fictional.
 - Designed and developed by **Hernán Cubillos**.
+- Released under the [MIT License](LICENSE).

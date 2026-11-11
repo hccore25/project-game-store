@@ -12,10 +12,10 @@
   "releaseDate": "Jan 17, 2025",
   "rating": "E for Everyone",
   "systemReq": { "min": "12 GB", "rec": "20 GB" },
-  "image": "https://images.unsplash.com/photo-1653474031572-248dffc6037a?q=80&w=1200&auto=format&fit=crop",
+  "image": "/images/games/neon-drift.webp",
   "gallery": [
-    "https://images.unsplash.com/photo-1653474031572-248dffc6037a?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1563863251222-11d3e3bd3b62?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1662499840292-0805bbc95005?q=80&w=400&auto=format&fit=crop"
+    "/images/games/neon-drift.webp",
+    "/images/games/neon-drift-1.webp",
+    "/images/games/neon-drift-2.webp"
   ]
 }

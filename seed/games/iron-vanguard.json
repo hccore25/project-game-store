@@ -11,10 +11,10 @@
   "releaseDate": "Sep 13, 2024",
   "rating": "T for Teen",
   "systemReq": { "min": "50 GB", "rec": "70 GB" },
-  "image": "https://images.unsplash.com/photo-1614946569026-2d1f7c5e9334?q=80&w=1200&auto=format&fit=crop",
+  "image": "/images/games/iron-vanguard.webp",
   "gallery": [
-    "https://images.unsplash.com/photo-1614946569026-2d1f7c5e9334?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1727434032773-af3cd98375ba?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1760931969401-9bd6ee902798?q=80&w=400&auto=format&fit=crop"
+    "/images/games/iron-vanguard.webp",
+    "/images/games/iron-vanguard-1.webp",
+    "/images/games/iron-vanguard-2.webp"
   ]
 }

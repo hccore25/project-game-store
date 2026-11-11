@@ -11,10 +11,10 @@
   "releaseDate": "Mar 21, 2025",
   "rating": "T for Teen",
   "systemReq": { "min": "45 GB", "rec": "70 GB" },
-  "image": "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?q=80&w=1200&auto=format&fit=crop",
+  "image": "/images/games/stellar-odyssey.webp",
   "gallery": [
-    "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1766329710745-21f110fa2d62?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=400&auto=format&fit=crop"
+    "/images/games/stellar-odyssey.webp",
+    "/images/games/stellar-odyssey-1.webp",
+    "/images/games/stellar-odyssey-2.webp"
   ]
 }

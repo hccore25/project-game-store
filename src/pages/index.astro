@@ -27,7 +27,7 @@ if (allGames.length === 0) {
   );
 }
 
-const heroGames = await listHeroGames();
+const heroGames = await listHeroGames(allGames);
 const newGames = allGames.filter((game) => game.data.isNew);
 const deals = allGames
   .filter((game) => game.data.discountPercent)

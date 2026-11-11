@@ -9,10 +9,10 @@
   "releaseDate": "May 23, 2025",
   "rating": "E for Everyone",
   "systemReq": { "min": "10 GB", "rec": "15 GB" },
-  "image": "https://images.unsplash.com/photo-1764515836558-65828594f9e9?q=80&w=1200&auto=format&fit=crop",
+  "image": "/images/games/lumen-saga.webp",
   "gallery": [
-    "https://images.unsplash.com/photo-1764515836558-65828594f9e9?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1644834336323-a5a3b5cb72e1?q=80&w=400&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1770150511413-fb0c1b15016c?q=80&w=400&auto=format&fit=crop"
+    "/images/games/lumen-saga.webp",
+    "/images/games/lumen-saga-1.webp",
+    "/images/games/lumen-saga-2.webp"
   ]
 }
